@@ -5,15 +5,16 @@
  */
 package silmarillionreloaded.entity.actions;
 
-import silmarillionreloaded.game.Game;
+import silmarillionreloaded.entity.Piece;
+import silmarillionreloaded.player.Player;
 
 /**
  *
  * @author Ferran
  */
-public interface PlayableAction {
-    
-    public void execute(final Game game);
-    public boolean isExecutable(final Game game);
-    
+public interface Caster {
+    public boolean isPlayer();
+    public boolean isPiece();
+    public Player getPlayer();
+    public Piece getPiece();
 }

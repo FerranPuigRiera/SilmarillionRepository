@@ -7,14 +7,29 @@ package silmarillionreloaded.entity;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import silmarillionreloaded.Application;
+import java.util.ArrayList;
+import java.util.List;
+import silmarillionreloaded.entity.actions.Caster;
+import silmarillionreloaded.entity.actions.Target;
+import silmarillionreloaded.game.Alliance;
 import silmarillionreloaded.gfx.Assets;
+import silmarillionreloaded.player.Player;
+import silmarillionreloaded.tiles.Tile;
 
 /**
  *
  * @author Ferran
  */
-public class Piece extends Entity {
+public class Piece extends Entity implements Target,Caster{
+    
+    public static List<Piece> PIECES_CACHE;
+    
+    public static void init() {
+        PIECES_CACHE = new ArrayList<>();
+        Builder builder = new Builder();
+        builder.setName("Test Piece");
+        PIECES_CACHE.add(builder.build());
+    }
     
     private final String name;
     private final Stat health;
@@ -27,8 +42,24 @@ public class Piece extends Entity {
     
     private final BufferedImage image;
     
-    public Piece(Application app, float x, float y, int width, int height, Builder builder) {
-        super(app, x, y, width, height);
+    private final Alliance alliance;
+    
+    public Piece(Piece piece, Alliance alliance, int x, int y, int width, int height) {
+        super(x, y, width, height);
+        name = piece.name;
+        health = piece.health;
+        damage = piece.damage;
+        armor = piece.armor;
+        element = piece.element;
+        elementalDamage = piece.elementalDamage;
+        elementalArmor = piece.elementalArmor;
+        moves = piece.moves;
+        image = piece.image;
+        this.alliance = alliance;
+    }
+    
+    private Piece(Builder builder) {
+        super(0, 0, 0, 0);
         name = builder.name;
         health = builder.health;
         damage = builder.damage;
@@ -38,24 +69,77 @@ public class Piece extends Entity {
         elementalArmor = builder.elementalArmor;
         moves = builder.moves;
         image = builder.image;
+        alliance = Alliance.NULL;
+    }
+    
+    private void setBounds(int x, int y, int width, int height) {
+        setSize(width,height);
+        setPosition(x,y);
+    }
+    private void setPosition(int x, int y) {
+        super.x = x;
+        super.y = y;
+    }
+    private void setSize(int widht, int height) {
+        super.width = width;
+        super.height = height;
     }
     
     public boolean isAlive() {
         return health.getValue() <= 0;
     }
 
+    public Alliance getAlliance() {
+        return alliance;
+    }
+    
     @Override
     public void tick() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void render(Graphics g) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean isPlayer() {
+        return false;
+    }
+
+    @Override
+    public boolean isPiece() {
+        return true;
+    }
+
+    @Override
+    public Player getPlayer() {
+        return null;
+    }
+
+    @Override
+    public Piece getPiece() {
+        return this;
+    }
+
+    @Override
+    public boolean isTile() {
+        return false;
+    }
+
+    @Override
+    public Tile getTile() {
+        return null;
+    }
+    public static class King extends Piece {
+        
+        public King(Builder builder) {
+            super(builder);
+        }
+        
     }
     
     
-    private class Builder {
+    private static class Builder {
         private String name;
         private Stat health;
         private Stat damage;
@@ -109,6 +193,10 @@ public class Piece extends Entity {
         public void setMoves(Stat moves) {
             this.moves = moves;
         }
+        public Piece build() {
+            return new Piece(this);
+        }
+        
     }
     
     

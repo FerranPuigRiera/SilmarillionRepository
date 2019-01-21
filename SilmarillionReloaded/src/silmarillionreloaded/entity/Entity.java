@@ -6,7 +6,6 @@
 package silmarillionreloaded.entity;
 
 import java.awt.Graphics;
-import silmarillionreloaded.Application;
 
 /**
  *
@@ -14,12 +13,12 @@ import silmarillionreloaded.Application;
  */
 public abstract class Entity {
     
-    protected final Application app;
+
     protected float x, y;
     protected int width, height;
     
-    public Entity(Application app, float x, float y, int width, int height) {
-        this.app = app;
+    public Entity(float x, float y, int width, int height) {
+
         this.x = x;
         this.y = y;
         this.width = width;

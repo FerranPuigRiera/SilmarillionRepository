@@ -11,7 +11,7 @@ import silmarillionreloaded.entity.Element;
  *
  * @author Ferran
  */
-public abstract class Spell {
+public abstract class Spell implements PlayableAction{
     
     protected final String name;
     protected final Element element;
@@ -20,8 +20,5 @@ public abstract class Spell {
         this.name = name;
         this.element = element;
     } 
-    
-    public abstract void execute();
 
-    
 }

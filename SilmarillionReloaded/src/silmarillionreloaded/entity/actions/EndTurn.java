@@ -5,10 +5,22 @@
  */
 package silmarillionreloaded.entity.actions;
 
+import silmarillionreloaded.game.Game;
+
 /**
  *
  * @author Ferran
  */
-public class EndTurn {
+public class EndTurn implements PlayableAction {
+
+    @Override
+    public void execute(Game game) {
+
+    }
+
+    @Override
+    public boolean isExecutable(Game game) {
+        return true;
+    }
     
 }

@@ -9,6 +9,7 @@ import java.util.Random;
 import silmarillionreloaded.gfx.CropCode;
 import silmarillionreloaded.gfx.TileImage;
 import silmarillionreloaded.tiles.Texture;
+import silmarillionreloaded.tiles.Tile.TerrainTile;
 
 /**
  *
@@ -16,8 +17,8 @@ import silmarillionreloaded.tiles.Texture;
  */
 public class River extends WorldElement{
 
-    public River(int width, int height) {
-        super(width, height);
+    public River(int x, int y, int layer, int width, int height) {
+        super(Texture.GRASS_WATER,x,y,layer, width, height);
     }
 
     @Override
@@ -26,8 +27,8 @@ public class River extends WorldElement{
         for(int i = 0; i < width - 1; i++) {
             for(int j = 0; j < height - 1; j++) {
                 if(i == 0) {
-                    images[i][j] = new TileImage(Texture.GRASS_WATER, CropCode.N);
-                    images[i][j+1] = new TileImage(Texture.GRASS_WATER, CropCode.S);
+                    tiles[i][j][layer] = new TerrainTile(x,y,TileImage.CreateTileTileImage(mainTexture, CropCode.N));
+                    tiles[i][j+1][layer] = new TerrainTile(x,y,TileImage.CreateTileTileImage(mainTexture, CropCode.S));
                 } 
             }
         }

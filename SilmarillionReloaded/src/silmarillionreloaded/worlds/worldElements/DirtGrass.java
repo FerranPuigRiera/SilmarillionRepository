@@ -8,6 +8,8 @@ package silmarillionreloaded.worlds.worldElements;
 import silmarillionreloaded.gfx.CropCode;
 import silmarillionreloaded.gfx.TileImage;
 import silmarillionreloaded.tiles.Texture;
+import silmarillionreloaded.tiles.Tile;
+import silmarillionreloaded.tiles.Tile.TerrainTile;
 
 /**
  *
@@ -15,8 +17,8 @@ import silmarillionreloaded.tiles.Texture;
  */
 public class DirtGrass extends WorldElement{
 
-    public DirtGrass(int width, int height) {
-        super(width, height);
+    public DirtGrass(int x, int y, int layer, int width, int height) {
+        super(Texture.DIRT_GRASS, x, y, layer,  width, height);
     }
 
     @Override
@@ -26,26 +28,26 @@ public class DirtGrass extends WorldElement{
                 
                 if(i == 0) {
                     if(j == 0) {
-                        images[i][j] = new TileImage(Texture.DIRT_GRASS, CropCode.NW);
+                        tiles[i][j][layer] = new TerrainTile(x, y, TileImage.CreateTileTileImage(mainTexture, CropCode.CORNER_NW));
                     }else if(j == height - 1) {
-                        images[i][j] = new TileImage(Texture.DIRT_GRASS, CropCode.SW);
+                        tiles[i][j][layer] = new TerrainTile(x, y, TileImage.CreateTileTileImage(mainTexture, CropCode.SW));
                     } else {
-                        images[i][j] = new TileImage(Texture.DIRT_GRASS, CropCode.W);
+                        tiles[i][j][layer] = new TerrainTile(x, y, TileImage.CreateTileTileImage(mainTexture, CropCode.W));
                     }
                 }else if(i == width - 1) {
                     if(j == 0) {
-                        images[i][j] = new TileImage(Texture.DIRT_GRASS, CropCode.NE);
+                        tiles[i][j][layer] = new TerrainTile(x, y, TileImage.CreateTileTileImage(mainTexture, CropCode.NE));
                     }else if(j == height - 1) {
-                        images[i][j] = new TileImage(Texture.DIRT_GRASS, CropCode.SE);
+                        tiles[i][j][layer] = new TerrainTile(x, y, TileImage.CreateTileTileImage(mainTexture, CropCode.SE));
                     } else {
-                        images[i][j] = new TileImage(Texture.DIRT_GRASS, CropCode.E);
+                        tiles[i][j][layer] = new TerrainTile(x, y, TileImage.CreateTileTileImage(mainTexture, CropCode.E));
                     }
                 } else if(j == 0){
-                    images[i][j] = new TileImage(Texture.DIRT_GRASS, CropCode.N);
+                    tiles[i][j][layer] = new TerrainTile(x, y, TileImage.CreateTileTileImage(mainTexture, CropCode.N));
                 } else if(j == height - 1) {
-                    images[i][j] = new TileImage(Texture.DIRT_GRASS, CropCode.S);
+                    tiles[i][j][layer] = new TerrainTile(x, y, TileImage.CreateTileTileImage(mainTexture, CropCode.S));
                 } else {
-                    images[i][j] = new TileImage(Texture.DIRT_GRASS, CropCode.CENTER_1);
+                    tiles[i][j][layer] = new TerrainTile(x, y, TileImage.CreateTileTileImage(mainTexture, CropCode.CENTER_1));
                 }
                 
                 

@@ -7,7 +7,7 @@ package silmarillionreloaded.states;
 
 import java.awt.Graphics;
 import silmarillionreloaded.Application;
-import silmarillionreloaded.worlds.World;
+import silmarillionreloaded.game.Game;
 
 /**
  *
@@ -16,21 +16,22 @@ import silmarillionreloaded.worlds.World;
 public class GameState extends State{
 
     
-    private World world;
+    private Game game;
     
-    public GameState(Application app) {
+    public GameState(final Application app) {
         super(app);
-        world = new World(app,"");
+        app.startGame();
+        game = app.getGame();
     }
     
     @Override
     public void render(Graphics g) {
-        world.render(g);
+        game.render(g);
     }
 
     @Override
     public void tick() {
-        world.tick();
+        game.tick();
     }
     
 }

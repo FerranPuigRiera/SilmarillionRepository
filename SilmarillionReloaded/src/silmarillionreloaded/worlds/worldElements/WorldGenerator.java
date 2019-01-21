@@ -10,7 +10,7 @@ import silmarillionreloaded.gfx.CropCode;
 import silmarillionreloaded.gfx.TileImage;
 import silmarillionreloaded.tiles.Texture;
 import silmarillionreloaded.tiles.Tile;
-import silmarillionreloaded.tiles.Tile.ActiveTile;
+import silmarillionreloaded.tiles.Tile.TerrainTile;
 import silmarillionreloaded.tiles.Tile.EmptyTile;
 import silmarillionreloaded.worlds.World;
 
@@ -45,7 +45,7 @@ public class WorldGenerator {
         for(int z = 0; z < layers; z++) {
             for(int y = 0; y < height; y++) {
                 for(int x = 0; x < width; x++) {
-                    generatedWorld[x][y][z] = new EmptyTile();
+                    generatedWorld[x][y][z] = new EmptyTile(x,y);
                 }
             }
         }
@@ -58,23 +58,23 @@ public class WorldGenerator {
             for(int i = 0; i < width; i++) {
                 switch(random.nextInt(4)) {
                     case 0: {
-                        generatedWorld[i][j][0] = new ActiveTile(new TileImage(baseTexture, CropCode.CENTER_1));
+                        generatedWorld[i][j][0] = new TerrainTile(i,j,TileImage.CreateTileTileImage(baseTexture, CropCode.CENTER_1));
                         break;
                     }
                     case 1: {
-                        generatedWorld[i][j][0] = new ActiveTile(new TileImage(baseTexture, CropCode.CENTER_2));
+                        generatedWorld[i][j][0] = new TerrainTile(i,j,TileImage.CreateTileTileImage(baseTexture, CropCode.CENTER_2));
                         break;
                     }
                     case 2: {
-                        generatedWorld[i][j][0] = new ActiveTile(new TileImage(baseTexture, CropCode.CENTER_3));
+                        generatedWorld[i][j][0] = new TerrainTile(i,j,TileImage.CreateTileTileImage(baseTexture, CropCode.CENTER_3));
                         break;
                     }
                     case 3: {
-                        generatedWorld[i][j][0] = new ActiveTile(new TileImage(baseTexture, CropCode.CENTER_4));
+                        generatedWorld[i][j][0] = new TerrainTile(i,j,TileImage.CreateTileTileImage(baseTexture, CropCode.CENTER_4));
                         break;
                     }
                     default: {
-                        generatedWorld[i][j][0] = new ActiveTile(new TileImage(baseTexture, CropCode.CENTER_1));
+                        generatedWorld[i][j][0] = new TerrainTile(i,j,TileImage.CreateTileTileImage(baseTexture, CropCode.CENTER_1));
                     }
                 }
             }
@@ -84,22 +84,22 @@ public class WorldGenerator {
     public void setWorld() {
         Random random = new Random();
         
-        TallYellowBush bush = new TallYellowBush(4,4);
-        TallYellowBush bush2 = new TallYellowBush(5,2);
+        TallYellowBush bush = new TallYellowBush(2,2,1,2,2);
+        //TallYellowBush bush2 = new TallYellowBush(7,5,1,3,4);
         
-        bush.fusionWith(bush2, 2, 2);
+        //bush.fusionWith(bush2, 4, 6);
         
-        addWorldElement(bush, 7,5,1);
+        addWorldElement(bush);
         
     }
     
     
     
-    public void addWorldElement(final WorldElement we, int x, int y, int layer) {
+    public void addWorldElement(final WorldElement we) {
         for(int j = 0; j < we.height; j++) {
             for(int i = 0; i < we.width; i++) {
-                if(i + x < width && j + y < height) {
-                    generatedWorld[i+x][j+y][layer] = new ActiveTile(we.images[i][j]);
+                if(i + we.x < width && j + we.y < height && we.tiles[i][j][we.layer].isTerrainTile()) {
+                    generatedWorld[i+we.x][j+we.y][we.layer] = we.tiles[i][j][we.layer];
                 }
             }
         }

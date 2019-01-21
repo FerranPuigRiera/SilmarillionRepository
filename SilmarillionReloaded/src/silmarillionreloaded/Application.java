@@ -10,6 +10,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import silmarillionreloaded.game.Game;
 import silmarillionreloaded.gfx.Assets;
 import silmarillionreloaded.gfx.GameCamera;
 import silmarillionreloaded.input.KeyManager;
@@ -42,20 +43,29 @@ public class Application implements Runnable{
     
     //Input
     private KeyManager keyManager;
+
+    //Game game
     
-    //
+    private Game game;
     
-    private GameCamera gameCamera;
     
     public Application(){
         keyManager = new KeyManager();
+    }
+    
+    public void startGame() {
+        game = new Game();
+    }
+    
+    public Game getGame() {
+        return game;
     }
     
     private void init() {
         display = new Display(FRAME_TITLE, FRAME_WIDTH, FRAME_HEIGHT);
         display.getFrame().addKeyListener(keyManager);
         Assets.init();
-        gameCamera = new GameCamera(this,0,0);
+        
         gameState = new GameState(this);
         menuState = new MenuState(this);
         State.setState(gameState);
@@ -141,10 +151,6 @@ public class Application implements Runnable{
     
     public KeyManager getKeyManager() {
         return keyManager;
-    }
-    
-    public GameCamera getGameCamera() {
-        return gameCamera;
     }
     
     

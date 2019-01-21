@@ -5,9 +5,12 @@
  */
 package silmarillionreloaded.worlds.worldElements;
 
-import java.util.Random;
+import silmarillionreloaded.gfx.CropCode;
 import silmarillionreloaded.gfx.TileImage;
 import silmarillionreloaded.tiles.Texture;
+import silmarillionreloaded.tiles.Tile;
+import silmarillionreloaded.tiles.Tile.TerrainTile;
+import silmarillionreloaded.tiles.Tile.EmptyTile;
 
 /**
  *
@@ -16,45 +19,55 @@ import silmarillionreloaded.tiles.Texture;
 public abstract class WorldElement {
     
     
+    protected Texture mainTexture;
+    protected int x;
+    protected int y;
+    protected int width;
+    protected int height;
+    protected int layer;
+    protected Tile[][][] tiles;
     
-    protected final int width;
-    protected final int height;
-    protected TileImage[][] images;
-    
-    public WorldElement(int width, int height) {
+    public WorldElement(Texture mainTexture, int x, int y, int layer, int width, int height) {
+        this.mainTexture = mainTexture;
+        this.x = x;
+        this.y = y;
         this.width = width;
         this.height = height;
-        images = new TileImage[width][height];
+        tiles = new Tile[width][height][layer];
         setImages();
         
     }
 
     protected abstract void setImages();
-    public WorldElement fusionWith(WorldElement otherElement, int x_offset, int y_offset) {
+    public void fusionWith(WorldElement otherElement, int x_offset, int y_offset) {
         if(this.getClass().equals(otherElement.getClass())) {
-            
             int fusionWidth = Math.max(width, otherElement.width + x_offset);
             int fusionHeight = Math.max(height, otherElement.height + y_offset);
-            TileImage [][] fusion = new TileImage[fusionWidth][fusionHeight];
+            Tile [][] fusion = new Tile[fusionWidth][fusionHeight];
             
             for(int j = 0; j < fusionHeight; j++) {
                 for(int i = 0; i < fusionWidth; i++) {
                     if(i < width && j < height) {
-                        if(!images[i][j].getTexture().equals(Texture.NULL)) {
-                            fusion[i][j] = images[i][j];
+                        if(tiles[i][j].isTerrainTile()) {
+                            fusion[i][j][layer] = tiles[i][j];
+                            if(i - x_offset >= 0 && j - y_offset >= 0 && otherElement.tiles[i-x_offset][j-y_offset].isTerrainTile()) {
+                                fusion[i][j] = new TerrainTile(i,j,TileImage.CreateTileTileImage(mainTexture, CropCode.CENTER_1));
+                            }
                         }
                     } else if(i - x_offset >= 0 && j - y_offset >= 0) {
-                        if(!otherElement.images[i-x_offset][j-y_offset].getTexture().equals(Texture.NULL)) {
-                            fusion[i][j] = otherElement.images[i-x_offset][j-y_offset];
+                        if(otherElement.tiles[i-x_offset][j-y_offset].isTerrainTile()) {
+                            fusion[i][j] = otherElement.tiles[i-x_offset][j-y_offset];
                         }
                     } else {
-                        fusion[i][j] = images[i][j];
+                        fusion[i][j] = new EmptyTile(i,j);
                     } 
                 }
             }
+            width = fusionWidth;
+            height = fusionHeight;
+            tiles = fusion;
             
         }
-        return this;
     }
     
     

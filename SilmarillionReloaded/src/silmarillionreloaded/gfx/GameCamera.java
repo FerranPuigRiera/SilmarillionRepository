@@ -14,10 +14,9 @@ import silmarillionreloaded.entity.Entity;
  */
 public class GameCamera {
     
-    private Application app;
     private float xOffset, yOffset;
     
-    public GameCamera(Application app, float xOffset, float yOffset) {
+    public GameCamera(float xOffset, float yOffset) {
         this.xOffset = xOffset;
         this.yOffset = yOffset;
     }

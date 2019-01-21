@@ -3,17 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package silmarillionreloaded.entity.actions;
-
-import silmarillionreloaded.game.Game;
+package silmarillionreloaded.game;
 
 /**
  *
  * @author Ferran
  */
-public interface PlayableAction {
+public enum Alliance {
     
-    public void execute(final Game game);
-    public boolean isExecutable(final Game game);
+    NULL, ALLIANCE_1, ALLIANCE_2, ALLIANCE_3, ALLIANCE_4, ALLIANCE_5, ALLIANCE_6, ALLIANCE_7, ALLIANCE_8;
     
 }
