@@ -9,7 +9,6 @@ import java.util.Random;
 import silmarillionreloaded.gfx.CropCode;
 import silmarillionreloaded.gfx.TileImage;
 import silmarillionreloaded.tiles.Texture;
-import silmarillionreloaded.tiles.Tile.TerrainTile;
 
 /**
  *
@@ -27,8 +26,8 @@ public class River extends WorldElement{
         for(int i = 0; i < width - 1; i++) {
             for(int j = 0; j < height - 1; j++) {
                 if(i == 0) {
-                    tiles[i][j][layer] = new TerrainTile(x,y,TileImage.CreateTileTileImage(mainTexture, CropCode.N));
-                    tiles[i][j+1][layer] = new TerrainTile(x,y,TileImage.CreateTileTileImage(mainTexture, CropCode.S));
+                    tiles[i][j] = TileImage.CreateTileImage(mainTexture, CropCode.N);
+                    tiles[i][j+1]= TileImage.CreateTileImage(mainTexture, CropCode.S);
                 } 
             }
         }

@@ -33,7 +33,6 @@ public class TileImage {
     }
     
     
-    
     private TileImage(Texture texture, int x, int y) {
         if(texture == null) {
             throw new RuntimeException("Texture is null");
@@ -43,14 +42,14 @@ public class TileImage {
         column = x;
     }
     
-    public static TileImage CreateTileTileImage(Texture texture, CropCode cropCode) {
+    public static TileImage CreateTileImage(Texture texture, CropCode cropCode) {
         TileImage image = new TileImage(texture,cropCode);
         if(!TILE_IMAGE_CACHE.contains(image)) {
             TILE_IMAGE_CACHE.add(image);
         } 
         return TILE_IMAGE_CACHE.get(TILE_IMAGE_CACHE.indexOf(image));
     }
-    public static TileImage CreateTileTileImage(Texture texture, int x, int y) {
+    public static TileImage CreateTileImage(Texture texture, int x, int y) {
         TileImage image = new TileImage(texture,x,y);
         if(!TILE_IMAGE_CACHE.contains(image)) {
             TILE_IMAGE_CACHE.add(image);

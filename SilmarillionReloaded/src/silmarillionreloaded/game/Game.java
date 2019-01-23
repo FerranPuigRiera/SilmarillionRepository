@@ -9,6 +9,7 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 import silmarillionreloaded.Application;
+import silmarillionreloaded.entity.Piece;
 import silmarillionreloaded.entity.actions.EndTurn;
 import silmarillionreloaded.gfx.GameCamera;
 import silmarillionreloaded.player.Player;
@@ -27,6 +28,7 @@ public class Game {
     private final GameCamera gameCamera;
     
     public Game() {
+        Piece.init();
         Settings.init(this);
         players = Settings.PLAYERS;
         currentPlayer = players.get(0);

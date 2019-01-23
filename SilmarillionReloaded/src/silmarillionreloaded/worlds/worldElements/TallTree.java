@@ -8,7 +8,6 @@ package silmarillionreloaded.worlds.worldElements;
 import silmarillionreloaded.gfx.Assets;
 import silmarillionreloaded.gfx.TileImage;
 import silmarillionreloaded.tiles.Texture;
-import silmarillionreloaded.tiles.Tile.TerrainTile;
 
 /**
  *
@@ -24,7 +23,7 @@ public class TallTree extends WorldElement{
     protected void setImages() {
         for(int i = 0; i < 2; i++) {
             for(int j = 0; j < 5; j++) {
-                tiles[i][j][layer] = new TerrainTile(x,y,TileImage.CreateTileTileImage(mainTexture, i,j));
+                tiles[i][j] = TileImage.CreateTileImage(mainTexture, i,j);
             }
         }
     }

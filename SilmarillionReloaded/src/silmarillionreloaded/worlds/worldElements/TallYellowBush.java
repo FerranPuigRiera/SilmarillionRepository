@@ -8,7 +8,6 @@ package silmarillionreloaded.worlds.worldElements;
 import silmarillionreloaded.gfx.CropCode;
 import silmarillionreloaded.gfx.TileImage;
 import silmarillionreloaded.tiles.Texture;
-import silmarillionreloaded.tiles.Tile.TerrainTile;
 
 /**
  *
@@ -27,26 +26,26 @@ public class TallYellowBush extends WorldElement{
                 
                 if(i == 0) {
                     if(j == 0) {
-                        tiles[i][j][layer] = new TerrainTile(x,y,TileImage.CreateTileTileImage(mainTexture, CropCode.NW));
+                        tiles[i][j] = TileImage.CreateTileImage(mainTexture, CropCode.NW);
                     }else if(j == height - 1) {
-                        tiles[i][j][layer] = new TerrainTile(x,y,TileImage.CreateTileTileImage(mainTexture, CropCode.SW));
+                        tiles[i][j] = TileImage.CreateTileImage(mainTexture, CropCode.SW);
                     } else {
-                        tiles[i][j][layer] = new TerrainTile(x,y,TileImage.CreateTileTileImage(mainTexture, CropCode.W));
+                        tiles[i][j] = TileImage.CreateTileImage(mainTexture, CropCode.W);
                     }
                 }else if(i == width - 1) {
                     if(j == 0) {
-                        tiles[i][j][layer] = new TerrainTile(x,y,TileImage.CreateTileTileImage(mainTexture, CropCode.NE));
+                        tiles[i][j] = TileImage.CreateTileImage(mainTexture, CropCode.NE);
                     }else if(j == height - 1) {
-                        tiles[i][j][layer] = new TerrainTile(x,y,TileImage.CreateTileTileImage(mainTexture, CropCode.SE));
+                        tiles[i][j] = TileImage.CreateTileImage(mainTexture, CropCode.SE);
                     } else {
-                        tiles[i][j][layer] = new TerrainTile(x,y,TileImage.CreateTileTileImage(mainTexture, CropCode.E));
+                        tiles[i][j] = TileImage.CreateTileImage(mainTexture, CropCode.E);
                     }
                 } else if(j == 0){
-                    tiles[i][j][layer] = new TerrainTile(x,y,TileImage.CreateTileTileImage(mainTexture, CropCode.N));
+                    tiles[i][j] = TileImage.CreateTileImage(mainTexture, CropCode.N);
                 } else if(j == height - 1) {
-                    tiles[i][j][layer] = new TerrainTile(x,y,TileImage.CreateTileTileImage(mainTexture, CropCode.S));
+                    tiles[i][j] = TileImage.CreateTileImage(mainTexture, CropCode.S);
                 } else {
-                    tiles[i][j][layer] = new TerrainTile(x,y,TileImage.CreateTileTileImage(mainTexture, CropCode.CENTER_1));
+                    tiles[i][j] = TileImage.CreateTileImage(mainTexture, CropCode.CENTER_1);
                 }
                 
                 
