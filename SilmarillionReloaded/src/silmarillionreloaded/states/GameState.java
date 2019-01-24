@@ -8,6 +8,7 @@ package silmarillionreloaded.states;
 import java.awt.Graphics;
 import silmarillionreloaded.Application;
 import silmarillionreloaded.game.Game;
+import userInterface.UIManager;
 
 /**
  *
@@ -17,11 +18,13 @@ public class GameState extends State{
 
     
     private Game game;
+    private UIManager uiManager;
     
     public GameState(final Application app) {
         super(app);
         app.startGame();
         game = app.getGame();
+        uiManager = new UIManager(app);
     }
     
     @Override
@@ -32,6 +35,11 @@ public class GameState extends State{
     @Override
     public void tick() {
         game.tick();
+    }
+
+    @Override
+    public UIManager getUIManager() {
+        return uiManager;
     }
     
 }

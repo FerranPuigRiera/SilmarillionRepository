@@ -7,6 +7,7 @@ package silmarillionreloaded.states;
 
 import java.awt.Graphics;
 import silmarillionreloaded.Application;
+import userInterface.UIManager;
 
 /**
  *
@@ -29,6 +30,8 @@ public abstract class State {
     public State(Application app) {
         this.app = app;
     }
+    
+    public abstract UIManager getUIManager();
     
     public abstract void render(Graphics g);
     public abstract void tick();

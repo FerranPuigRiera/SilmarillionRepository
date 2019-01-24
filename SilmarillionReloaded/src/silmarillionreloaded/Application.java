@@ -12,8 +12,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import silmarillionreloaded.game.Game;
 import silmarillionreloaded.gfx.Assets;
-import silmarillionreloaded.gfx.GameCamera;
 import silmarillionreloaded.input.KeyManager;
+import silmarillionreloaded.input.MouseManager;
 import silmarillionreloaded.states.GameState;
 import silmarillionreloaded.states.MenuState;
 import silmarillionreloaded.states.State;
@@ -42,7 +42,8 @@ public class Application implements Runnable{
     private MenuState menuState;
     
     //Input
-    private KeyManager keyManager;
+    private final KeyManager keyManager;
+    private final MouseManager mouseManager;
 
     //Game game
     
@@ -51,6 +52,7 @@ public class Application implements Runnable{
     
     public Application(){
         keyManager = new KeyManager();
+        mouseManager = new MouseManager();
     }
     
     public void startGame() {
@@ -64,6 +66,8 @@ public class Application implements Runnable{
     private void init() {
         display = new Display(FRAME_TITLE, FRAME_WIDTH, FRAME_HEIGHT);
         display.getFrame().addKeyListener(keyManager);
+        display.getFrame().addMouseListener(mouseManager);
+        display.getFrame().addMouseMotionListener(mouseManager);
         Assets.init();
         
         gameState = new GameState(this);
@@ -153,5 +157,8 @@ public class Application implements Runnable{
         return keyManager;
     }
     
+    public MouseManager getMouseManager() {
+        return mouseManager;
+    }
     
 }

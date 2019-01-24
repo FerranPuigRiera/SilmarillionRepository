@@ -7,6 +7,7 @@ package silmarillionreloaded.states;
 
 import java.awt.Graphics;
 import silmarillionreloaded.Application;
+import userInterface.UIManager;
 
 /**
  *
@@ -14,8 +15,11 @@ import silmarillionreloaded.Application;
  */
 public class MenuState extends State{
     
+    private UIManager uiManager;
+    
     public MenuState(Application app) {
         super(app);
+        uiManager = new UIManager(app);
     }
 
     @Override
@@ -24,6 +28,11 @@ public class MenuState extends State{
 
     @Override
     public void tick() {
+    }
+
+    @Override
+    public UIManager getUIManager() {
+        return uiManager;
     }
     
 }
