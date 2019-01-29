@@ -5,34 +5,41 @@
  */
 package silmarillionreloaded.player;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.awt.Color;
+import java.awt.Graphics;
+import silmarillionreloaded.ObjectManager;
 
 /**
  *
  * @author Ferran
  */
-public class Hand {
+public class Hand extends ObjectManager<Card>{
     
     public static final int MAX_CARDS_IN_HAND = 10;
-    
-    public final List<Card> cards;
-    
+    public static final int HAND_X = 350;
+    public static final int HAND_Y = 750;
+    public static final int HAND_WIDTH = 1000;
+    public static final int HAND_HEIGHT = 200;
+
     public Hand() {
-        cards = new ArrayList<>();
+        super(HAND_X, HAND_Y, HAND_WIDTH, HAND_HEIGHT, MAX_CARDS_IN_HAND);
+    }
+
+    @Override
+    public void tick() {
+    }
+
+    @Override
+    public void render(Graphics g) {
+        g.setColor(Color.BLUE);
+        g.drawRect((int)x, (int)y, width, height);
+    }
+
+    @Override
+    public void onClick() {
     }
     
-    public void addCard(Card card) {
-        if(cards.size() < MAX_CARDS_IN_HAND) {
-            cards.add(card);
-        } else {
-            System.err.println("Hand is full");
-        }
-        
-    }
     
-    public void removeCard(Card card) {
-        cards.remove(card);
-    }
+    
     
 }

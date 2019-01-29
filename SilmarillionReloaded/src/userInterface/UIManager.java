@@ -6,46 +6,30 @@
 package userInterface;
 
 import java.awt.Graphics;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import silmarillionreloaded.Application;
+import silmarillionreloaded.ObjectManager;
 
 /**
  *
  * @author Ferran
  */
-public class UIManager {
-    
-    private final Application app;
-    private final ArrayList<UIObject> objects;
-    
-    public UIManager(Application app) {
-        this.app = app;
-        objects = new ArrayList<>();
+public class UIManager extends ObjectManager<UIObject>{
+
+    public UIManager() {
+        super(100000);
     }
-    
+
+    @Override
     public void tick() {
-        objects.forEach(o -> o.tick());
     }
-    
+
+    @Override
     public void render(Graphics g) {
-        objects.forEach(o -> o.render(g));
-    } 
-    
-    public void onMouseMove(MouseEvent e) {
-        objects.forEach(o -> o.onMouseMove(e));
+    }
+
+    @Override
+    public void onClick() {
     }
     
-    public void onMouseRelease(MouseEvent e) {
-        objects.forEach(o -> o.onMouseRelease(e));
-    }
     
-    public void addObject(UIObject o) {
-        objects.add(o);
-    }
-    
-    public void removeObject(UIObject o) {
-        objects.remove(o);
-    }
     
 }

@@ -5,48 +5,51 @@
  */
 package silmarillionreloaded.player;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.awt.Graphics;
+import silmarillionreloaded.ObjectManager;
 
 /**
  *
  * @author Ferran
  */
-public class Deck {
-    
-    public final static int MAX_CARDS_IN_DECK = 60;
-    
-    private final List<Card> cards;
-    
-    public Deck() {
-        cards = new ArrayList<>();
+public class Deck extends ObjectManager<Card>{
+
+    public static Deck generateRandomDeck() {
+        Deck deck = new Deck();
+        for(int i = 0; i < MAX_CARDS_IN_DECK; i++) {
+            deck.addObject(Card.createRandomSummonCard());
+        }
+        return deck;
     }
     
+    public final static int MAX_CARDS_IN_DECK = 60;
+     
+    public Deck() {
+        super(MAX_CARDS_IN_DECK);
+    }
+
     public void shuffle() {
-        Collections.shuffle(cards);
+        shuffleList();
     }
     
     public Card draw() {
-        if(cards.size() > 0) {
-            Card card = cards.get(0);
-            cards.remove(card);
-            return card;
-        } else {
-            return null;
+        if(getSize() > 0) {
+            return get(0);
         }
+        return null;
     }
     
-    public void addCard(Card card){
-        if(cards.size() < MAX_CARDS_IN_DECK) {
-            cards.add(card);
-        } else {
-            System.err.println("Deck is full");
-        }
-        
+    @Override
+    public void tick() {
     }
-    public void removeCard(Card card) {
-        cards.remove(card);
+
+    @Override
+    public void render(Graphics g) {
     }
+
+    @Override
+    public void onClick() {
+    }
+    
     
 }

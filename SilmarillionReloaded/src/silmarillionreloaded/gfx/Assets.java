@@ -24,7 +24,11 @@ public class Assets {
                                             PIECE_0031, PIECE_0032, PIECE_0033, PIECE_0034, PIECE_0035, PIECE_0036, PIECE_0037, PIECE_0038, PIECE_0039, PIECE_0040,
                                             PIECE_0041, PIECE_0042, PIECE_0043, PIECE_0044, PIECE_0045, PIECE_0046, PIECE_0047;
     
-    
+    public static BufferedImage CARD_0000, CARD_0001, CARD_0002, CARD_0003, CARD_0004, CARD_0005, CARD_0006, CARD_0007, CARD_0008, CARD_0009, CARD_0010,
+                                           CARD_0011, CARD_0012, CARD_0013, CARD_0014, CARD_0015, CARD_0016, CARD_0017, CARD_0018, CARD_0019, CARD_0020,
+                                           CARD_0021, CARD_0022, CARD_0023, CARD_0024, CARD_0025, CARD_0026, CARD_0027, CARD_0028, CARD_0029, CARD_0030,
+                                           CARD_0031, CARD_0032, CARD_0033, CARD_0034, CARD_0035, CARD_0036, CARD_0037, CARD_0038, CARD_0039, CARD_0040,
+                                           CARD_0041, CARD_0042;
     public static void init() {
         
         //SpriteSheet baseOutAtlas = new SpriteSheet(ImageLoader.loadImage("/terrain/base_out_atlas.png/"),32,32);
@@ -97,7 +101,53 @@ public class Assets {
         PIECE_0046 = ImageLoader.loadImage("/pieces/PIECE_0046.png");
         PIECE_0047 = ImageLoader.loadImage("/pieces/PIECE_0047.png");
         
+        CARD_0000 = ImageLoader.loadImage("/cards/CARD_0000.gif");
+        CARD_0001 = ImageLoader.loadImage("/cards/CARD_0001.gif");
+        CARD_0002 = ImageLoader.loadImage("/cards/CARD_0002.gif");
+        CARD_0003 = ImageLoader.loadImage("/cards/CARD_0003.gif");
+        CARD_0004 = ImageLoader.loadImage("/cards/CARD_0004.gif");
+        CARD_0005 = ImageLoader.loadImage("/cards/CARD_0005.gif");
+        CARD_0006 = ImageLoader.loadImage("/cards/CARD_0006.gif");
+        CARD_0007 = ImageLoader.loadImage("/cards/CARD_0007.gif");
+        CARD_0008 = ImageLoader.loadImage("/cards/CARD_0008.gif");
+        CARD_0009 = ImageLoader.loadImage("/cards/CARD_0009.gif");
+        CARD_0010 = ImageLoader.loadImage("/cards/CARD_0010.gif");
         
+        CARD_0011 = ImageLoader.loadImage("/cards/CARD_0011.gif");
+        CARD_0012 = ImageLoader.loadImage("/cards/CARD_0012.gif");
+        CARD_0013 = ImageLoader.loadImage("/cards/CARD_0013.gif");
+        CARD_0014 = ImageLoader.loadImage("/cards/CARD_0014.gif");
+        CARD_0015 = ImageLoader.loadImage("/cards/CARD_0015.gif");
+        CARD_0016 = ImageLoader.loadImage("/cards/CARD_0016.gif");
+        CARD_0017 = ImageLoader.loadImage("/cards/CARD_0017.gif");
+        CARD_0018 = ImageLoader.loadImage("/cards/CARD_0018.gif");
+        CARD_0019 = ImageLoader.loadImage("/cards/CARD_0019.gif");
+        CARD_0020 = ImageLoader.loadImage("/cards/CARD_0020.gif");
+        
+        CARD_0021 = ImageLoader.loadImage("/cards/CARD_0021.gif");
+        CARD_0022 = ImageLoader.loadImage("/cards/CARD_0022.gif");
+        CARD_0023 = ImageLoader.loadImage("/cards/CARD_0023.gif");
+        CARD_0024 = ImageLoader.loadImage("/cards/CARD_0024.gif");
+        CARD_0025 = ImageLoader.loadImage("/cards/CARD_0025.gif");
+        CARD_0026 = ImageLoader.loadImage("/cards/CARD_0026.gif");
+        CARD_0027 = ImageLoader.loadImage("/cards/CARD_0027.gif");
+        CARD_0028 = ImageLoader.loadImage("/cards/CARD_0028.gif");
+        CARD_0029 = ImageLoader.loadImage("/cards/CARD_0029.gif");
+        CARD_0030 = ImageLoader.loadImage("/cards/CARD_0030.gif");
+        
+        CARD_0031 = ImageLoader.loadImage("/cards/CARD_0031.gif");
+        CARD_0032 = ImageLoader.loadImage("/cards/CARD_0032.gif");
+        CARD_0033 = ImageLoader.loadImage("/cards/CARD_0033.gif");
+        CARD_0034 = ImageLoader.loadImage("/cards/CARD_0034.gif");
+        CARD_0035 = ImageLoader.loadImage("/cards/CARD_0035.gif");
+        CARD_0036 = ImageLoader.loadImage("/cards/CARD_0036.gif");
+        CARD_0037 = ImageLoader.loadImage("/cards/CARD_0037.gif");
+        CARD_0038 = ImageLoader.loadImage("/cards/CARD_0038.gif");
+        CARD_0039 = ImageLoader.loadImage("/cards/CARD_0039.gif");
+        CARD_0040 = ImageLoader.loadImage("/cards/CARD_0040.gif");
+        
+        CARD_0041 = ImageLoader.loadImage("/cards/CARD_0041.gif");
+        CARD_0042 = ImageLoader.loadImage("/cards/CARD_0042.gif");
     }
     
     

@@ -8,22 +8,27 @@ package silmarillionreloaded.input;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import silmarillionreloaded.Application;
-import silmarillionreloaded.states.State;
+import silmarillionreloaded.game.Game;
 
 /**
  *
  * @author Ferran
  */
-public class MouseManager implements MouseListener, MouseMotionListener{
+public class MouseManager implements MouseListener, MouseMotionListener {
 
     private boolean leftPressed, rightPressed;
     private int mouseX, mouseY;
+    
+    private Game game;
     
     
     public MouseManager() {
     }
 
+    public void addGame(final Game game) {
+        this.game = game;
+    }
+    
     public boolean isLeftPressed() {
         return leftPressed;
     }
@@ -61,11 +66,10 @@ public class MouseManager implements MouseListener, MouseMotionListener{
         } else if(me.getButton() == MouseEvent.BUTTON3) {
             rightPressed = false;
         }
-        
-        if(State.getState().getUIManager() != null) {
-            State.getState().getUIManager().onMouseRelease(me);
+        if(game != null) {
+            game.getCurrentPlayer().onMouseRelease(me);
+            game.getWorld().onMouseReleaseList(me);
         }
-        
     }
 
     @Override
@@ -85,11 +89,12 @@ public class MouseManager implements MouseListener, MouseMotionListener{
     public void mouseMoved(MouseEvent me) {
         mouseX = me.getX();
         mouseY = me.getY();
-        
-        if(State.getState().getUIManager() != null) {
-            State.getState().getUIManager().onMouseMove(me);
+        if(game != null) {
+            if(game.getCurrentPlayer() != null){
+                game.getCurrentPlayer().onMouseMove(me);
+            }
+            game.getWorld().onMouseMoveList(me);
         }
-        
     }
     
     

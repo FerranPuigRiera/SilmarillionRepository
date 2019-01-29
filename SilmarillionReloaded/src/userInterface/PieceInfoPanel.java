@@ -7,36 +7,39 @@ package userInterface;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import silmarillionreloaded.entity.Piece;
-import silmarillionreloaded.worlds.World;
+import java.awt.Rectangle;
+import silmarillionreloaded.game.Game;
+import silmarillionreloaded.pieces.Piece;
 
 /**
  *
  * @author Ferran
  */
-public class PieceInfoPanel extends UIObject{
+public class PieceInfoPanel extends UIObject {
     
-    private final World world;
+    
     private final Piece piece;
 
-    public PieceInfoPanel(World world, final Piece piece, float x, float y, int width, int height) {
+    public PieceInfoPanel(final Piece piece, float x, float y, int width, int height) {
         super(x, y, width, height);
-        this.world = world;
         this.piece = piece;
     }
 
     @Override
     public void tick() {
+        //System.out.println(hovering);
     }
 
     @Override
     public void render(Graphics g) {
         g.setColor(Color.yellow);
-        g.fillRect(50, 80, width, width);
+        g.fillRect((int)x, (int)y, width, width);
+        g.drawString(piece.toString(), (int)x+5, (int)y+5);
+        
     }
 
     @Override
     public void onClick() {
+        Game.hideInfoPanel();
     }
-    
 }

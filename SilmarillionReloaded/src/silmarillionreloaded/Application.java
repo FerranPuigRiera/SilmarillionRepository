@@ -55,8 +55,8 @@ public class Application implements Runnable{
         mouseManager = new MouseManager();
     }
     
-    public void startGame() {
-        game = new Game();
+    public void createGame() {
+        game = new Game(this);
     }
     
     public Game getGame() {
@@ -68,6 +68,8 @@ public class Application implements Runnable{
         display.getFrame().addKeyListener(keyManager);
         display.getFrame().addMouseListener(mouseManager);
         display.getFrame().addMouseMotionListener(mouseManager);
+        display.getCanvas().addMouseListener(mouseManager);
+        display.getCanvas().addMouseMotionListener(mouseManager);
         Assets.init();
         
         gameState = new GameState(this);

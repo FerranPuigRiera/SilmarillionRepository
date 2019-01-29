@@ -5,7 +5,7 @@
  */
 package silmarillionreloaded.entity.actions;
 
-import silmarillionreloaded.entity.Piece;
+import silmarillionreloaded.pieces.Piece;
 import silmarillionreloaded.player.Player;
 
 /**

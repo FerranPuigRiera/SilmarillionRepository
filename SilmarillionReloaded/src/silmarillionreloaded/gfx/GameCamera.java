@@ -6,7 +6,7 @@
 package silmarillionreloaded.gfx;
 
 import silmarillionreloaded.Application;
-import silmarillionreloaded.entity.Entity;
+import silmarillionreloaded.pieces.Piece;
 
 /**
  *
@@ -21,7 +21,7 @@ public class GameCamera {
         this.yOffset = yOffset;
     }
 
-    public void centerOnEntity(Entity e) {
+    public void centerOnEntity(Piece e) {
         xOffset = e.getX() - Application.FRAME_WIDTH / 2 + e.getWidth() / 2;
         yOffset = e.getY() - Application.FRAME_HEIGHT / 2 + e.getHeight() / 2; 
     }

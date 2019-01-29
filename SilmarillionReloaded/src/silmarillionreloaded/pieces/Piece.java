@@ -3,15 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package silmarillionreloaded.entity;
+package silmarillionreloaded.pieces;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import silmarillionreloaded.RenderableObject;
 import silmarillionreloaded.entity.actions.Caster;
 import silmarillionreloaded.entity.actions.Target;
 import silmarillionreloaded.game.Alliance;
+import silmarillionreloaded.game.Game;
 import silmarillionreloaded.gfx.Assets;
 import silmarillionreloaded.player.Player;
 import silmarillionreloaded.tiles.Tile;
@@ -20,10 +22,7 @@ import silmarillionreloaded.tiles.Tile;
  *
  * @author Ferran
  */
-public class Piece implements Target,Caster{
-    
-    private static final int PIECE_HEIGHT = Tile.TILE_HEIGHT;
-    private static final int PIECE_WIDTH = Tile.TILE_WIDTH;
+public class Piece extends RenderableObject implements Target,Caster {
     
     public static Piece createNewPiece(int index, Alliance alliance)  {
         if(PIECES_CACHE.size() > index) {
@@ -31,7 +30,7 @@ public class Piece implements Target,Caster{
         }
         throw new RuntimeException("Cannot create piece. "+index+" not found");
     }
-    
+
     public static final List<Piece> PIECES_CACHE = new ArrayList<>();
     
     public static void init() {
@@ -563,15 +562,36 @@ public class Piece implements Target,Caster{
         return alliance;
     }
     
+    @Override
     public void tick() {
+       // super.setPosition(x, y);
+         
     }
 
-    public void render(Graphics g, int x, int y) {
-        
-        g.drawImage(image, x, y, PIECE_WIDTH, PIECE_HEIGHT, null);
-        
+    @Override
+    public void render(Graphics g) {
+        g.drawImage(image, (int)x, (int)y, width, height, null);
     }
-
+    
+    public String getName() {
+        return name;
+    }
+    
+    public Element getElement() {
+        return element;
+    }
+    
+    public int calculateCost() {
+        return health.getValue()/10 + damage.getValue() + armor.getValue() + 
+               elementalDamage.getValue() + elementalArmor.getValue() + moves.getValue()*3;
+    }
+    
+   
+    
+    @Override
+    public void onClick() {
+        Game.showInfoPanel(this);
+    }
     @Override
     public boolean isPlayer() {
         return false;
@@ -601,6 +621,7 @@ public class Piece implements Target,Caster{
     public Tile getTile() {
         return null;
     }
+   
     public static class King extends Piece {
         
         public King(Builder builder) {

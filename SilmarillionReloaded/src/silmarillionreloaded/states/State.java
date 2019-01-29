@@ -31,8 +31,6 @@ public abstract class State {
         this.app = app;
     }
     
-    public abstract UIManager getUIManager();
-    
     public abstract void render(Graphics g);
     public abstract void tick();
     
