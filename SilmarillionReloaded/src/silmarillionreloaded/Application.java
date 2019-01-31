@@ -24,6 +24,8 @@ import silmarillionreloaded.states.State;
  */
 public class Application implements Runnable{
 
+    public static Application INSTANCE;
+    
     public static final String FRAME_TITLE = "Silmarillion Reloaded";
     public static final int FRAME_WIDTH = 1800;
     public static final int FRAME_HEIGHT = 1000;
@@ -53,6 +55,7 @@ public class Application implements Runnable{
     public Application(){
         keyManager = new KeyManager();
         mouseManager = new MouseManager();
+        INSTANCE = this;
     }
     
     public void createGame() {

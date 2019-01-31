@@ -6,18 +6,21 @@
 package silmarillionreloaded.player;
 
 import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import silmarillionreloaded.RenderableObject;
+import silmarillion.renderableObjects.Panel.CardPanel;
+import silmarillion.renderableObjects.RenderableObject;
+import silmarillion.renderableObjects.TemporalPanel;
 import silmarillionreloaded.pieces.Element;
 import silmarillionreloaded.pieces.Piece;
-import silmarillionreloaded.entity.actions.Spell;
+import silmarillionreloaded.actions.Spell;
+import silmarillionreloaded.game.Game;
 import silmarillionreloaded.gfx.Assets;
 
 /**
@@ -25,6 +28,8 @@ import silmarillionreloaded.gfx.Assets;
  * @author Ferran
  */
 public abstract class Card extends RenderableObject{
+    
+    public static Card SELECTED_CARD;
     
     public static SummonCard createNewSummonCard(int index) {
         try {
@@ -40,7 +45,8 @@ public abstract class Card extends RenderableObject{
     
     public static SummonCard createRandomSummonCard() {
         Random r = new Random();
-        return SUMMON_CARDS_CACHE.get(r.nextInt(SUMMON_CARDS_CACHE.size()));
+        int index = r.nextInt(SUMMON_CARDS_CACHE.size() - 1);
+        return new SummonCard(SUMMON_CARDS_CACHE.get(index));
     }
     
     public static void init() {
@@ -97,11 +103,68 @@ public abstract class Card extends RenderableObject{
     
     
     private Card(String name, int cost, Element element, BufferedImage image) {
+        super(CARD_WIDTH,CARD_HEIGHT);
         this.name = name;
         this.cost = cost;
         this.element = element;
         this.image = image;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 29 * hash + Objects.hashCode(this.name);
+        hash = 29 * hash + this.cost;
+        hash = 29 * hash + Objects.hashCode(this.element);
+        hash = 29 * hash + Objects.hashCode(this.image);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Card other = (Card) obj;
+        
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        
+        
+        return true;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getCost() {
+        return cost;
+    }
+
+    public Element getElement() {
+        return element;
+    }
+    
+    
+    
+    @Override
+    public void onClick(MouseEvent e) {
+        if(SELECTED_CARD != this) {
+            SELECTED_CARD = this;
+            Game.INSTANCE.getPanelManager().addObject(new TemporalPanel(
+                    new CardPanel(this,e.getX(),e.getY(),140, 80),1500));
+        }
+        
+    }
+    
     
     public static class SummonCard extends Card{
         
@@ -110,23 +173,27 @@ public abstract class Card extends RenderableObject{
         public SummonCard(Piece piece, BufferedImage image) {
             super(piece.getName(),piece.calculateCost(),piece.getElement(),image);
             this.piece = piece;
-        }     
+        }    
+        
+        private SummonCard(SummonCard card) {
+            super(card.piece.getName(),card.piece.calculateCost(), card.piece.getElement(),card.image);
+            piece = card.piece;
+        }
+        
+        
         @Override
         public void tick() {
-            //bounds.setBounds(x, y, CARD_WIDTH, CARD_HEIGHT);
+            
         }
 
         @Override
-        public void render(Graphics g) {
+        public void render(Graphics g, float x, float y) {
             g.drawImage(image, (int)x, (int)y, width, height, null);
         }
 
         
 
-        @Override
-        public void onClick() {
-            System.err.println("Does notheing yet :( ");
-        }
+        
     }
     
     public static class SpellCard extends Card {
@@ -144,12 +211,12 @@ public abstract class Card extends RenderableObject{
         }
 
         @Override
-        public void render(Graphics g) {
+        public void render(Graphics g, float x, float y) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
 
         @Override
-        public void onClick() {
+        public void onClick(MouseEvent e) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
 
@@ -172,12 +239,12 @@ public abstract class Card extends RenderableObject{
         }
 
         @Override
-        public void render(Graphics g) {
+        public void render(Graphics g, float x, float y) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
 
         @Override
-        public void onClick() {
+        public void onClick(MouseEvent e) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
 

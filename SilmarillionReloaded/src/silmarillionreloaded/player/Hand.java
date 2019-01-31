@@ -7,7 +7,8 @@ package silmarillionreloaded.player;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import silmarillionreloaded.ObjectManager;
+import java.awt.event.MouseEvent;
+import silmarillion.renderableObjects.ObjectManager;
 
 /**
  *
@@ -21,8 +22,9 @@ public class Hand extends ObjectManager<Card>{
     public static final int HAND_WIDTH = 1000;
     public static final int HAND_HEIGHT = 200;
 
+
     public Hand() {
-        super(HAND_X, HAND_Y, HAND_WIDTH, HAND_HEIGHT, MAX_CARDS_IN_HAND);
+        super(HAND_X, HAND_Y, HAND_WIDTH, HAND_HEIGHT,10, Card.CARD_WIDTH, Card.CARD_HEIGHT, MAX_CARDS_IN_HAND);
     }
 
     @Override
@@ -30,13 +32,19 @@ public class Hand extends ObjectManager<Card>{
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics g, float x, float y) {
         g.setColor(Color.BLUE);
         g.drawRect((int)x, (int)y, width, height);
     }
 
     @Override
-    public void onClick() {
+    public void onClick(MouseEvent e) {
+        System.out.println("Clicl on hand");
+    }
+
+    @Override
+    public boolean showList() {
+        return true;
     }
     
     

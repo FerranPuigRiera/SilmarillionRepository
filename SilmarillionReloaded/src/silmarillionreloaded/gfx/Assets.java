@@ -29,6 +29,12 @@ public class Assets {
                                            CARD_0021, CARD_0022, CARD_0023, CARD_0024, CARD_0025, CARD_0026, CARD_0027, CARD_0028, CARD_0029, CARD_0030,
                                            CARD_0031, CARD_0032, CARD_0033, CARD_0034, CARD_0035, CARD_0036, CARD_0037, CARD_0038, CARD_0039, CARD_0040,
                                            CARD_0041, CARD_0042;
+    
+    public static BufferedImage MAP, GREAT_AXE, AXE, HAMMER, GREAT_SHIELD, SHIELD, 
+                                PERGAMIN, STAFF, BAG, GREAT_DOUBLE_AXE, DOUBLE_AXE, 
+                                CHEST, BOW, WOODEN_SWORD, TOOLS, GREAT_SWORD, SWORD, 
+                                HELM, HEART, CROSS, BOOK, COIN, GREEN_GEM, BLUE_GEM, 
+                                RED_GEM, GREEN_POTION, BLUE_POTION, RED_POTION, MAIL;
     public static void init() {
         
         //SpriteSheet baseOutAtlas = new SpriteSheet(ImageLoader.loadImage("/terrain/base_out_atlas.png/"),32,32);
@@ -148,6 +154,40 @@ public class Assets {
         
         CARD_0041 = ImageLoader.loadImage("/cards/CARD_0041.gif");
         CARD_0042 = ImageLoader.loadImage("/cards/CARD_0042.gif");
+        
+        
+        SpriteSheet items = new SpriteSheet(ImageLoader.loadImage("/items/items.png"),6,5);
+        
+        MAP = items.getSubImage(0, 0);
+        GREAT_AXE = items.getSubImage(1, 0);
+        AXE = items.getSubImage(2, 0);
+        HAMMER = items.getSubImage(3, 0);
+        GREAT_SHIELD = items.getSubImage(0, 0);
+        SHIELD = items.getSubImage(4, 0);
+        PERGAMIN = items.getSubImage(5, 0);
+        STAFF = items.getSubImage(0, 1);
+        BAG = items.getSubImage(1, 1);
+        GREAT_DOUBLE_AXE = items.getSubImage(2, 1);
+        DOUBLE_AXE = items.getSubImage(3, 1);
+        CHEST = items.getSubImage(4, 1);
+        BOW = items.getSubImage(5, 1);
+        WOODEN_SWORD = items.getSubImage(0, 2);
+        TOOLS = items.getSubImage(1, 2);
+        GREAT_SWORD = items.getSubImage(2, 2);
+        SWORD = items.getSubImage(3, 2);
+        HELM = items.getSubImage(4, 2);
+        HEART = items.getSubImage(5, 2);
+        CROSS = items.getSubImage(0, 3);
+        BOOK = items.getSubImage(1, 3);
+        COIN = items.getSubImage(2, 3);
+        GREEN_GEM = items.getSubImage(3, 3);
+        BLUE_GEM = items.getSubImage(4, 3);
+        RED_GEM = items.getSubImage(5, 3);
+        GREEN_POTION = items.getSubImage(0, 4);
+        BLUE_POTION = items.getSubImage(2, 4);
+        RED_POTION = items.getSubImage(3, 4);
+        MAIL = items.getSubImage(4, 4);
+        
     }
     
     

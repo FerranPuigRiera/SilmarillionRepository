@@ -6,7 +6,8 @@
 package silmarillionreloaded.player;
 
 import java.awt.Graphics;
-import silmarillionreloaded.ObjectManager;
+import java.awt.event.MouseEvent;
+import silmarillion.renderableObjects.ObjectManager;
 
 /**
  *
@@ -25,7 +26,7 @@ public class Deck extends ObjectManager<Card>{
     public final static int MAX_CARDS_IN_DECK = 60;
      
     public Deck() {
-        super(MAX_CARDS_IN_DECK);
+        super(0,0,0,0,1,Card.CARD_WIDTH,Card.CARD_HEIGHT,MAX_CARDS_IN_DECK);
     }
 
     public void shuffle() {
@@ -34,21 +35,30 @@ public class Deck extends ObjectManager<Card>{
     
     public Card draw() {
         if(getSize() > 0) {
-            return get(0);
+            Card card = get(0);
+            removeObject(card);
+            return card;
         }
         return null;
     }
     
     @Override
     public void tick() {
+        
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics g, float x, float y) {
     }
 
     @Override
-    public void onClick() {
+    public void onClick(MouseEvent e) {
+        System.out.println("Click on deck");
+    }
+
+    @Override
+    public boolean showList() {
+        return false;
     }
     
     

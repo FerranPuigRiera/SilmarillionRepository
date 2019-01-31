@@ -10,9 +10,10 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Map;
-import silmarillionreloaded.RenderableObject;
+import silmarillion.renderableObjects.RenderableObject;
 import silmarillionreloaded.pieces.Piece;
-import silmarillionreloaded.entity.actions.Target;
+import silmarillionreloaded.actions.Target;
+import silmarillionreloaded.game.Game;
 import silmarillionreloaded.gfx.TileImage;
 import silmarillionreloaded.player.Item;
 import silmarillionreloaded.player.Player;
@@ -32,12 +33,10 @@ public class Tile extends RenderableObject implements Target{
     
     private Item item;
     private Piece piece;
-
+    
     public Tile(int coordinate) {
-        super((coordinate % World.NUMBER_COLUMNS)*TILE_WIDTH,(coordinate / World.NUMBER_COLUMNS)*TILE_HEIGHT, TILE_WIDTH, TILE_HEIGHT);
+        super(TILE_WIDTH, TILE_HEIGHT);
         this.coordinate = coordinate;
-        width = TILE_WIDTH;
-        height = TILE_HEIGHT;
         images = new HashMap<>();
     }
 
@@ -51,14 +50,6 @@ public class Tile extends RenderableObject implements Target{
 
     public int getCoordinate_y() {
         return coordinate / World.NUMBER_COLUMNS;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
     }
 
     public Map<Integer,TileImage> getImages() {
@@ -86,13 +77,22 @@ public class Tile extends RenderableObject implements Target{
     }
     
     @Override
-    public void render(Graphics g){
+    public void render(Graphics g, float x, float y){
         images.entrySet().forEach((entry) -> {
-            g.drawImage(entry.getValue().getImage(), getCoordinate_x()*width, getCoordinate_y()*height, width, height, null);
+            g.drawImage(entry.getValue().getImage(), (int)(Game.INSTANCE.getGameCamera().getxOffset() + x), (int)(Game.INSTANCE.getGameCamera().getyOffset() + y), width, height, null);
         });
-        if(isTileOccupied())piece.render(g);
+        if(isTileOccupied())piece.render(g, (int)(Game.INSTANCE.getGameCamera().getxOffset() + x), (int)(Game.INSTANCE.getGameCamera().getyOffset() + y));
     }
 
+    /*
+    Overrides renderableObject.onMouseMove because it needs to add the gameCameraOffset
+    */
+    @Override
+    public void onMouseMove(MouseEvent e, int x, int y) {
+        Rectangle bounds = new Rectangle(x + (int)Game.INSTANCE.getGameCamera().getxOffset(), y + (int)Game.INSTANCE.getGameCamera().getyOffset(), width, height);
+        hovering = bounds.contains(e.getX(), e.getY());
+    }
+    
     public boolean isTileOccupied() {
         return piece != null;
     }
@@ -133,15 +133,19 @@ public class Tile extends RenderableObject implements Target{
 
     @Override
     public void tick() {
-        //bounds.setBounds(x, y, width, height);
         if(piece != null) {
             piece.tick();
         }
     }
 
     @Override
-    public void onClick() {
-        //
+    public void onClick(MouseEvent e) {
+        if(isTileOccupied()) {
+            piece.onClick(e);
+        } else {
+            System.out.println("Click on tile");
+        }
+        
     }
     
     

@@ -34,6 +34,22 @@ public class Stat {
     public void setValue(int value) {
         this.value = value;
     }
+    public void sumValue(int value) {
+        this.value += value;
+    }
+    public void substractValue(int value) {
+        this.value -= value;
+    }
+    public void multiplyValue(float value) {
+        this.value *= value;
+    }
+    public void divideValue(float value) {
+        if(value != 0f) {
+            this.value /= value;
+        } else {
+            throw new RuntimeException("Dividing by 0");
+        }
+    }
     
     
     

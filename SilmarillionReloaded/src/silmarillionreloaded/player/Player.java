@@ -7,12 +7,12 @@ package silmarillionreloaded.player;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Rectangle;
-import silmarillionreloaded.RenderableObject;
+import java.awt.event.MouseEvent;
+import silmarillion.renderableObjects.RenderableObject;
 import silmarillionreloaded.pieces.Piece;
 import silmarillionreloaded.pieces.Piece.King;
-import silmarillionreloaded.entity.actions.Caster;
-import silmarillionreloaded.entity.actions.Target;
+import silmarillionreloaded.actions.Caster;
+import silmarillionreloaded.actions.Target;
 import silmarillionreloaded.game.Alliance;
 import silmarillionreloaded.game.Game;
 import silmarillionreloaded.game.Settings;
@@ -24,22 +24,30 @@ import silmarillionreloaded.tiles.Tile;
  */
 public abstract class Player extends RenderableObject implements Target, Caster{
     
-    public static final int PLAYER_X = 50;
-    public static final int PLAYER_Y = 650;
-    public static final int PLAYER_WIDTH = 300;
-    public static final int PLAYER_HEIGHT = 200;
+    public static final int PLAYER_X = 25;
+    public static final int PLAYER_Y = 25;
+    public static final int PLAYER_WIDTH = 180;
+    public static final int PLAYER_HEIGHT = 80;
     
     
     protected final Game game;
     protected final String name;
     protected final Alliance alliance;
+    protected final Vision vision;
+    protected final DeployTiles deployTiles;
     
     public Player(Game game, String name, Alliance alliance) {
-        super(PLAYER_X,PLAYER_Y,PLAYER_WIDTH,PLAYER_HEIGHT);
+        super(PLAYER_WIDTH,PLAYER_HEIGHT);
         this.game = game;
         this.name = name;
         this.alliance = alliance;
+        this.vision = new Vision();
+        this.deployTiles = new DeployTiles();
     }
+    
+    public abstract void onMouseMoveElements(MouseEvent e);
+    public abstract void onMouseReleaseElements(MouseEvent e);
+    
     
     public abstract boolean isRegularPlayer();
     
@@ -96,7 +104,9 @@ public abstract class Player extends RenderableObject implements Target, Caster{
             return deck;
         }
         
-        
+        public Inventory getInventory() {
+            return inventory;
+        }
         public int getValor() {
             return valor;
         }
@@ -111,6 +121,7 @@ public abstract class Player extends RenderableObject implements Target, Caster{
             Card card = deck.draw();
             if(card != null) {
                 hand.addObject(card);
+                card.setSize(Card.CARD_WIDTH, Card.CARD_HEIGHT);
                 return true;
             }
             return false;
@@ -157,19 +168,47 @@ public abstract class Player extends RenderableObject implements Target, Caster{
         }
 
         @Override
-        public void render(Graphics g) {
-            g.setColor(Color.yellow);
-            g.fillRect(PLAYER_X, PLAYER_Y, PLAYER_WIDTH, PLAYER_HEIGHT);
-            deck.render(g);
+        public void render(Graphics g, float x, float y) {
+            g.setColor(Color.WHITE);
+            g.fillRect((int)x, (int)y, PLAYER_WIDTH, PLAYER_HEIGHT);
+            g.setColor(Color.BLACK);
+            g.drawRect((int)x, (int)y, PLAYER_WIDTH, PLAYER_HEIGHT);
+            g.drawString(name, (int)x + 5, (int)y + 20);
+            g.drawString("Alliance : "+alliance, (int)x + 5, (int)y + 40);
+            g.drawString("Valor : "+valor, (int)x + 5, (int)y + 60);
+            deck.render(g, 0, 0);
             deck.renderList(g);
-            hand.render(g);
+            hand.render(g, Hand.HAND_X, Hand.HAND_Y);
             hand.renderList(g);
-            inventory.render(g);
+            inventory.render(g, Inventory.INVENTORY_X, Inventory.INVENTORY_Y);
             inventory.renderList(g);
         }
 
         @Override
-        public void onClick() {
+        public void onClick(MouseEvent e) {
+            System.out.println("Click on player");
+        }
+
+        @Override
+        public void onMouseMoveElements(MouseEvent e) {
+            onMouseMove(e, Player.PLAYER_X, Player.PLAYER_Y);
+            deck.onMouseMove(e, 0, 0);
+            deck.onMouseMoveList(e);
+            hand.onMouseMove(e, Hand.HAND_X, Hand.HAND_Y);
+            hand.onMouseMoveList(e);
+            inventory.onMouseMove(e, Inventory.INVENTORY_X, Inventory.INVENTORY_Y);
+            inventory.onMouseMoveList(e);
+        }
+
+        @Override
+        public void onMouseReleaseElements(MouseEvent e) {
+            onMouseRelease(e);
+            deck.onMouseRelease(e);
+            deck.onMouseReleaseList(e);
+            hand.onMouseRelease(e);
+            hand.onMouseReleaseList(e);
+            inventory.onMouseRelease(e);
+            inventory.onMouseReleaseList(e);
         }
 
         
@@ -191,11 +230,21 @@ public abstract class Player extends RenderableObject implements Target, Caster{
         }
 
         @Override
-        public void render(Graphics g) {
+        public void render(Graphics g, float x, float y) {
         }
 
         @Override
-        public void onClick() {
+        public void onClick(MouseEvent e) {
+        }
+
+        @Override
+        public void onMouseMoveElements(MouseEvent e) {
+            onMouseMove(e, Player.PLAYER_X, Player.PLAYER_Y);
+        }
+
+        @Override
+        public void onMouseReleaseElements(MouseEvent e) {
+            onMouseRelease(e);
         }
 
     }

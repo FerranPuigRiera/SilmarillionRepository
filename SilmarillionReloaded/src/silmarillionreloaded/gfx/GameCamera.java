@@ -22,13 +22,13 @@ public class GameCamera {
     }
 
     public void centerOnEntity(Piece e) {
-        xOffset = e.getX() - Application.FRAME_WIDTH / 2 + e.getWidth() / 2;
-        yOffset = e.getY() - Application.FRAME_HEIGHT / 2 + e.getHeight() / 2; 
+       // xOffset = e.getX() - Application.FRAME_WIDTH / 2 + e.getWidth() / 2;
+        //yOffset = e.getY() - Application.FRAME_HEIGHT / 2 + e.getHeight() / 2; 
     }
     
     public void move(float xAmt, float yAmt) {
-        xOffset += xAmt;
-        yOffset += yAmt;
+        xOffset -= xAmt;
+        yOffset -= yAmt;
     }
     
     public float getxOffset() {

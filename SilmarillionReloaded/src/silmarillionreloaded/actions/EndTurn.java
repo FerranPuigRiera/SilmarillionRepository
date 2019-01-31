@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package silmarillionreloaded.entity.actions;
+package silmarillionreloaded.actions;
 
 import silmarillionreloaded.game.Game;
 
@@ -11,9 +11,16 @@ import silmarillionreloaded.game.Game;
  *
  * @author Ferran
  */
-public interface PlayableAction {
-    
-    public void execute(final Game game);
-    public boolean isExecutable(final Game game);
+public class EndTurn implements PlayableAction {
+
+    @Override
+    public void execute(Game game) {
+
+    }
+
+    @Override
+    public boolean isExecutable(Game game) {
+        return true;
+    }
     
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package silmarillionreloaded;
+package silmarillion.renderableObjects;
 
 import com.google.common.collect.ImmutableList;
 import java.awt.Graphics;
@@ -17,51 +17,44 @@ import java.util.List;
  * @author Ferran
  * @param <A>
  */
-public abstract class ObjectManager<A extends RenderableObject> extends RenderableObject {
-    
+public class PanelManager<A extends Panel> {
+
     private final List<A> list;
-    private final int listCapacity;
     
-   
-    public ObjectManager(int capacity) {
-        super(0,0,0,0);
+    public PanelManager() {
         list = new ArrayList<>();
-        listCapacity = capacity;
     }
-    public ObjectManager(float x, float y, int width, int height, int capacity) {
-        super(x,y,width,height);
-        list = new ArrayList<>();
-        listCapacity = capacity;
-    }
-    public ObjectManager(int width, int height, int capacity) {
-        super(0,0,width,height);
-        list = new ArrayList<>();
-        listCapacity = capacity;
-    }
-    
+
     public List<A> getCloneList() {
         return ImmutableList.copyOf(list);
     }
     
     public boolean addObject(A object) {
-        if(list.size() < listCapacity) {
-            list.add(object);
-            return true;
-        } 
-        return false;
-    }
+
+        list.add(object);
+        return true;
+    } 
     public boolean removeObject(A object) {
         return list.remove(object);
-    }
-    
+    }    
     public void tickList() {
-        getCloneList().forEach(object -> object.tick());
+        getCloneList().forEach(object -> {
+            if(object.delete) {
+                list.remove(object);
+            }
+            object.tick();
+        });
     }
     public void renderList(Graphics g) {
-        getCloneList().forEach(object -> object.render(g));
+        for(int i = 0; i < list.size(); i++) {
+            getCloneList().get(i).render(g);
+        }
     }
     public void onMouseMoveList(MouseEvent e) {
-        getCloneList().forEach(object -> object.onMouseMove(e));
+        for(int i = 0; i < list.size(); i++) {
+            A a = getCloneList().get(i);
+            a.onMouseMove(e, (int)a.x, (int)a.y);
+        }
     }
     public void onMouseReleaseList(MouseEvent e) {
         getCloneList().forEach(object -> object.onMouseRelease(e));
@@ -78,7 +71,6 @@ public abstract class ObjectManager<A extends RenderableObject> extends Renderab
     public int getSize() {
         return list.size();
     }
-        
     public void shuffleList() {
         Collections.shuffle(list);
     }
