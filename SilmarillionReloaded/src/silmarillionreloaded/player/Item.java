@@ -6,14 +6,18 @@
 package silmarillionreloaded.player;
 
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import silmarillionreloaded.RenderableObject;
+import renderableObjects.RenderableObject;
 
 /**
  *
  * @author Ferran
  */
 public class Item extends RenderableObject {
+    
+    public final static int ITEM_WIDTH = Inventory.INVENTORY_WIDTH / Inventory.COLUMNS;
+    public final static int ITEM_HEIGHT = Inventory.INVENTORY_HEIGHT / Inventory.ROWS ;
     
     private BufferedImage image;
     
@@ -26,12 +30,12 @@ public class Item extends RenderableObject {
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics g, float x, float y) {
         g.drawImage(image, (int)x, (int)y, width, height, null);
     }
 
     @Override
-    public void onClick() {
+    public void onClick(MouseEvent e) {
         System.out.println("Clicking item");
     }
 

@@ -8,8 +8,7 @@ package silmarillionreloaded.states;
 import java.awt.Graphics;
 import silmarillionreloaded.Application;
 import silmarillionreloaded.game.Game;
-import silmarillionreloaded.player.Player.RegularPlayer;
-import userInterface.UIManager;
+
 
 /**
  *

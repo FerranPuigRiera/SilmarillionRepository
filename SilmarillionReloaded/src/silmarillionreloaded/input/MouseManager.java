@@ -67,8 +67,9 @@ public class MouseManager implements MouseListener, MouseMotionListener {
             rightPressed = false;
         }
         if(game != null) {
-            game.getCurrentPlayer().onMouseRelease(me);
+            game.getCurrentPlayer().onMouseReleaseElements(me);
             game.getWorld().onMouseReleaseList(me);
+            game.getPanelManager().onMouseReleaseList(me);
         }
     }
 
@@ -90,10 +91,9 @@ public class MouseManager implements MouseListener, MouseMotionListener {
         mouseX = me.getX();
         mouseY = me.getY();
         if(game != null) {
-            if(game.getCurrentPlayer() != null){
-                game.getCurrentPlayer().onMouseMove(me);
-            }
+            game.getCurrentPlayer().onMouseMoveElements(me);
             game.getWorld().onMouseMoveList(me);
+            game.getPanelManager().onMouseMoveList(me);
         }
     }
     

@@ -6,10 +6,13 @@
 package silmarillionreloaded.pieces;
 
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
-import silmarillionreloaded.RenderableObject;
+import renderableObjects.Panel.PiecePanel;
+import renderableObjects.RenderableObject;
+import renderableObjects.TemporalPanel;
 import silmarillionreloaded.entity.actions.Caster;
 import silmarillionreloaded.entity.actions.Target;
 import silmarillionreloaded.game.Alliance;
@@ -23,6 +26,8 @@ import silmarillionreloaded.tiles.Tile;
  * @author Ferran
  */
 public class Piece extends RenderableObject implements Target,Caster {
+    
+    public static Piece SELECTED_PIECE;
     
     public static Piece createNewPiece(int index, Alliance alliance)  {
         if(PIECES_CACHE.size() > index) {
@@ -531,6 +536,7 @@ public class Piece extends RenderableObject implements Target,Caster {
     private final Alliance alliance;
     
     private Piece(Piece piece, Alliance alliance) {
+        super(Tile.TILE_WIDTH, Tile.TILE_HEIGHT);
         name = piece.name;
         health = piece.health;
         damage = piece.damage;
@@ -544,6 +550,7 @@ public class Piece extends RenderableObject implements Target,Caster {
     }
     
     private Piece(Builder builder) {
+        super(Tile.TILE_WIDTH, Tile.TILE_HEIGHT);
         name = builder.name;
         health = builder.health;
         damage = builder.damage;
@@ -568,8 +575,34 @@ public class Piece extends RenderableObject implements Target,Caster {
          
     }
 
+    public Stat getHealth() {
+        return health;
+    }
+
+    public Stat getDamage() {
+        return damage;
+    }
+
+    public Stat getArmor() {
+        return armor;
+    }
+
+    public Stat getElementalDamage() {
+        return elementalDamage;
+    }
+
+    public Stat getElementalArmor() {
+        return elementalArmor;
+    }
+
+    public Stat getMoves() {
+        return moves;
+    }
+
+    
+    
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics g, float x, float y) {
         g.drawImage(image, (int)x, (int)y, width, height, null);
     }
     
@@ -589,8 +622,13 @@ public class Piece extends RenderableObject implements Target,Caster {
    
     
     @Override
-    public void onClick() {
-        Game.showInfoPanel(this);
+    public void onClick(MouseEvent e) {
+        if(SELECTED_PIECE != this) {
+            SELECTED_PIECE = this;
+            Game.INSTANCE.getPanelManager().addObject(new TemporalPanel(new PiecePanel(this,e.getX(),e.getY(),200, 200),3000));
+        }
+        
+
     }
     @Override
     public boolean isPlayer() {
@@ -654,39 +692,48 @@ public class Piece extends RenderableObject implements Target,Caster {
             image = Assets.PIECE_0000;
         }
 
-        public void setName(String name) {
+        public Builder setName(String name) {
             this.name = name;
+            return this;
         }
 
-        public void setHealth(Stat health) {
+        public Builder setHealth(Stat health) {
             this.health = health;
+            return this;
         }
 
-        public void setDamage(Stat damage) {
+        public Builder setDamage(Stat damage) {
             this.damage = damage;
+            return this;
         }
 
-        public void setArmor(Stat armor) {
+        public Builder setArmor(Stat armor) {
             this.armor = armor;
+            return this;
         }
 
-        public void setElement(Element element) {
+        public Builder setElement(Element element) {
             this.element = element;
+            return this;
         }
 
-        public void setElementalDamage(Stat elementalDamage) {
+        public Builder setElementalDamage(Stat elementalDamage) {
             this.elementalDamage = elementalDamage;
+            return this;
         }
 
-        public void setElementalArmor(Stat elementalArmor) {
+        public Builder setElementalArmor(Stat elementalArmor) {
             this.elementalArmor = elementalArmor;
+            return this;
         }
 
-        public void setMoves(Stat moves) {
+        public Builder setMoves(Stat moves) {
             this.moves = moves;
+            return this;
         }
-        public void setImage(BufferedImage bi) {
+        public Builder setImage(BufferedImage bi) {
             this.image = bi;
+            return this;
         }
         
         public Piece build() {

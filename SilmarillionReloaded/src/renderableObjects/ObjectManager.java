@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package silmarillionreloaded;
+package renderableObjects;
 
 import com.google.common.collect.ImmutableList;
 import java.awt.Graphics;
@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 
 /**
  *
@@ -20,21 +21,23 @@ import java.util.List;
 public abstract class ObjectManager<A extends RenderableObject> extends RenderableObject {
     
     private final List<A> list;
-    private final int listCapacity;
+    protected final int listCapacity;
     
-   
-    public ObjectManager(int capacity) {
-        super(0,0,0,0);
-        list = new ArrayList<>();
-        listCapacity = capacity;
-    }
-    public ObjectManager(float x, float y, int width, int height, int capacity) {
-        super(x,y,width,height);
-        list = new ArrayList<>();
-        listCapacity = capacity;
-    }
-    public ObjectManager(int width, int height, int capacity) {
-        super(0,0,width,height);
+    protected final int columns;
+    
+    protected final float x;
+    protected final float y;
+    protected final int objectWidth;
+    protected final int objectHeight;
+
+    
+    public ObjectManager(float x, float y, int width, int height,int columns, int objectWidth, int objectHeight, int capacity) {
+        super(width,height);
+        this.x = x;
+        this.y = y;
+        this.columns = columns;
+        this.objectWidth = objectWidth;
+        this.objectHeight = objectHeight;
         list = new ArrayList<>();
         listCapacity = capacity;
     }
@@ -52,16 +55,26 @@ public abstract class ObjectManager<A extends RenderableObject> extends Renderab
     }
     public boolean removeObject(A object) {
         return list.remove(object);
-    }
-    
+    }    
     public void tickList() {
-        getCloneList().forEach(object -> object.tick());
+        getCloneList().forEach(object -> {
+            if(object.delete) {
+                list.remove(object);
+            }
+            object.tick();
+        });
     }
     public void renderList(Graphics g) {
-        getCloneList().forEach(object -> object.render(g));
+        if(showList()) {
+            for(int i = 0; i < list.size(); i++) {
+                getCloneList().get(i).render(g, x + (i % columns)*objectWidth, y + (i / columns)*objectHeight);
+            }
+        }
     }
     public void onMouseMoveList(MouseEvent e) {
-        getCloneList().forEach(object -> object.onMouseMove(e));
+        for(int i = 0; i < list.size(); i++) {
+            getCloneList().get(i).onMouseMove(e, (int)x + (i % columns)*objectWidth, (int)y + (i / columns)*objectHeight);
+        }
     }
     public void onMouseReleaseList(MouseEvent e) {
         getCloneList().forEach(object -> object.onMouseRelease(e));
@@ -78,9 +91,10 @@ public abstract class ObjectManager<A extends RenderableObject> extends Renderab
     public int getSize() {
         return list.size();
     }
-        
     public void shuffleList() {
         Collections.shuffle(list);
     }
+    
+    public abstract boolean showList();
     
 }

@@ -7,7 +7,6 @@ package silmarillionreloaded.states;
 
 import java.awt.Graphics;
 import silmarillionreloaded.Application;
-import userInterface.UIManager;
 
 /**
  *

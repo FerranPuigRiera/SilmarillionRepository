@@ -32,12 +32,8 @@ public class Settings {
         player1.drawCard();
         player1.drawCard();
         player1.drawCard();
-        player1.drawCard();
-        player1.drawCard();
-            
-        
         PLAYERS.add(player1);
-        WORLD = new World(game);
+        WORLD = new World();
     }
     
     
