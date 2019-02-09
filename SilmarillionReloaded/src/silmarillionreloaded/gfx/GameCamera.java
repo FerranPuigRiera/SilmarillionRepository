@@ -6,7 +6,9 @@
 package silmarillionreloaded.gfx;
 
 import silmarillionreloaded.Application;
+import silmarillionreloaded.game.Game;
 import silmarillionreloaded.pieces.Piece;
+import silmarillionreloaded.tiles.Tile;
 
 /**
  *
@@ -21,9 +23,14 @@ public class GameCamera {
         this.yOffset = yOffset;
     }
 
-    public void centerOnEntity(Piece e) {
-       // xOffset = e.getX() - Application.FRAME_WIDTH / 2 + e.getWidth() / 2;
-        //yOffset = e.getY() - Application.FRAME_HEIGHT / 2 + e.getHeight() / 2; 
+    public void centerOnPiece(Piece e) {
+        
+        
+        Tile tile = Game.INSTANCE.getWorld().findTilesPieceOnWorld(e);
+        xOffset = -tile.getCoordinate_x()*Tile.TILE_WIDTH + Application.FRAME_WIDTH / 2 - e.getWidth() / 2;
+        yOffset = -tile.getCoordinate_y()*Tile.TILE_HEIGHT + Application.FRAME_HEIGHT / 2 - e.getHeight() / 2;
+        //xOffset = tile.getCoordinate_x()*Tile.TILE_WIDTH - Application.FRAME_WIDTH / 2 + e.getWidth() / 2;
+        //yOffset = tile.getCoordinate_y()*Tile.TILE_HEIGHT - Application.FRAME_HEIGHT / 2 + e.getHeight() / 2; 
     }
     
     public void move(float xAmt, float yAmt) {

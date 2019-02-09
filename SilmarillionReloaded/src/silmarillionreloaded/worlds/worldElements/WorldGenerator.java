@@ -77,12 +77,13 @@ public class WorldGenerator {
         Random random = new Random();
         
         TallYellowBush bush = new TallYellowBush(2,3,1,5,2);
+        GrassLake lake = new GrassLake(10,7,1,5,4);
         //TallYellowBush bush2 = new TallYellowBush(7,5,1,3,4);
         
         //bush.fusionWith(bush2, 4, 6);
         
         addWorldElement(bush);
-        
+        addWorldElement(lake);
     }
     
     

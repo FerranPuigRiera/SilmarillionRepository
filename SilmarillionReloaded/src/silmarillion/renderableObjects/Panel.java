@@ -35,6 +35,29 @@ public abstract class Panel<A extends RenderableObject>  {
         this.width = width;
         this.height = height;
     }
+
+    public float getX() {
+        return x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public boolean isHovering() {
+        return hovering;
+    }
+    
+    
+    
     
     public abstract void tick();
     public abstract void render(Graphics g);
@@ -48,7 +71,7 @@ public abstract class Panel<A extends RenderableObject>  {
             onClick(e);
         }
     }
-    public abstract class NormalPanel extends Panel {
+    public static abstract class NormalPanel extends Panel {
         
         public NormalPanel(float x, float y, int width, int height) {
             super(null,x,y, width, height);
@@ -83,7 +106,7 @@ public abstract class Panel<A extends RenderableObject>  {
             g.drawString("Elemental damage : "+piece.getElementalDamage(), (int)x + 10, (int)y + 120);
             g.drawString("Armor : "+piece.getArmor(), (int)x + 10, (int)y + 140);
             g.drawString("Elemental armor : "+piece.getElementalArmor(), (int)x + 10, (int)y + 160);
-            g.drawString("Moves : "+piece.getMoves(), (int)x + 10, (int)y + 180);     
+            g.drawString("Moves : "+piece.getAvailableMoves(), (int)x + 10, (int)y + 180);     
             
             g.drawRect((int) x, (int)y, width, height);
         }

@@ -5,29 +5,29 @@
  */
 package silmarillionreloaded.player;
 
-import com.google.common.collect.ImmutableList;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import silmarillion.renderableObjects.Panel.ItemPanel;
 import silmarillion.renderableObjects.RenderableObject;
 import silmarillion.renderableObjects.TemporalPanel;
 import silmarillionreloaded.game.Game;
+import silmarillionreloaded.game.ObjectSelected;
 import silmarillionreloaded.gfx.Assets;
+import silmarillionreloaded.pieces.Piece;
 import silmarillionreloaded.pieces.PieceModifier;
 
 /**
  *
  * @author Ferran
  */
-public class Item extends RenderableObject implements PieceModifier {
-    
+public class Item extends RenderableObject implements PieceModifier,ObjectSelected {
+
     public final static int ITEM_WIDTH = Inventory.INVENTORY_WIDTH / Inventory.COLUMNS;
     public final static int ITEM_HEIGHT = Inventory.INVENTORY_HEIGHT / Inventory.ROWS ;
     
@@ -36,21 +36,118 @@ public class Item extends RenderableObject implements PieceModifier {
     public static Item getNewRandomItemOrNot() {
         
         Random random = new Random();
-        List<Item> allItems = ImmutableList.copyOf(ITEMS_CACHE);
+        List<Item> allItems = ITEMS_CACHE;
         Collections.shuffle(allItems);
         for(Item item : allItems) {
             if(item.proc > random.nextFloat()*100) {
-                return item;
+                return new Item(item);
             }
         }
         return null;
     }
     
-    public static Item MAP, GREAT_AXE, AXE, HAMMER, GREAT_SHIELD, SHIELD, 
+    private static Item MAP, GREAT_AXE, AXE, HAMMER, GREAT_SHIELD, SHIELD, 
                         PERGAMIN, STAFF, BAG, GREAT_DOUBLE_AXE, DOUBLE_AXE, 
                         CHEST, BOW, WOODEN_SWORD, TOOLS, GREAT_SWORD, SWORD, 
                         HELM, HEART, BOOK, GREEN_GEM, BLUE_GEM, 
                         RED_GEM, GREEN_POTION, BLUE_POTION, RED_POTION;
+
+
+    public static Item createNewMAP() {
+        return new Item(MAP);
+    }
+
+    public static Item createNewGREAT_AXE() {
+        return new Item(GREAT_AXE);
+    }
+
+    public static Item createNewAXE() {
+        return new Item(AXE);
+    }
+
+    public static Item createNewHAMMER() {
+        return new Item(HAMMER);
+    }
+
+    public static Item createNewGREAT_SHIELD() {
+        return new Item(GREAT_SHIELD);
+    }
+
+    public static Item createNewSHIELD() {
+        return new Item(SHIELD);
+    }
+
+    public static Item createNewPERGAMIN() {
+        return new Item(PERGAMIN);
+    }
+
+    public static Item createNewSTAFF() {
+        return new Item(STAFF);
+    }
+
+    public static Item createNewBAG() {
+        return new Item(BAG);
+    }
+
+    public static Item createNewGREAT_DOUBLE_AXE() {
+        return new Item(GREAT_DOUBLE_AXE);
+    }
+
+    public static Item createNewDOUBLE_AXE() {
+        return new Item(DOUBLE_AXE);
+    }
+
+    public static Item createNewCHEST() {
+        return new Item(CHEST);
+    }
+
+    public static Item createNewBOW() {
+        return new Item(BOW);
+    }
+
+    public static Item createNewWOODEN_SWORD() {
+        return new Item(WOODEN_SWORD);
+    }
+
+    public static Item createNewGREAT_SWORD() {
+        return new Item(GREAT_SWORD);
+    }
+
+    public static Item createNewHELM() {
+        return new Item(HELM);
+    }
+
+    public static Item createNewHEART() {
+        return new Item(HEART);
+    }
+
+    public static Item createNewBOOK() {
+        return new Item(BOOK);
+    }
+
+    public static Item createNewGREEN_GEM() {
+        return new Item(GREEN_GEM);
+    }
+
+    public static Item createNewBLUE_GEM() {
+        return new Item(BLUE_GEM);
+    }
+
+    public static Item createNewRED_GEM() {
+        return new Item(RED_GEM);
+    }
+
+    public static Item createNewGREEN_POTION() {
+        return new Item(GREEN_POTION);
+    }
+
+    public static Item createNewBLUE_POTION() {
+        return new Item(BLUE_POTION);
+    }
+
+    public static Item createNewRED_POTION() {
+        return new Item(RED_POTION);
+    }
     
     public static void init() {
         Builder builder = new Builder();
@@ -292,10 +389,16 @@ public class Item extends RenderableObject implements PieceModifier {
     @Override
     public void render(Graphics g, float x, float y) {
         g.drawImage(image, (int)x, (int)y, width, height, null);
+        if(this.equals(Game.INSTANCE.selectedObject)) {
+            g.setColor(Color.green);
+            g.drawRect((int)x, (int)y, width - 1, height - 1);
+        }
+        
     }
 
     @Override
     public void onClick(MouseEvent e) {
+        Game.INSTANCE.selectedObject = this;
         Game.INSTANCE.getPanelManager().addObject(new TemporalPanel(new ItemPanel(this,(int)e.getX(),(int)e.getY(),180,60),1500));
     }
 
@@ -327,6 +430,36 @@ public class Item extends RenderableObject implements PieceModifier {
     @Override
     public int moddifyMoves() {
         return movesMod;
+    }
+
+    @Override
+    public boolean isCard() {
+        return false;
+    }
+
+    @Override
+    public boolean isPiece() {
+        return false;
+    }
+
+    @Override
+    public boolean isItem() {
+        return true;
+    }
+
+    @Override
+    public Card getCard() {
+        return null;
+    }
+
+    @Override
+    public Item getItem() {
+        return this;
+    }
+
+    @Override
+    public Piece getPiece() {
+        return null;
     }
     
     

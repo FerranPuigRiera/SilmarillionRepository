@@ -44,8 +44,8 @@ public class Application implements Runnable{
     private MenuState menuState;
     
     //Input
-    private final KeyManager keyManager;
-    private final MouseManager mouseManager;
+    public final static KeyManager KEY_MANAGER = new KeyManager();
+    public final static MouseManager MOUSE_MANAGER = new MouseManager();;
 
     //Game game
     
@@ -53,8 +53,6 @@ public class Application implements Runnable{
     
     
     public Application(){
-        keyManager = new KeyManager();
-        mouseManager = new MouseManager();
         INSTANCE = this;
     }
     
@@ -68,11 +66,11 @@ public class Application implements Runnable{
     
     private void init() {
         display = new Display(FRAME_TITLE, FRAME_WIDTH, FRAME_HEIGHT);
-        display.getFrame().addKeyListener(keyManager);
-        display.getFrame().addMouseListener(mouseManager);
-        display.getFrame().addMouseMotionListener(mouseManager);
-        display.getCanvas().addMouseListener(mouseManager);
-        display.getCanvas().addMouseMotionListener(mouseManager);
+        display.getFrame().addKeyListener(KEY_MANAGER);
+        display.getFrame().addMouseListener(MOUSE_MANAGER);
+        display.getFrame().addMouseMotionListener(MOUSE_MANAGER);
+        display.getCanvas().addMouseListener(MOUSE_MANAGER);
+        display.getCanvas().addMouseMotionListener(MOUSE_MANAGER);
         Assets.init();
         
         gameState = new GameState(this);
@@ -158,12 +156,5 @@ public class Application implements Runnable{
         }
     }
     
-    public KeyManager getKeyManager() {
-        return keyManager;
-    }
-    
-    public MouseManager getMouseManager() {
-        return mouseManager;
-    }
     
 }

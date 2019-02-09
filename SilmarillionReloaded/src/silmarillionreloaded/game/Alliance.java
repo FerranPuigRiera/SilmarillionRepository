@@ -5,12 +5,61 @@
  */
 package silmarillionreloaded.game;
 
+import java.awt.Color;
+
 /**
  *
  * @author Ferran
  */
 public enum Alliance {
     
-    NULL, ALLIANCE_1, ALLIANCE_2, ALLIANCE_3, ALLIANCE_4, ALLIANCE_5, ALLIANCE_6, ALLIANCE_7, ALLIANCE_8;
+    NULL {
+        @Override
+        public Color getRenderColor() {
+            return Color.BLACK;
+        }
+    }, ALLIANCE_1 {
+        @Override
+        public Color getRenderColor() {
+            return Color.BLUE;
+        }
+    }, ALLIANCE_2 {
+        @Override
+        public Color getRenderColor() {
+            return Color.RED;
+        }
+    }, ALLIANCE_3 {
+        @Override
+        public Color getRenderColor() {
+            return Color.CYAN;
+        }
+    }, ALLIANCE_4 {
+        @Override
+        public Color getRenderColor() {
+            return Color.MAGENTA;
+        }
+    }, ALLIANCE_5 {
+        @Override
+        public Color getRenderColor() {
+            return Color.ORANGE;
+        }
+    }, ALLIANCE_6 {
+        @Override
+        public Color getRenderColor() {
+            return Color.YELLOW;
+        }
+    }, ALLIANCE_7 {
+        @Override
+        public Color getRenderColor() {
+            return Color.GRAY;
+        }
+    }, ALLIANCE_8 {
+        @Override
+        public Color getRenderColor() {
+            return Color.PINK;
+        }
+    };
+    
+    public abstract Color getRenderColor();
     
 }

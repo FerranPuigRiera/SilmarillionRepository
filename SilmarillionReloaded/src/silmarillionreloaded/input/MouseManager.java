@@ -47,9 +47,9 @@ public class MouseManager implements MouseListener, MouseMotionListener {
     
     @Override
     public void mouseClicked(MouseEvent me) {
-        if(me.getButton() == MouseEvent.BUTTON1) {
+        if(me.getButton() == MouseEvent.BUTTON3) {
             leftPressed = true;
-        } else if(me.getButton() == MouseEvent.BUTTON3) {
+        } else if(me.getButton() == MouseEvent.BUTTON1) {
             rightPressed = true;
         }     
     }
@@ -61,15 +61,17 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseReleased(MouseEvent me) {
-        if(me.getButton() == MouseEvent.BUTTON1) {
+        if(me.getButton() == MouseEvent.BUTTON3) {
             leftPressed = false;
-        } else if(me.getButton() == MouseEvent.BUTTON3) {
+        } else if(me.getButton() == MouseEvent.BUTTON1) {
             rightPressed = false;
         }
         if(game != null) {
             game.getCurrentPlayer().onMouseReleaseElements(me);
             game.getWorld().onMouseReleaseList(me);
             game.getPanelManager().onMouseReleaseList(me);
+            game.getEndTurnButton().onMouseRelease(me);
+            game.getCollectButton().onMouseRelease(me);
         }
     }
 
@@ -94,6 +96,8 @@ public class MouseManager implements MouseListener, MouseMotionListener {
             game.getCurrentPlayer().onMouseMoveElements(me);
             game.getWorld().onMouseMoveList(me);
             game.getPanelManager().onMouseMoveList(me);
+            game.getEndTurnButton().onMouseMove(me, 1500, 800);
+            game.getCollectButton().onMouseMove(me, 1500, 700);
         }
     }
     

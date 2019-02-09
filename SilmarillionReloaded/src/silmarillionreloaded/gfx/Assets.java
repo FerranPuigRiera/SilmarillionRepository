@@ -30,11 +30,15 @@ public class Assets {
                                            CARD_0031, CARD_0032, CARD_0033, CARD_0034, CARD_0035, CARD_0036, CARD_0037, CARD_0038, CARD_0039, CARD_0040,
                                            CARD_0041, CARD_0042;
     
-    public static BufferedImage MAP, GREAT_AXE, AXE, HAMMER, GREAT_SHIELD, SHIELD, 
+    public static BufferedImage TREASURE, MAP, GREAT_AXE, AXE, HAMMER, GREAT_SHIELD, SHIELD, 
                                 PERGAMIN, STAFF, BAG, GREAT_DOUBLE_AXE, DOUBLE_AXE, 
                                 CHEST, BOW, WOODEN_SWORD, TOOLS, GREAT_SWORD, SWORD, 
                                 HELM, HEART, CROSS, BOOK, COIN, GREEN_GEM, BLUE_GEM, 
                                 RED_GEM, GREEN_POTION, BLUE_POTION, RED_POTION, MAIL;
+    
+    public static BufferedImage GAME_BACKGROUND_1;
+    
+    public static BufferedImage END_TURN_B, END_TURN_H, COLLECT_B, COLLECT_H;
     public static void init() {
         
         //SpriteSheet baseOutAtlas = new SpriteSheet(ImageLoader.loadImage("/terrain/base_out_atlas.png/"),32,32);
@@ -156,6 +160,8 @@ public class Assets {
         CARD_0042 = ImageLoader.loadImage("/cards/CARD_0042.gif");
         
         
+        TREASURE = ImageLoader.loadImage("/items/chest.png");
+        
         SpriteSheet items = new SpriteSheet(ImageLoader.loadImage("/items/items.png"),6,5);
         
         MAP = items.getSubImage(0, 0);
@@ -187,6 +193,14 @@ public class Assets {
         BLUE_POTION = items.getSubImage(2, 4);
         RED_POTION = items.getSubImage(3, 4);
         MAIL = items.getSubImage(4, 4);
+        
+        
+        END_TURN_B = ImageLoader.loadImage("/buttons/EndTurnB.png");
+        COLLECT_B = ImageLoader.loadImage("/buttons/CollectB.png");
+        END_TURN_H = ImageLoader.loadImage("/buttons/EndTurnH.png");
+        COLLECT_H = ImageLoader.loadImage("/buttons/CollectH.png");
+        
+        GAME_BACKGROUND_1 = ImageLoader.loadImage("/backgrounds/GameBackground1.jpg");
         
     }
     

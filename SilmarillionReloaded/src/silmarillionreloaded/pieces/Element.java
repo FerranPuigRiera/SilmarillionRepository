@@ -15,92 +15,90 @@ import java.util.List;
 public enum Element {
     NULL {
         @Override
-        public List<Element> isWeakTo() {
-            List<Element> list = new ArrayList<>();
-            return list;
+        public Element isWeakTo() {
+            return Element.NULL;
         }
 
         @Override
-        public List<Element> isResistantTo() {
-            List<Element> list = new ArrayList<>();
-            return list;
+        public Element isResistantTo() {
+            return Element.NULL;
         }
     },WIND {
         @Override
-        public List<Element> isWeakTo() {
-            List<Element> list = new ArrayList<>();
-            return list;
+        public Element isWeakTo() {
+            return Element.NULL;
+            
         }
 
         @Override
-        public List<Element> isResistantTo() {
-            List<Element> list = new ArrayList<>();
-            return list;
+        public Element isResistantTo() {
+            return Element.NULL;
+            
         }
     } , WATER {
         @Override
-        public List<Element> isWeakTo() {
-            List<Element> list = new ArrayList<>();
-            return list;
+        public Element isWeakTo() {
+            return Element.NULL;
+            
         }
 
         @Override
-        public List<Element> isResistantTo() {
-            List<Element> list = new ArrayList<>();
-            return list;
+        public Element isResistantTo() {
+            return Element.NULL;
+            
         }
     } , FIRE {
         @Override
-        public List<Element> isWeakTo() {
-            List<Element> list = new ArrayList<>();
-            return list;
+        public Element isWeakTo() {
+            return Element.NULL;
+            
         }
 
         @Override
-        public List<Element> isResistantTo() {
-            List<Element> list = new ArrayList<>();
-            return list;
+        public Element isResistantTo() {
+            return Element.NULL;
+            
         }
     }, SHADOW {
         @Override
-        public List<Element> isWeakTo() {
-            List<Element> list = new ArrayList<>();
-            return list;
+        public Element isWeakTo() {
+            return Element.NULL;
+            
         }
 
         @Override
-        public List<Element> isResistantTo() {
-            List<Element> list = new ArrayList<>();
-            return list;
+        public Element isResistantTo() {
+            return Element.NULL;
+            
         }
     } , EARTH {
         @Override
-        public List<Element> isWeakTo() {
-            List<Element> list = new ArrayList<>();
-            return list;
+        public Element isWeakTo() {
+            return Element.NULL;
+            
         }
 
         @Override
-        public List<Element> isResistantTo() {
-            List<Element> list = new ArrayList<>();
-            return list;
+        public Element isResistantTo() {
+            return Element.NULL;
+            
         }
     } , NATURE {
         @Override
-        public List<Element> isWeakTo() {
-            List<Element> list = new ArrayList<>();
-            return list;
+        public Element isWeakTo() {
+            return Element.NULL;
+            
         }
 
         @Override
-        public List<Element> isResistantTo() {
-            List<Element> list = new ArrayList<>();
-            return list;
+        public Element isResistantTo() {
+            return Element.NULL;
+            
         }
     } ;
     
-    public abstract List<Element> isWeakTo();
-    public abstract List<Element> isResistantTo();
+    public abstract Element isWeakTo();
+    public abstract Element isResistantTo();
     
     
 }

@@ -8,6 +8,7 @@ package silmarillionreloaded.player;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
+import java.util.Set;
 import silmarillion.renderableObjects.RenderableObject;
 import silmarillionreloaded.pieces.Piece;
 import silmarillionreloaded.pieces.Piece.King;
@@ -34,7 +35,7 @@ public abstract class Player extends RenderableObject implements Target, Caster{
     protected final String name;
     protected final Alliance alliance;
     protected final Vision vision;
-    protected final DeployTiles deployTiles;
+    
     
     public Player(Game game, String name, Alliance alliance) {
         super(PLAYER_WIDTH,PLAYER_HEIGHT);
@@ -42,7 +43,15 @@ public abstract class Player extends RenderableObject implements Target, Caster{
         this.name = name;
         this.alliance = alliance;
         this.vision = new Vision();
-        this.deployTiles = new DeployTiles();
+    }
+    
+    
+    public Alliance getAlliance() {
+        return alliance;
+    }
+    
+    public Vision getVision(){
+        return vision;
     }
     
     public abstract void onMouseMoveElements(MouseEvent e);
@@ -86,6 +95,7 @@ public abstract class Player extends RenderableObject implements Target, Caster{
         private final Hand hand;
         private final Inventory inventory;
         private final King king;
+        protected final DeployTiles deployTiles;
         private int valor;
         
         public RegularPlayer(Game game, String name, Alliance alliance, Deck deck, King king) {
@@ -94,14 +104,32 @@ public abstract class Player extends RenderableObject implements Target, Caster{
             this.hand = new Hand();
             this.inventory = new Inventory();
             this.king = king;
-            valor = Settings.INITIAL_VALOR_FOR_PLAYER;
+            deployTiles = new DeployTiles();
         }
 
+        
+        public void initDeployCoordinates() {
+            Tile kingsTile = Game.INSTANCE.getWorld().findTilesPieceOnWorld(king);
+            deployTiles.addTile(kingsTile);
+            Set<Tile> tilesAround = Game.INSTANCE.getWorld().getTilesAround(kingsTile);
+            tilesAround.forEach((tile) -> {
+                deployTiles.addTile(tile);
+            });
+            valor = Settings.INITIAL_VALOR_FOR_PLAYER;
+        }
+        
         public Hand getHand() {
             return hand;
         }
         public Deck getDeck() {
             return deck;
+        }
+        public King getKing() {
+            return king;
+        }
+        
+        public DeployTiles getDeployTiles() {
+            return deployTiles;
         }
         
         public Inventory getInventory() {
@@ -126,30 +154,7 @@ public abstract class Player extends RenderableObject implements Target, Caster{
             }
             return false;
         }
-        public void endTurn() {
-            game.endTurn();
-        }
-        public void movePiece(Piece piece, Tile tile) {
-            
-        }
-        public void usePieceSpell() {
-            
-        }
-        public boolean useCard(Card card, Target target) {
-            if(hand.contains(card)) {
-                if(valor >= card.cost) {
-                    
-                }
-            }
-            return false;
-        }
-        public void useItem() {
-            
-        }
-        public void collectItem() {
-            
-        }
-        
+
         @Override
         public boolean isRegularPlayer() {
             return true;

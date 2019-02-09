@@ -6,13 +6,14 @@
 package silmarillionreloaded.worlds;
 
 import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
-import java.util.Random;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Set;
 import silmarillion.renderableObjects.ObjectManager;
-import silmarillionreloaded.Application;
-import silmarillionreloaded.game.Game;
-import silmarillionreloaded.input.MouseManager;
 import silmarillionreloaded.pieces.Piece;
 import silmarillionreloaded.player.Item;
 import silmarillionreloaded.tiles.Tile;
@@ -23,22 +24,30 @@ import silmarillionreloaded.worlds.worldElements.WorldGenerator;
  *
  * @author Ferran
  */
-public class World extends ObjectManager<Tile>{
+public final class World extends ObjectManager<Tile>{
     
     public static final int NUMBER_COLUMNS = 55;
     public static final int NUMBER_ROWS = 30;
     
     
 
-    private final int columns, rows;
+    private final int rows;
 
     public World() {
         super(0,0,NUMBER_COLUMNS*Tile.TILE_WIDTH,NUMBER_ROWS*Tile.TILE_HEIGHT, NUMBER_COLUMNS, Tile.TILE_WIDTH, Tile.TILE_HEIGHT, NUMBER_COLUMNS*NUMBER_ROWS);     
-        columns = NUMBER_COLUMNS;
         rows = NUMBER_ROWS;
         WorldGenerator generator = new WorldGenerator(this);
         generator.getGeneratedWorld().forEach(tile -> addObject(tile));
         getCloneList().forEach(tile -> tile.setItem(Item.getNewRandomItemOrNot()));
+    }
+    
+    public Tile findTilesPieceOnWorld(final Piece piece) {
+        for(Tile tile : getCloneList()) {
+            if(tile.isTileOccupied() && tile.getPiece().equals(piece)) {
+                return tile;
+            }
+        }
+        throw new RuntimeException("Piece not found!");
     }
     
     public int getColumns() {
@@ -53,6 +62,13 @@ public class World extends ObjectManager<Tile>{
         return y*NUMBER_COLUMNS + x;
     }
     
+    public Tile getTile(int coordinate) {
+        return getCloneList().get(coordinate);
+    }
+    public Tile getTile(int x_coordinate, int y_coordinate) {
+        return getCloneList().get(y_coordinate*columns + x_coordinate);
+    }
+    
     
     public void onMouseMoveTiles(MouseEvent e) {
         
@@ -63,42 +79,47 @@ public class World extends ObjectManager<Tile>{
         getCloneList().forEach(tile -> tile.onMouseMove(e, 0, 0));
     }
     
-    public Tile[][] getTilesAround(Tile[][] board, int x, int y) {
-        Tile[][] tilesAround = new Tile[3][3];
-        
-        for(int i = -1; i <= 1; i++) {
-            for(int j = -1; j <= 1; j++) {
-                if(x + i > 0 && x + i < columns && y + j > 0 && y + j < rows && !(i == 0 && j == 0)) {
-                    tilesAround[i+1][j+1] = board[x+i][y+j];  
-                } else {
-                    tilesAround[i+1][j+1] = null;
-                }   
-            }
+    public Set<Tile> getTilesAround(Tile tile) {
+        if(tile == null) {
+            throw new RuntimeException("Null Tile");
         }
+        Set<Tile> tilesAround = new LinkedHashSet<>();
+        
+        int coord_x = tile.getCoordinate_x();
+        int coord_y = tile.getCoordinate_y();
+       
+        if(coord_x + 1 < columns)tilesAround.add(getTile(coord_x + 1, coord_y));
+        if(coord_y + 1 < rows )tilesAround.add(getTile(coord_x, coord_y + 1));
+        if(coord_x - 1 >= 0)tilesAround.add(getTile(coord_x - 1, coord_y));
+        if(coord_y - 1 >= 0)tilesAround.add(getTile(coord_x, coord_y - 1));
+        if(coord_x + 1 < columns && coord_y + 1 < rows)tilesAround.add(getTile(coord_x + 1, coord_y + 1));
+        if(coord_x - 1 >= 0 && coord_y + 1 < rows )tilesAround.add(getTile(coord_x - 1, coord_y + 1));
+        if(coord_x + 1 < columns && coord_y - 1 >= 0)tilesAround.add(getTile(coord_x + 1, coord_y - 1));
+        if(coord_x - 1 >= 0 && coord_y - 1 >= 0)tilesAround.add(getTile(coord_x - 1, coord_y - 1));
         return tilesAround;
     } 
     
+    public Map<Tile,Float> getTilesAroundDistances(final Tile tile) {
+        HashMap<Tile, Float> map = new HashMap<>();
+        if(tile == null) {
+            throw new RuntimeException("Null tile 2");
+        }
+        getTilesAround(tile).stream().filter(tileAround -> tileAround != null).forEach(tileAround -> {
+            if(tileAround.isTileOccupied()) {
+                map.put(tileAround, 100000f);
+            } else if(tile.getCoordinate_x() == tileAround.getCoordinate_x() || tile.getCoordinate_y() == tileAround.getCoordinate_y()) {
+                map.put(tileAround, (float)tileAround.getTextureOnTop().movementCost());
+            } else {
+                map.put(tileAround, (float) (tileAround.getTextureOnTop().movementCost()*Math.sqrt(2)));
+            }
+            
+        });
+        return map;
+    }
+    
     @Override
     public void tick() {
-        Rectangle outerRect = new Rectangle(0,0,width,height);
-        Rectangle innerRect = new Rectangle(width/4,height/4,width/2,height/2);
-        MouseManager mm = Application.INSTANCE.getMouseManager();
-        if(outerRect.contains(mm.getMouseX(), mm.getMouseY()) && 
-           !innerRect.contains(mm.getMouseX(),mm.getMouseY())) {
-            
-            if(mm.getMouseX() < innerRect.x) {
-                Game.INSTANCE.getGameCamera().move(-1, 0);
-            } else if(mm.getMouseX() > innerRect.x + innerRect.width) {
-                Game.INSTANCE.getGameCamera().move(1, 0);
-            }
-            if(mm.getMouseY() < innerRect.y) {
-                Game.INSTANCE.getGameCamera().move(0, -1);
-            } else if(mm.getMouseY() > innerRect.y + innerRect.height) {
-                Game.INSTANCE.getGameCamera().move(0, 1);
-            }
-            
-            
-        }
+        
     }
 
     @Override
@@ -108,11 +129,64 @@ public class World extends ObjectManager<Tile>{
 
     @Override
     public void onClick(MouseEvent e) {
-        System.out.println("Click on world");
     }
 
     @Override
     public boolean showList() {
         return true;
     }
+    
+    
+    public void calculateShortestPathFromSource(final Tile source) {
+        source.setDistance(0);
+        
+        Set<Tile> settledNodes = new HashSet<>();
+        Set<Tile> unsettledNodes = new HashSet<>();
+        
+        unsettledNodes.add(source);
+        
+        while(unsettledNodes.size() > 0) {
+            Tile currentNode = getLowestDistanceNode(unsettledNodes);
+            unsettledNodes.remove(currentNode);
+            if(currentNode == null) {
+                break;
+            }
+            getTilesAroundDistances(currentNode).entrySet().forEach(pair -> {
+                Tile adjacentNode = pair.getKey();
+                float edgeWeight = pair.getValue();
+                if (!settledNodes.contains(adjacentNode)) {
+                    calculateMinimumDistance(adjacentNode, edgeWeight, currentNode);
+                    unsettledNodes.add(adjacentNode);
+                }    
+            
+            });
+            settledNodes.add(currentNode);
+        }
+        
+    }
+    
+    private Tile getLowestDistanceNode(Set<Tile> unsettledNodes) {
+        Tile lowestDistanceNode = null;
+        float lowestDistance = Integer.MAX_VALUE;
+        for(Tile node : unsettledNodes) {
+            float nodeDistance = node.getDistance();
+            if(nodeDistance < lowestDistance) {
+                lowestDistance = nodeDistance;
+                lowestDistanceNode = node;
+            }
+        }
+        return lowestDistanceNode;
+    }
+    
+    
+    private void calculateMinimumDistance(Tile evaluationNode, float edgeWeigh, Tile sourceNode) {
+        float sourceDistance = sourceNode.getDistance();
+        if(sourceDistance + (int)edgeWeigh < evaluationNode.getDistance()) {
+            evaluationNode.setDistance(sourceDistance + edgeWeigh);
+            LinkedList<Tile> shortestPath = new LinkedList<>(sourceNode.getShortestPath());
+            shortestPath.add(sourceNode);
+            evaluationNode.setShortestPath(shortestPath);
+        }   
+    }
+    
 }

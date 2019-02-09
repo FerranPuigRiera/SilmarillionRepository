@@ -37,18 +37,13 @@ public class Settings {
         player1.drawCard();
         player1.drawCard();
         player1.drawCard();
-        player1.getInventory().addObject(Item.CHEST);
-        player1.getInventory().addObject(Item.WOODEN_SWORD);
-        player1.getInventory().addObject(Item.AXE);
-        player1.getInventory().addObject(Item.BAG);
-        player1.getInventory().addObject(Item.AXE);
-        player1.getInventory().addObject(Item.BOW);
-        player1.getInventory().addObject(Item.BOOK);
-        player1.getInventory().addObject(Item.AXE);
-        player1.getInventory().addObject(Item.BLUE_POTION);
-        player1.getInventory().addObject(Item.STAFF);
-        player1.getInventory().addObject(Item.GREAT_SHIELD);
-        player1.getInventory().addObject(Item.BLUE_POTION);
+        player1.getInventory().addObject(Item.createNewAXE());
+        player1.getInventory().addObject(Item.createNewAXE());
+        player1.getInventory().addObject(Item.createNewBLUE_POTION());
+        player1.getInventory().addObject(Item.createNewCHEST());
+        player1.getInventory().addObject(Item.createNewAXE());
+        player1.getInventory().addObject(Item.createNewHEART());
+
         PLAYERS.add(player1);
         int kingSpawn1 = random.nextInt(WORLD.getColumns()*WORLD.getRows());
         WORLD.get(kingSpawn1).setPiece(king1);

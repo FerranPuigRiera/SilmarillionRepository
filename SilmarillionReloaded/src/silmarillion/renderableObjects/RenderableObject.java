@@ -55,10 +55,12 @@ public abstract class RenderableObject {
     }
     public void onMouseRelease(MouseEvent e) {
         if(hovering) {
-            System.out.println("Clicking!");
             onClick(e);
         }
     }
     public abstract void onClick(MouseEvent e);
+    public boolean isHovering() {
+        return hovering;
+    }
     
 }

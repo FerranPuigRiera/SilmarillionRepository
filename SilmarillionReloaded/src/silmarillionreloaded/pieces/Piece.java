@@ -5,30 +5,46 @@
  */
 package silmarillionreloaded.pieces;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import silmarillion.renderableObjects.Panel.PiecePanel;
 import silmarillion.renderableObjects.RenderableObject;
 import silmarillion.renderableObjects.TemporalPanel;
+import silmarillionreloaded.Application;
 import silmarillionreloaded.actions.Caster;
+import silmarillionreloaded.actions.PlayableAction;
 import silmarillionreloaded.actions.Target;
 import silmarillionreloaded.game.Alliance;
 import silmarillionreloaded.game.Game;
+import silmarillionreloaded.game.ObjectSelected;
 import silmarillionreloaded.gfx.Assets;
+import silmarillionreloaded.player.Card;
+import silmarillionreloaded.player.Item;
 import silmarillionreloaded.player.Player;
+import silmarillionreloaded.player.Player.RegularPlayer;
 import silmarillionreloaded.tiles.Tile;
 
 /**
  *
  * @author Ferran
  */
-public class Piece extends RenderableObject implements Target,Caster {
-    
-    public static Piece SELECTED_PIECE;
+public class Piece extends RenderableObject implements Target,Caster,ObjectSelected {
+
+    public static Piece BEREN, HURIN, EAGLE, SINDAR_ELF, NUMENORIAN_SOLDIER, HUOR,
+                        TUOR, FEANOR, FINGOLFIN, LUTHIEN, MANWE, VARDA, GONDOLIN_SOLDIER,
+                        DORIAH_RANGER, NOLDOR_ELF, INCOGNITO, WINDOR, CIRDAN, MAEDHROS,
+                        MORGOTH, SAURON, GOTHMOG, GLAURUNG, UNGOLIANT, ORC, SPIDER, 
+                        WARG, WOLF, ORC_CAPITAN, ORC_RANGER, ORC_WARRIOR, MORGOTH_SLAVE,
+                        DRAGON, URUK_HAI, ELITE_URUK_HAI,BALROG, ORC_ELITE, ENT, NAUGRIM; 
+
+
+                        
     
     public static Piece createNewPiece(int index, Alliance alliance)  {
         if(PIECES_CACHE.size() > index) {
@@ -258,6 +274,7 @@ public class Piece extends RenderableObject implements Target,Caster {
         PIECES_CACHE.add(b15.build());
         
         Builder b16 = new Builder();
+        b16.setName("?????");
         b16.setElement(Element.EARTH);
         b16.setHealth(1450);
         b16.setDamage(110);
@@ -549,8 +566,9 @@ public class Piece extends RenderableObject implements Target,Caster {
     private final Element element;
     
     private final BufferedImage image;
-    
     private Alliance alliance;
+    private int availableMoves;
+    
     
     private Piece(Piece piece) {
         super(Tile.TILE_WIDTH, Tile.TILE_HEIGHT);
@@ -559,6 +577,7 @@ public class Piece extends RenderableObject implements Target,Caster {
         stats = piece.stats;
         image = piece.image;
         alliance = piece.alliance;
+        availableMoves = stats.getRealMoves();
     }
     
     private Piece(Builder builder) {
@@ -568,7 +587,19 @@ public class Piece extends RenderableObject implements Target,Caster {
         stats = builder.stats;
         image = builder.image;
         alliance = Alliance.NULL;
+        availableMoves = stats.getRealMoves();
     }
+
+    public int getAvailableMoves() {
+        return availableMoves;
+    }
+
+    public void setAvailableMoves(int availableMoves) {
+        this.availableMoves = availableMoves;
+    }
+    
+    
+    
     public boolean isAlive() {
         return stats.getRealHealh() <= 0;
     }   
@@ -582,7 +613,7 @@ public class Piece extends RenderableObject implements Target,Caster {
          
     }
 
-    private void setAlliance(Alliance alliance) {
+    public void setAlliance(Alliance alliance) {
         this.alliance = alliance;
     }
     
@@ -614,7 +645,14 @@ public class Piece extends RenderableObject implements Target,Caster {
     
     @Override
     public void render(Graphics g, float x, float y) {
-        g.drawImage(image, (int)x, (int)y, width, height, null);
+        
+        if(this.equals(Game.INSTANCE.selectedObject)) {
+            g.setColor(Color.GREEN);
+            g.fillRect((int)x, (int)y, width, height);
+        }
+        g.setColor(alliance.getRenderColor());
+        g.fillOval((int)x - 1, (int)y - 1, width + 2, height + 2);
+        g.drawImage(image, (int)x , (int)y, width, height, null);
     }
     
     public String getName() {
@@ -634,10 +672,24 @@ public class Piece extends RenderableObject implements Target,Caster {
     
     @Override
     public void onClick(MouseEvent e) {
-        if(SELECTED_PIECE != this) {
-            SELECTED_PIECE = this;
-            Game.INSTANCE.getPanelManager().addObject(new TemporalPanel(new PiecePanel(this,e.getX(),e.getY(),200, 200),3000));
-        }
+        if(e.getButton() == MouseEvent.BUTTON1) {
+
+            Game.INSTANCE.selectedObject = this;
+            Game.INSTANCE.getPanelManager().addObject(new TemporalPanel(new PiecePanel(this,e.getX(),e.getY(),200, 200),700));
+            Game.INSTANCE.getWorld().getCloneList().forEach(tile -> {tile.setDistance(Integer.MAX_VALUE);
+                                                                                 tile.setShortestPath(new LinkedList<>());});
+            Game.INSTANCE.getWorld().calculateShortestPathFromSource(Game.INSTANCE.getWorld().findTilesPieceOnWorld(this));
+
+        } else if(e.getButton() == MouseEvent.BUTTON3) {
+            if(Game.INSTANCE.selectedObject.isItem()) {
+                PlayableAction.USE_ITEM.execute(this);
+            } else if(Game.INSTANCE.selectedObject.isPiece()) {
+                PlayableAction.ATTACK.execute(this);
+            } else if(Game.INSTANCE.selectedObject.isCard()) {
+                //TODO
+            }
+        } 
+        
         
 
     }
@@ -670,6 +722,30 @@ public class Piece extends RenderableObject implements Target,Caster {
     public Tile getTile() {
         return null;
     }
+
+    @Override
+    public boolean isCard() {
+        return false;
+    }
+
+    @Override
+    public boolean isItem() {
+        return false;
+    }
+
+    @Override
+    public Card getCard() {
+        return null;
+    }
+
+    @Override
+    public Item getItem() {
+        return null;
+    }
+
+    public PieceStats getStats() {
+        return stats;
+    }
    
     public static final class King extends Piece {
         
@@ -682,7 +758,8 @@ public class Piece extends RenderableObject implements Target,Caster {
             stats.addMod(Buff.KING_BUFF);
         }
 
-        private void setAlliance(Alliance alliance) {
+        @Override
+        public void setAlliance(Alliance alliance) {
             super.setAlliance(alliance);
         }
         
