@@ -7,7 +7,7 @@ package silmarillionreloaded.player;
 
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
-import silmarillion.renderableObjects.ObjectManager;
+import silmarillionreloaded.renderableObjects.ObjectManager;
 
 /**
  *
@@ -27,6 +27,7 @@ public class Deck extends ObjectManager<Card>{
      
     public Deck() {
         super(0,0,0,0,1,Card.CARD_WIDTH,Card.CARD_HEIGHT,MAX_CARDS_IN_DECK);
+        setDefaultRenderPoints();
     }
 
     public void shuffle() {

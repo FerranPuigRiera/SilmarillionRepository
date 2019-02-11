@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package silmarillion.renderableObjects;
+package silmarillionreloaded.renderableObjects;
 
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import silmarillion.userInterface.Clicker;
+import silmarillionreloaded.userInterface.Clicker;
 
 /**
  *

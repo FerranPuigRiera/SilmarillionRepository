@@ -8,7 +8,7 @@ package silmarillionreloaded.player;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
-import silmarillion.renderableObjects.ObjectManager;
+import silmarillionreloaded.renderableObjects.ObjectManager;
 
 /**
  *
@@ -25,6 +25,7 @@ public class Hand extends ObjectManager<Card>{
 
     public Hand() {
         super(HAND_X, HAND_Y, HAND_WIDTH, HAND_HEIGHT,10, Card.CARD_WIDTH, Card.CARD_HEIGHT, MAX_CARDS_IN_HAND);
+        setDefaultRenderPoints();
     }
 
     @Override

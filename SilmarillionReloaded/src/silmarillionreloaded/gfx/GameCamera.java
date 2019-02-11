@@ -5,6 +5,7 @@
  */
 package silmarillionreloaded.gfx;
 
+import silmarillionreloaded.renderableObjects.TemporalPanel;
 import silmarillionreloaded.Application;
 import silmarillionreloaded.game.Game;
 import silmarillionreloaded.pieces.Piece;
@@ -27,6 +28,13 @@ public class GameCamera {
         
         
         Tile tile = Game.INSTANCE.getWorld().findTilesPieceOnWorld(e);
+        
+        if(e == null) {
+            System.err.println("Piece not found!");
+            TemporalPanel.addErrorMessage("ERROR: Piece not found");
+            return;
+        }
+        
         xOffset = -tile.getCoordinate_x()*Tile.TILE_WIDTH + Application.FRAME_WIDTH / 2 - e.getWidth() / 2;
         yOffset = -tile.getCoordinate_y()*Tile.TILE_HEIGHT + Application.FRAME_HEIGHT / 2 - e.getHeight() / 2;
         //xOffset = tile.getCoordinate_x()*Tile.TILE_WIDTH - Application.FRAME_WIDTH / 2 + e.getWidth() / 2;

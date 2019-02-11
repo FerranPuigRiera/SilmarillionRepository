@@ -13,7 +13,7 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
-import silmarillion.renderableObjects.ObjectManager;
+import silmarillionreloaded.renderableObjects.ObjectManager;
 import silmarillionreloaded.pieces.Piece;
 import silmarillionreloaded.player.Item;
 import silmarillionreloaded.tiles.Tile;
@@ -37,6 +37,7 @@ public final class World extends ObjectManager<Tile>{
         super(0,0,NUMBER_COLUMNS*Tile.TILE_WIDTH,NUMBER_ROWS*Tile.TILE_HEIGHT, NUMBER_COLUMNS, Tile.TILE_WIDTH, Tile.TILE_HEIGHT, NUMBER_COLUMNS*NUMBER_ROWS);     
         rows = NUMBER_ROWS;
         WorldGenerator generator = new WorldGenerator(this);
+        setDefaultRenderPoints();
         generator.getGeneratedWorld().forEach(tile -> addObject(tile));
         getCloneList().forEach(tile -> tile.setItem(Item.getNewRandomItemOrNot()));
     }

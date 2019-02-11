@@ -9,7 +9,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.util.Set;
-import silmarillion.renderableObjects.RenderableObject;
+import silmarillionreloaded.renderableObjects.RenderableObject;
 import silmarillionreloaded.pieces.Piece;
 import silmarillionreloaded.pieces.Piece.King;
 import silmarillionreloaded.actions.Caster;

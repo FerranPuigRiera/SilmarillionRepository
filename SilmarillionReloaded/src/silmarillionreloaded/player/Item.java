@@ -13,9 +13,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-import silmarillion.renderableObjects.Panel.ItemPanel;
-import silmarillion.renderableObjects.RenderableObject;
-import silmarillion.renderableObjects.TemporalPanel;
+import silmarillionreloaded.renderableObjects.Panel.ItemPanel;
+import silmarillionreloaded.renderableObjects.RenderableObject;
+import silmarillionreloaded.renderableObjects.TemporalPanel;
 import silmarillionreloaded.game.Game;
 import silmarillionreloaded.game.ObjectSelected;
 import silmarillionreloaded.gfx.Assets;
@@ -155,160 +155,160 @@ public class Item extends RenderableObject implements PieceModifier,ObjectSelect
         builder.resetBuilder("Map");
         builder.setImage(Assets.MAP);
         builder.setMovesMod(3);
-        builder.setProc(1f);
+        builder.setProc(0.1f);
         MAP = builder.build();
         
         builder.resetBuilder("Great Axe");
         builder.setImage(Assets.GREAT_AXE);
         builder.setDamageMod(50);
-        builder.setProc(1f);
+        builder.setProc(0.1f);
         GREAT_AXE = builder.build();
         
         builder.resetBuilder("Axe");
         builder.setImage(Assets.AXE);
         builder.setDamageMod(40);
-        builder.setProc(1f);
+        builder.setProc(0.1f);
         AXE = builder.build();
         
         builder.resetBuilder("Hammer");
         builder.setImage(Assets.HAMMER);
         builder.setDamageMod(30);
         builder.setArmorMod(10);
-        builder.setProc(1f);
+        builder.setProc(0.1f);
         HAMMER = builder.build();
         
         builder.resetBuilder("Great shield");
         builder.setImage(Assets.GREAT_SHIELD);
         builder.setArmorMod(10);
-        builder.setProc(1f);
+        builder.setProc(0.1f);
         GREAT_SHIELD = builder.build();
         
         builder.resetBuilder("Shield");
         builder.setImage(Assets.SHIELD);
         builder.setArmorMod(5);
-        builder.setProc(1f);
+        builder.setProc(0.1f);
         SHIELD = builder.build(); 
         
         builder.resetBuilder("Pergamin");
         builder.setImage(Assets.PERGAMIN);
         builder.setMovesMod(1);
-        builder.setProc(1f);
+        builder.setProc(0.1f);
         PERGAMIN = builder.build();
         
         builder.resetBuilder("Staff");
         builder.setImage(Assets.STAFF);
         builder.setElementalDamageMod(100);
-        builder.setProc(1f);
+        builder.setProc(0.1f);
         STAFF = builder.build();
         
         builder.resetBuilder("Bag");
         builder.setImage(Assets.BAG);
         builder.setMovesMod(2);
-        builder.setProc(1f);
+        builder.setProc(0.1f);
         BAG = builder.build();
         
         builder.resetBuilder("Great Double Axe");
         builder.setImage(Assets.GREAT_DOUBLE_AXE);
         builder.setDamageMod(100);
-        builder.setProc(1f);
+        builder.setProc(0.1f);
         GREAT_DOUBLE_AXE = builder.build();
         
         builder.resetBuilder("Double Axe");
         builder.setImage(Assets.DOUBLE_AXE);
         builder.setDamageMod(75);
-        builder.setProc(1f);
+        builder.setProc(0.1f);
         DOUBLE_AXE = builder.build(); 
         
         builder.resetBuilder("Chest");
         builder.setImage(Assets.CHEST);
         builder.setArmorMod(20);
-        builder.setProc(1f);
+        builder.setProc(0.1f);
         CHEST = builder.build();
         
         builder.resetBuilder("Bow");
         builder.setImage(Assets.BOW);
         builder.setDamageMod(10);
         builder.setArmorMod(10);
-        builder.setProc(1f);
+        builder.setProc(0.1f);
         BOW = builder.build();
         
         builder.resetBuilder("Wooder Sword");
         builder.setImage(Assets.WOODEN_SWORD);
         builder.setDamageMod(10);
-        builder.setProc(1f);
+        builder.setProc(0.1f);
         WOODEN_SWORD = builder.build();
         
         builder.resetBuilder("Tools");
         builder.setImage(Assets.TOOLS);
         builder.setDamageMod(30);
         builder.setArmorMod(10);
-        builder.setProc(1f);
+        builder.setProc(0.1f);
         TOOLS = builder.build();
         
         builder.resetBuilder("Great Sword");
         builder.setImage(Assets.GREAT_SWORD);
         builder.setDamageMod(30);
-        builder.setProc(1f);
+        builder.setProc(0.1f);
         GREAT_SWORD = builder.build();
         
         builder.resetBuilder("Sword");
         builder.setImage(Assets.SWORD);
         builder.setDamageMod(20);
-        builder.setProc(1f);
+        builder.setProc(0.1f);
         SWORD = builder.build(); 
         
         builder.resetBuilder("Helm");
         builder.setImage(Assets.HELM);
         builder.setArmorMod(15);
-        builder.setProc(1f);
+        builder.setProc(0.1f);
         HELM = builder.build();
         
         builder.resetBuilder("Heart");
         builder.setImage(Assets.HEART);
         builder.setHealthMod(100);
-        builder.setProc(1f);
+        builder.setProc(0.1f);
         HEART = builder.build();
         
         builder.resetBuilder("Book");
         builder.setImage(Assets.BOOK);
         builder.setElementalArmorMod(20);
-        builder.setProc(1f);
+        builder.setProc(0.1f);
         BOOK = builder.build();
         
         builder.resetBuilder("Green Gem");
         builder.setImage(Assets.GREEN_GEM);
         builder.setElementalDamageMod(50);
-        builder.setProc(1f);
+        builder.setProc(0.1f);
         GREEN_GEM = builder.build();
         
         builder.resetBuilder("Blue Gem");
         builder.setImage(Assets.BLUE_GEM);
         builder.setElementalDamageMod(75);
-        builder.setProc(1f);
+        builder.setProc(0.1f);
         BLUE_GEM = builder.build();
         
         builder.resetBuilder("Red Gem");
         builder.setImage(Assets.RED_GEM);
         builder.setElementalDamageMod(25);
-        builder.setProc(1f);
+        builder.setProc(0.1f);
         RED_GEM = builder.build();
         
         builder.resetBuilder("Green Potion");
         builder.setImage(Assets.GREEN_POTION);
         builder.setElementalArmorMod(10);
-        builder.setProc(1f);
+        builder.setProc(0.1f);
         GREEN_POTION = builder.build();
         
         builder.resetBuilder("Blue Potion");
         builder.setImage(Assets.BLUE_POTION);
         builder.setElementalArmorMod(15);
-        builder.setProc(1f);
+        builder.setProc(0.1f);
         BLUE_POTION = builder.build();
         
         builder.resetBuilder("Red Potion");
         builder.setImage(Assets.RED_POTION);
         builder.setElementalArmorMod(5);
-        builder.setProc(1f);
+        builder.setProc(0.1f);
         RED_POTION = builder.build();
         
         ITEMS_CACHE.add(MAP);

@@ -8,7 +8,7 @@ package silmarillionreloaded.player;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
-import silmarillion.renderableObjects.ObjectManager;
+import silmarillionreloaded.renderableObjects.ObjectManager;
 
 /**
  *
@@ -28,6 +28,7 @@ public class Inventory extends ObjectManager<Item> {
     
     public Inventory() {
         super(INVENTORY_X, INVENTORY_Y, INVENTORY_WIDTH, INVENTORY_HEIGHT, COLUMNS, Item.ITEM_WIDTH, Item.ITEM_HEIGHT, INVENTORY_MAX_SIZE);
+        setDefaultRenderPoints();
     }
 
     @Override

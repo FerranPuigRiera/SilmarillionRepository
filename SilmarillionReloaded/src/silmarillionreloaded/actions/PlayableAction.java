@@ -5,8 +5,7 @@
  */
 package silmarillionreloaded.actions;
 
-import silmarillion.renderableObjects.TemporalPanel;
-import silmarillionreloaded.game.Alliance;
+import silmarillionreloaded.renderableObjects.TemporalPanel;
 import silmarillionreloaded.game.Game;
 import silmarillionreloaded.pieces.Piece;
 import silmarillionreloaded.player.Card;
@@ -75,6 +74,7 @@ public abstract class PlayableAction {
                 Tile tile = game.getWorld().findTilesPieceOnWorld(game.selectedObject.getPiece());
                 Item item = tile.getItem();
                 game.selectedObject.getPiece().setAvailableMoves(game.selectedObject.getPiece().getAvailableMoves() - 1);
+
                 if(rp.getInventory().addObject(item)) {
                     tile.setItem(null);
                     rp.addValor(50);
@@ -146,7 +146,6 @@ public abstract class PlayableAction {
                     TemporalPanel.addErrorMessage("Can't move piece");
                     return;
                 }
-                
                 Piece movingPiece = game.selectedObject.getPiece();
                 Tile sourceTile = game.getWorld().findTilesPieceOnWorld(movingPiece);
                 int distanceFromSouceTile = (int)tile.getDistance();
@@ -191,11 +190,11 @@ public abstract class PlayableAction {
                 }
                 RegularPlayer rp = (RegularPlayer)game.getCurrentPlayer();
                 Card card = game.selectedObject.getCard();
-                Piece piece = card.getSummonPiece();
-                piece.setAlliance(rp.getAlliance());
+                Piece piece = Piece.createNewPiece(Piece.PIECES_CACHE.indexOf(game.selectedObject.getCard().getSummonPiece()), rp.getAlliance());
+                piece.setAvailableMoves(0);
                 rp.addValor(card.getCost()*-1);
                 rp.getHand().removeObject(card);
-                tile.setPiece(Piece.createNewPiece(Piece.PIECES_CACHE.indexOf(piece), rp.getAlliance()));
+                tile.setPiece(piece);
                 game.selectedObject = null;
                 game.getWorld().getTilesAround(tile).forEach(tileAround -> rp.getVision().addTile(tileAround));
             }
