@@ -42,7 +42,28 @@ public class SpriteSheet {
     public SpriteSheet createSubSpriteSheet(int column, int row, int width, int height) {
         return new SpriteSheet(crop(column, row, width, height), width, height);
     }
+
+    public BufferedImage[][] getImages() {
+        return images;
+    }
+
+    public int getColumns() {
+        return columns;
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public int getSubImageWidth() {
+        return subImageWidth;
+    }
+
+    public int getSubImageHeight() {
+        return subImageHeight;
+    }
    
+    
     
     private BufferedImage crop(int column, int row, int size_x, int size_y) {
         return sheet.getSubimage(column*subImageWidth, row*subImageHeight, size_x*subImageWidth, size_y*subImageHeight);

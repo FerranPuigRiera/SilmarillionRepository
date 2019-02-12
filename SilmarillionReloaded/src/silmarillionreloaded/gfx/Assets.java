@@ -17,8 +17,11 @@ public class Assets {
             desert, water, darkEarth, darkGrass, waterGrass, tallGreenBush,
             tallYellowBush, shortGreenBush, dirtGrass, tallTree; 
 
+    public static SpriteSheet BLESS, EARTH_1, EARTH_2, FIRE, HEAL, METEOR, NATURE, POLEN,
+                              SHADOW, SLASH, SUMMON, THUNDER, WATER, AURA;
     
-    public static BufferedImage PIECE_0000, PIECE_0001, PIECE_0002, PIECE_0003, PIECE_0004, PIECE_0005, PIECE_0006, PIECE_0007, PIECE_0008, PIECE_0009, PIECE_0010,
+    
+    public static BufferedImage PIECE_0001, PIECE_0002, PIECE_0003, PIECE_0004, PIECE_0005, PIECE_0006, PIECE_0007, PIECE_0008, PIECE_0009, PIECE_0010,
                                             PIECE_0011, PIECE_0012, PIECE_0013, PIECE_0014, PIECE_0015, PIECE_0016, PIECE_0017, PIECE_0018, PIECE_0019, PIECE_0020,
                                             PIECE_0021, PIECE_0022, PIECE_0023, PIECE_0024, PIECE_0025, PIECE_0026, PIECE_0027, PIECE_0028, PIECE_0029, PIECE_0030,
                                             PIECE_0031, PIECE_0032, PIECE_0033, PIECE_0034, PIECE_0035, PIECE_0036, PIECE_0037, PIECE_0038, PIECE_0039, PIECE_0040,
@@ -39,6 +42,10 @@ public class Assets {
     public static BufferedImage GAME_BACKGROUND_1;
     
     public static BufferedImage END_TURN_B, END_TURN_H, COLLECT_B, COLLECT_H;
+    
+    
+    
+    
     public static void init() {
         
         //SpriteSheet baseOutAtlas = new SpriteSheet(ImageLoader.loadImage("/terrain/base_out_atlas.png/"),32,32);
@@ -62,7 +69,20 @@ public class Assets {
         tallTree = terrainAtlas.createSubSpriteSheet(30, 0, 2, 6);
         
         
-        PIECE_0000 = ImageLoader.loadImage("/pieces/PIECE_0000.png");
+        BLESS = new SpriteSheet(ImageLoader.loadImage("/animations/bless.png"), 5,6);
+        EARTH_1 = new SpriteSheet(ImageLoader.loadImage("/animations/earth.png"), 9,6);
+        EARTH_2 = new SpriteSheet(ImageLoader.loadImage("/animations/earth2.png"), 5,4);
+        FIRE = new SpriteSheet(ImageLoader.loadImage("/animations/fire.png"), 5,5);
+        HEAL = new SpriteSheet(ImageLoader.loadImage("/animations/heal.png"), 5,5);
+        METEOR = new SpriteSheet(ImageLoader.loadImage("/animations/meteor.png"), 5,5);
+        NATURE = new SpriteSheet(ImageLoader.loadImage("/animations/nature.png"), 5,6);
+        POLEN = new SpriteSheet(ImageLoader.loadImage("/animations/polen.png"), 5,3);
+        SHADOW = new SpriteSheet(ImageLoader.loadImage("/animations/shadow2.png"), 5,4);
+        SLASH = new SpriteSheet(ImageLoader.loadImage("/animations/slash.png"), 5,4);
+        SUMMON = new SpriteSheet(ImageLoader.loadImage("/animations/summon.png"), 5,3);
+        THUNDER = new SpriteSheet(ImageLoader.loadImage("/animations/thunder.png"), 5,3);
+        AURA = new SpriteSheet(ImageLoader.loadImage("/animations/aura.png"),5,4);
+        
         PIECE_0001 = ImageLoader.loadImage("/pieces/PIECE_0001.png");
         PIECE_0002 = ImageLoader.loadImage("/pieces/PIECE_0002.png");
         PIECE_0003 = ImageLoader.loadImage("/pieces/PIECE_0003.png");

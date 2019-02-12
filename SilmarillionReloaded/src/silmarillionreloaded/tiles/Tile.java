@@ -14,15 +14,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import silmarillionreloaded.renderableObjects.RenderableObject;
-import silmarillionreloaded.renderableObjects.TemporalPanel;
-import silmarillionreloaded.Application;
 import silmarillionreloaded.actions.PlayableAction;
 import silmarillionreloaded.pieces.Piece;
-import silmarillionreloaded.actions.Target;
 import silmarillionreloaded.game.Game;
 import silmarillionreloaded.gfx.Assets;
 import silmarillionreloaded.gfx.TileImage;
-import silmarillionreloaded.player.Card;
 import silmarillionreloaded.player.Item;
 import silmarillionreloaded.player.Player;
 import silmarillionreloaded.player.Player.RegularPlayer;
@@ -32,7 +28,7 @@ import silmarillionreloaded.worlds.World;
  *
  * @author Ferran
  */
-public class Tile extends RenderableObject implements Target{
+public class Tile extends RenderableObject {
     
     public static final int TILE_WIDTH = 40;
     public static final int TILE_HEIGHT = 40;
@@ -75,6 +71,11 @@ public class Tile extends RenderableObject implements Target{
         images = new HashMap<>();
     }
 
+    
+    public Piece getPiece() {
+        return piece;
+    }
+    
     public int getCoordinate() {
         return coordinate;
     }
@@ -119,13 +120,10 @@ public class Tile extends RenderableObject implements Target{
     @Override
     public void render(Graphics g, float x, float y){
         
-        if(!Game.INSTANCE.getCurrentPlayer().getVision().contains(this)) {
-            g.setColor(Color.black);
-            g.fillRect((int)(Game.INSTANCE.getGameCamera().getxOffset() + x), (int)(Game.INSTANCE.getGameCamera().getyOffset() + y ),width, height);
-        } else {
-            images.entrySet().forEach((entry) -> {
-            g.drawImage(entry.getValue().getImage(), (int)(Game.INSTANCE.getGameCamera().getxOffset() + x), (int)(Game.INSTANCE.getGameCamera().getyOffset() + y), width, height, null);
-        });
+        
+        images.entrySet().forEach((entry) -> {
+        g.drawImage(entry.getValue().getImage(), (int)(Game.INSTANCE.getGameCamera().getxOffset() + x), (int)(Game.INSTANCE.getGameCamera().getyOffset() + y), width, height, null);
+        
         
         if(Game.INSTANCE.selectedObject!= null && Game.INSTANCE.selectedObject.isCard() && 
                 Game.INSTANCE.getCurrentPlayer().isRegularPlayer()) {
@@ -144,12 +142,12 @@ public class Tile extends RenderableObject implements Target{
                 } 
             }
 
-            if(isTileOccupied())piece.render(g, (int)(Game.INSTANCE.getGameCamera().getxOffset() + x), (int)(Game.INSTANCE.getGameCamera().getyOffset() + y));
+            //if(isTileOccupied())piece.render(g, (int)(Game.INSTANCE.getGameCamera().getxOffset() + x), (int)(Game.INSTANCE.getGameCamera().getyOffset() + y));
 
             if(item != null) {
                 g.drawImage(Assets.TREASURE,Tile.TILE_WIDTH/2 -15 + (int)(Game.INSTANCE.getGameCamera().getxOffset() + x),Tile.TILE_HEIGHT/2 - 15 + (int)(Game.INSTANCE.getGameCamera().getyOffset() + y), 30, 30, null);
             }
-        }
+        });
         
         
     }
@@ -169,36 +167,6 @@ public class Tile extends RenderableObject implements Target{
     
     public boolean tileHasItem() {
         return item != null;
-    }
-    
-    @Override
-    public boolean isPlayer() {
-        return false;
-    }
-
-    @Override
-    public boolean isPiece() {
-        return false;
-    }
-
-    @Override
-    public boolean isTile() {
-        return true;
-    }
-
-    @Override
-    public Player getPlayer() {
-        return null;
-    }
-
-    @Override
-    public Piece getPiece() {
-        return piece;
-    }
-
-    @Override
-    public Tile getTile() {
-        return this;
     }
 
     @Override

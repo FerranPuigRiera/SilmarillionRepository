@@ -5,12 +5,15 @@
  */
 package silmarillionreloaded.actions;
 
+import java.awt.Point;
 import silmarillionreloaded.renderableObjects.TemporalPanel;
 import silmarillionreloaded.game.Game;
+import silmarillionreloaded.gfx.Assets;
 import silmarillionreloaded.pieces.Piece;
 import silmarillionreloaded.player.Card;
 import silmarillionreloaded.player.Item;
 import silmarillionreloaded.player.Player.RegularPlayer;
+import silmarillionreloaded.renderableObjects.SpriteAnimation;
 import silmarillionreloaded.tiles.Tile;
 
 /**
@@ -241,6 +244,15 @@ public abstract class PlayableAction {
                     TemporalPanel.addErrorMessage("Can't attack");
                     return;
                 }
+                
+                int p_x = game.getWorld().findTilesPieceOnWorld(piece).getCoordinate_x()*Tile.TILE_WIDTH - Tile.TILE_WIDTH/2;
+                int p_y = game.getWorld().findTilesPieceOnWorld(piece).getCoordinate_y()*Tile.TILE_HEIGHT - Tile.TILE_HEIGHT/2;
+                
+                SpriteAnimation anim = new SpriteAnimation(Assets.SLASH);
+                anim.setSize(Tile.TILE_WIDTH*2, Tile.TILE_HEIGHT*2);
+                game.getAnimationManager().addObject(anim, new Point(p_x, p_y));
+                anim.start();
+                
                 Piece attaker = game.selectedObject.getPiece();
                 int amt = attaker.getDamage();
                 if(piece.getArmor() < 90) {
@@ -271,10 +283,14 @@ public abstract class PlayableAction {
                 if(piece.getStats().health.getValue() <= 0) {
                     game.getWorld().findTilesPieceOnWorld(piece).setPiece(null);
                     if(game.getCurrentPlayer().isRegularPlayer()) {
-                    RegularPlayer rp = (RegularPlayer)game.getCurrentPlayer();
-                    rp.addValor(150);
+                        RegularPlayer rp = (RegularPlayer)game.getCurrentPlayer();
+                        rp.addValor(150);
+                    } 
+                    
                 }
-                }
+                
+                
+                
             }
 
             @Override

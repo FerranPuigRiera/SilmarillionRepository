@@ -5,6 +5,7 @@
  */
 package silmarillionreloaded.worlds;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
@@ -13,6 +14,7 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
+import silmarillionreloaded.game.Game;
 import silmarillionreloaded.renderableObjects.ObjectManager;
 import silmarillionreloaded.pieces.Piece;
 import silmarillionreloaded.player.Item;
@@ -32,7 +34,7 @@ public final class World extends ObjectManager<Tile>{
     
 
     private final int rows;
-
+    
     public World() {
         super(0,0,NUMBER_COLUMNS*Tile.TILE_WIDTH,NUMBER_ROWS*Tile.TILE_HEIGHT, NUMBER_COLUMNS, Tile.TILE_WIDTH, Tile.TILE_HEIGHT, NUMBER_COLUMNS*NUMBER_ROWS);     
         rows = NUMBER_ROWS;
@@ -69,7 +71,6 @@ public final class World extends ObjectManager<Tile>{
     public Tile getTile(int x_coordinate, int y_coordinate) {
         return getCloneList().get(y_coordinate*columns + x_coordinate);
     }
-    
     
     public void onMouseMoveTiles(MouseEvent e) {
         
@@ -116,6 +117,15 @@ public final class World extends ObjectManager<Tile>{
             
         });
         return map;
+    }
+    @Override
+    public void renderList(Graphics g) {
+        getCloneList().forEach(tile -> tile.render(g, renderPoints.get(tile).x, renderPoints.get(tile).y));
+        getCloneList().stream().filter(tile -> tile.isTileOccupied()).forEach(tile -> tile.getPiece().render(g, renderPoints.get(tile).x, renderPoints.get(tile).y));
+        /*getCloneList().stream().filter(tile -> !Game.INSTANCE.getCurrentPlayer().getVision().contains(tile)).forEach(tile -> {
+        g.setColor(Color.black);
+        g.fillRect(renderPoints.get(tile).x, renderPoints.get(tile).y,width, height);
+        });*/
     }
     
     @Override

@@ -23,6 +23,8 @@ import silmarillionreloaded.player.Card;
 import silmarillionreloaded.player.Item;
 import silmarillionreloaded.player.Player;
 import silmarillionreloaded.player.Player.RegularPlayer;
+import silmarillionreloaded.renderableObjects.FreeObjectManager;
+import silmarillionreloaded.renderableObjects.SpriteAnimation;
 import silmarillionreloaded.tiles.Tile;
 import silmarillionreloaded.worlds.World;
 
@@ -33,18 +35,15 @@ import silmarillionreloaded.worlds.World;
 public final class Game {
 
     public static Game INSTANCE;
-    
-    
 
-    
     public Player getNextPlayer() {
         Player firstPlayer = getAllPlayers().get(0);
-        Iterator<Player> players = getAllPlayers().iterator();
-        while(players.hasNext()) {
-            Player player = players.next();
+        Iterator<Player> playersIterator = getAllPlayers().iterator();
+        while(playersIterator.hasNext()) {
+            Player player = playersIterator.next();
             if(player.equals(currentPlayer)) {
-                if(players.hasNext()) {
-                    return players.next();
+                if(playersIterator.hasNext()) {
+                    return playersIterator.next();
                 } else {
                     return firstPlayer;
                 }
@@ -66,6 +65,8 @@ public final class Game {
     private final Button collectButton;
     public ObjectSelected selectedObject = null;
     
+    private final FreeObjectManager<SpriteAnimation> animationManager;
+    
     
     public Game(Application app) {
         INSTANCE = this;
@@ -80,6 +81,8 @@ public final class Game {
         currentPlayer = players.get(0);
         world = Settings.WORLD;
         gameCamera = new GameCamera(0,0);
+        animationManager = new FreeObjectManager();
+        animationManager.setCamera(gameCamera);
         if(currentPlayer.isRegularPlayer()) {
             RegularPlayer rp = (RegularPlayer)currentPlayer;
             gameCamera.centerOnPiece(rp.getKing());
@@ -140,6 +143,7 @@ public final class Game {
         
         world.tick();
         world.tickList();
+        animationManager.tickList();
         currentPlayer.tick();
         panelManager.tickList();
         endTurnButton.tick();
@@ -149,6 +153,7 @@ public final class Game {
     public void render(Graphics g) {
         g.drawImage(Assets.GAME_BACKGROUND_1,0,0, Application.FRAME_WIDTH, Application.FRAME_HEIGHT, null);
         world.renderList(g);
+        animationManager.renderList(g);
         currentPlayer.render(g, Player.PLAYER_X, Player.PLAYER_Y);
         panelManager.renderList(g);
         endTurnButton.render(g, 1500, 800);
@@ -168,6 +173,10 @@ public final class Game {
     }
     public Player getCurrentPlayer() {
         return currentPlayer;
+    }
+    
+    public FreeObjectManager getAnimationManager() {
+        return animationManager;
     }
     
     public PanelManager getPanelManager() {

@@ -12,8 +12,6 @@ import java.util.Set;
 import silmarillionreloaded.renderableObjects.RenderableObject;
 import silmarillionreloaded.pieces.Piece;
 import silmarillionreloaded.pieces.Piece.King;
-import silmarillionreloaded.actions.Caster;
-import silmarillionreloaded.actions.Target;
 import silmarillionreloaded.game.Alliance;
 import silmarillionreloaded.game.Game;
 import silmarillionreloaded.game.Settings;
@@ -23,7 +21,7 @@ import silmarillionreloaded.tiles.Tile;
  *
  * @author Ferran
  */
-public abstract class Player extends RenderableObject implements Target, Caster{
+public abstract class Player extends RenderableObject {
     
     public static final int PLAYER_X = 25;
     public static final int PLAYER_Y = 25;
@@ -59,35 +57,6 @@ public abstract class Player extends RenderableObject implements Target, Caster{
     
     
     public abstract boolean isRegularPlayer();
-    
-    @Override
-    public boolean isPlayer() {
-        return true;
-    }
-
-    @Override
-    public boolean isPiece() {
-        return false;
-    }
-
-    @Override
-    public Player getPlayer() {
-        return this;
-    }
-
-    @Override
-    public Piece getPiece() {
-        return null;
-    }
-    @Override
-    public boolean isTile() {
-        return false;
-    }
-
-    @Override
-    public Tile getTile() {
-        return null;
-    }
     
     public static class RegularPlayer extends Player {
         

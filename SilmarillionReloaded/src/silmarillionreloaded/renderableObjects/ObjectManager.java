@@ -22,7 +22,7 @@ import java.util.Map;
  * @param <A>
  */
 public abstract class ObjectManager<A extends RenderableObject> extends RenderableObject {
-    
+      
     private final List<A> list;
     protected final Map<A, Point> renderPoints;
     protected final int listCapacity;
@@ -34,6 +34,10 @@ public abstract class ObjectManager<A extends RenderableObject> extends Renderab
     protected final int objectWidth;
     protected final int objectHeight;
     
+
+    
+    
+    
     public ObjectManager(float x, float y, int width, int height,int columns, int objectWidth, int objectHeight, int capacity) {
         super(width,height);
         this.x = x;
@@ -44,7 +48,6 @@ public abstract class ObjectManager<A extends RenderableObject> extends Renderab
         list = new ArrayList<>();
         listCapacity = capacity;
         renderPoints = new LinkedHashMap<>();
-        
     }
     
     public void setDefaultRenderPoints() {
@@ -56,6 +59,10 @@ public abstract class ObjectManager<A extends RenderableObject> extends Renderab
             renderPoints.put(object, p);
             i++;
         }
+    }
+    
+    public void moveRenderPointOnTime(A object, Point p, long time) {
+        
     }
     
     
