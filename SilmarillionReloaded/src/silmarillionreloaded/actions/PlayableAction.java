@@ -165,7 +165,7 @@ public abstract class PlayableAction {
                     }
                     game.getAllPlayers().stream().filter(player -> player.isRegularPlayer()).forEach(player -> {
                         RegularPlayer regPlayer = (RegularPlayer)player;
-                        if(regPlayer != Game.INSTANCE.getCurrentPlayer() && regPlayer.getDeployTiles().contains(tile)) {
+                        if(regPlayer != game.getCurrentPlayer() && regPlayer.getDeployTiles().contains(tile)) {
                                 regPlayer.getDeployTiles().removeTile(tile);
                             }
                     });
@@ -286,11 +286,7 @@ public abstract class PlayableAction {
                         RegularPlayer rp = (RegularPlayer)game.getCurrentPlayer();
                         rp.addValor(150);
                     } 
-                    
                 }
-                
-                
-                
             }
 
             @Override

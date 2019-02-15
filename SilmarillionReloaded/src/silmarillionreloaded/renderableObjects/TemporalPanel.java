@@ -21,7 +21,7 @@ import silmarillionreloaded.game.Game;
  * @param <A>
  */
 public class TemporalPanel<A extends RenderableObject> extends Panel{
-
+    
     private final int duration;
     private final Panel panel;
     
@@ -99,7 +99,7 @@ public class TemporalPanel<A extends RenderableObject> extends Panel{
         };
 
         TemporalPanel tp = new TemporalPanel(panel, 1000);
-        Game.INSTANCE.getPanelManager().addObject(tp);
+        Application.INSTANCE.getGame().getPanelManager().addObject(tp);
     }
     
     public static void addMessage(String message) {
@@ -123,7 +123,7 @@ public class TemporalPanel<A extends RenderableObject> extends Panel{
         };
 
         TemporalPanel tp = new TemporalPanel(panel, 1000);
-        Game.INSTANCE.getPanelManager().addObject(tp);
+        Application.INSTANCE.getGame().getPanelManager().addObject(tp);
     }
     
     

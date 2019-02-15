@@ -11,11 +11,16 @@ package silmarillionreloaded.pieces;
  */
 public interface PieceModifier {
     
-    public int moddifyHealth();
-    public int moddifyDamage();
-    public int moddifyArmor();
-    public int moddifyElementalDamage();
-    public int moddifyElementalArmor();
-    public int moddifyMoves();
+    public int modifyHealth();
+    public int modifyMaxHealth();
+    public int modifyDamage();
+    public int modifyArmor();
+    public int modifyElementalDamage();
+    public int modifyElementalArmor();
+    public int modifyMoves();
+    public int modifyCriticalChance();
+    public float modifyCriticalDamage();
+    public int modifyLifeSteal();
+    public int modifyArmorPenetration();
     
 }

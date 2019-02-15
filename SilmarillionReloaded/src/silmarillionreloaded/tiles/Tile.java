@@ -33,6 +33,7 @@ public class Tile extends RenderableObject {
     public static final int TILE_WIDTH = 40;
     public static final int TILE_HEIGHT = 40;
     
+    private final Game game;
     private final int coordinate;
     private final Map<Integer, TileImage> images;
     
@@ -65,8 +66,9 @@ public class Tile extends RenderableObject {
         distance = (float) Integer.MAX_VALUE;
     }
     
-    public Tile(int coordinate) {
+    public Tile(final Game game, int coordinate) {
         super(TILE_WIDTH, TILE_HEIGHT);
+        this.game = game;
         this.coordinate = coordinate;
         images = new HashMap<>();
     }
@@ -122,30 +124,30 @@ public class Tile extends RenderableObject {
         
         
         images.entrySet().forEach((entry) -> {
-        g.drawImage(entry.getValue().getImage(), (int)(Game.INSTANCE.getGameCamera().getxOffset() + x), (int)(Game.INSTANCE.getGameCamera().getyOffset() + y), width, height, null);
+        g.drawImage(entry.getValue().getImage(), (int)(game.getGameCamera().getxOffset() + x), (int)(game.getGameCamera().getyOffset() + y), width, height, null);
         
         
-        if(Game.INSTANCE.selectedObject!= null && Game.INSTANCE.selectedObject.isCard() && 
-                Game.INSTANCE.getCurrentPlayer().isRegularPlayer()) {
-                RegularPlayer rp = (RegularPlayer)Game.INSTANCE.getCurrentPlayer();
-                if(rp.getDeployTiles().contains(this) && Game.INSTANCE.selectedObject != null && rp.getValor() >= Game.INSTANCE.selectedObject.getCard().getCost()) {
+        if(game.selectedObject!= null && game.selectedObject.isCard() && 
+                game.getCurrentPlayer().isRegularPlayer()) {
+                RegularPlayer rp = (RegularPlayer)game.getCurrentPlayer();
+                if(rp.getDeployTiles().contains(this) && game.selectedObject != null && rp.getValor() >= game.selectedObject.getCard().getCost()) {
                     g.setColor(rp.getAlliance().getRenderColor());
-                    g.drawRect((int)(Game.INSTANCE.getGameCamera().getxOffset() + x + 2), (int)(Game.INSTANCE.getGameCamera().getyOffset() + y + 2),width - 4, height - 4);
+                    g.drawRect((int)(game.getGameCamera().getxOffset() + x + 2), (int)(game.getGameCamera().getyOffset() + y + 2),width - 4, height - 4);
                 }
             }
 
-            if(Game.INSTANCE.selectedObject != null && Game.INSTANCE.selectedObject.isPiece() && Game.INSTANCE.selectedObject.getPiece().getAlliance().equals(Game.INSTANCE.getCurrentPlayer().getAlliance())) {
-                int pieceMoves = Game.INSTANCE.selectedObject.getPiece().getAvailableMoves();
+            if(game.selectedObject != null && game.selectedObject.isPiece() && game.selectedObject.getPiece().getAlliance().equals(game.getCurrentPlayer().getAlliance())) {
+                int pieceMoves = game.selectedObject.getPiece().getAvailableMoves();
                 if(getDistance() <= pieceMoves) {
                     g.setColor(Color.yellow);
-                    g.drawOval((int)(Game.INSTANCE.getGameCamera().getxOffset() + x), (int)(Game.INSTANCE.getGameCamera().getyOffset() + y), width - 1, height - 1);
+                    g.drawOval((int)(game.getGameCamera().getxOffset() + x), (int)(game.getGameCamera().getyOffset() + y), width - 1, height - 1);
                 } 
             }
 
-            //if(isTileOccupied())piece.render(g, (int)(Game.INSTANCE.getGameCamera().getxOffset() + x), (int)(Game.INSTANCE.getGameCamera().getyOffset() + y));
+            //if(isTileOccupied())piece.render(g, (int)(game.getGameCamera().getxOffset() + x), (int)(game.getGameCamera().getyOffset() + y));
 
             if(item != null) {
-                g.drawImage(Assets.TREASURE,Tile.TILE_WIDTH/2 -15 + (int)(Game.INSTANCE.getGameCamera().getxOffset() + x),Tile.TILE_HEIGHT/2 - 15 + (int)(Game.INSTANCE.getGameCamera().getyOffset() + y), 30, 30, null);
+                g.drawImage(Assets.TREASURE,Tile.TILE_WIDTH/2 -15 + (int)(game.getGameCamera().getxOffset() + x),Tile.TILE_HEIGHT/2 - 15 + (int)(game.getGameCamera().getyOffset() + y), 30, 30, null);
             }
         });
         
@@ -157,7 +159,7 @@ public class Tile extends RenderableObject {
     */
     @Override
     public void onMouseMove(MouseEvent e, int x, int y) {
-        Rectangle bounds = new Rectangle(x + (int)Game.INSTANCE.getGameCamera().getxOffset(), y + (int)Game.INSTANCE.getGameCamera().getyOffset(), width, height);
+        Rectangle bounds = new Rectangle(x + (int)game.getGameCamera().getxOffset(), y + (int)game.getGameCamera().getyOffset(), width, height);
         hovering = bounds.contains(e.getX(), e.getY());
     }
     
@@ -179,7 +181,7 @@ public class Tile extends RenderableObject {
     @Override
     public void onClick(MouseEvent e) {
         
-        Player currentPlayer = Game.INSTANCE.getCurrentPlayer();
+        Player currentPlayer = game.getCurrentPlayer();
         
         if(!currentPlayer.getVision().contains(this)) {
             return;
@@ -200,10 +202,10 @@ public class Tile extends RenderableObject {
                 if(isTileOccupied()) {
                     piece.onClick(e);
                 } else {
-                    if(Game.INSTANCE.selectedObject != null) {
-                        if(Game.INSTANCE.selectedObject.isCard()) {
+                    if(game.selectedObject != null) {
+                        if(game.selectedObject.isCard()) {
                             PlayableAction.USE_SUMMON_CARD.execute(this);
-                        } else if(Game.INSTANCE.selectedObject.isPiece()) {
+                        } else if(game.selectedObject.isPiece()) {
                             PlayableAction.MOVE_PIECE.execute(this);
                         }
                     } 

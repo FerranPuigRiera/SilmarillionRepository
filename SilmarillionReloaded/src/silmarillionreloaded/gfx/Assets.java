@@ -33,12 +33,25 @@ public class Assets {
                                            CARD_0031, CARD_0032, CARD_0033, CARD_0034, CARD_0035, CARD_0036, CARD_0037, CARD_0038, CARD_0039, CARD_0040,
                                            CARD_0041, CARD_0042;
     
-    public static BufferedImage TREASURE, MAP, GREAT_AXE, AXE, HAMMER, GREAT_SHIELD, SHIELD, 
-                                PERGAMIN, STAFF, BAG, GREAT_DOUBLE_AXE, DOUBLE_AXE, 
-                                CHEST, BOW, WOODEN_SWORD, TOOLS, GREAT_SWORD, SWORD, 
-                                HELM, HEART, CROSS, BOOK, COIN, GREEN_GEM, BLUE_GEM, 
-                                RED_GEM, GREEN_POTION, BLUE_POTION, RED_POTION, MAIL;
-    
+    public static BufferedImage TREASURE, FOOD_1, FOOD_2, FOOD_3, FOOD_4, FOOD_5, FOOD_6, FOOD_7, FOOD_8, FOOD_9, FOOD_10, FOOD_11, FOOD_12, FOOD_13, FOOD_14,
+                                FOOD_15, FOOD_16, FOOD_17, FOOD_18, FOOD_19, FOOD_20, FOOD_21, FOOD_22, FOOD_23, FOOD_24, FOOD_25, FOOD_26, FOOD_27, FOOD_28,
+                                BIG_ELIXIR_RED, BIG_ELIXIR_ORANGE, BIG_ELIXIR_YELLOW, BIG_ELIXIR_BLUE, BIG_ELIXIR_PURPLE, BIG_ELIXIR_GREEN, BIG_ELIXIR_GREY, 
+                                SMALL_ELIXIR_RED, SMALL_ELIXIR_ORANGE, SMALL_ELIXIR_YELLOW, SMALL_ELIXIR_BLUE, SMALL_ELIXIR_PURPLE, SMALL_ELIXIR_GREEN, SMALL_ELIXIR_GREY,
+                                SWORD_1, SWORD_2, SWORD_3, SWORD_4, SWORD_5, SWORD_6, SWORD_7, SWORD_8, SWORD_9, SWORD_10, SWORD_11, SWORD_12, SWORD_13, SWORD_14,
+                                SPEAR_1, SPEAR_2, SPEAR_3, SPEAR_4, SPEAR_5, SPEAR_6, SPEAR_7, SPEAR_8, SPEAR_9, SPEAR_10, SPEAR_11, SPEAR_12, SPEAR_13, SPEAR_14,
+                                MACE_1, MACE_2, MACE_3, MACE_4, MACE_5, MACE_6, MACE_7, MACE_8, MACE_9, MACE_10, MACE_11, MACE_12, MACE_13, MACE_14,
+                                AXE_1, AXE_2, AXE_3, AXE_4, AXE_5, AXE_6, AXE_7, AXE_8, AXE_9, AXE_10, BOOK_1, BOOK_2, BOOK_3, BOOK_4,
+                                SHIELD_1, SHIELD_2, SHIELD_3, SHIELD_4, SHIELD_5, SHIELD_6, SHIELD_7, SHIELD_8, SHIELD_9, SHIELD_10, SHIELD_11, SHIELD_12, SHIELD_13, SHIELD_14,
+                                GEM_1, GEM_2, GEM_3, GEM_4, GEM_5, GEM_6, GEM_7, GEM_8, GEM_9, GEM_10, GEM_11, GEM_12, GEM_13, GEM_14,
+                                CRAP_1, CRAP_2, CRAP_3, CRAP_4, CRAP_5, CRAP_6, CRAP_7, CRAP_8, CRAP_9, CRAP_10, CRAP_11, CRAP_12, CRAP_13, CRAP_14,
+                                CHEST_1, CHEST_2, CHEST_3, CHEST_4, TORCH_FLAME, TORCH, KEY_1, KEY_2, KEY_3, KEY_4, KEY_5, KEY_6, KEY_7, KEY_8,
+                                HELM_1, HELM_2, HELM_3, HELM_4, HELM_5, MIRROR, FEATHER_1, FEATHER_2, CHAIN, POISON, BAG, PAPER_1, PAPER_2, PAPER_3,
+                                TRINKET_1, TRINKET_2, TRINKET_3, TRINKET_4, TRINKET_5, TRINKET_6, TRINKET_7, TRINKET_8, TRINKET_9, TRINKET_10, GLOVE_1, GLOVE_2, GLOVE_3, GLOVE_4,
+                                OTHER_1, OTHER_2, OTHER_3, OTHER_4, OTHER_5, OTHER_6, OTHER_7, OTHER_8, OTHER_9, OTHER_10, OTHER_11, OTHER_12, OTHER_13, OTHER_14,
+                                OTHER_15, OTHER_16, OTHER_17, OTHER_18, OTHER_19, OTHER_20, OTHER_21, OTHER_22, OTHER_23, OTHER_24, OTHER_25, OTHER_26, OTHER_27, OTHER_28;
+                                
+            
+            
     public static BufferedImage GAME_BACKGROUND_1;
     
     public static BufferedImage END_TURN_B, END_TURN_H, COLLECT_B, COLLECT_H;
@@ -182,38 +195,219 @@ public class Assets {
         
         TREASURE = ImageLoader.loadImage("/items/chest.png");
         
-        SpriteSheet items = new SpriteSheet(ImageLoader.loadImage("/items/items.png"),6,5);
+        SpriteSheet items = new SpriteSheet(ImageLoader.loadImage("/items/items2.jpg"),14,15);
         
-        MAP = items.getSubImage(0, 0);
-        GREAT_AXE = items.getSubImage(1, 0);
-        AXE = items.getSubImage(2, 0);
-        HAMMER = items.getSubImage(3, 0);
-        GREAT_SHIELD = items.getSubImage(0, 0);
-        SHIELD = items.getSubImage(4, 0);
-        PERGAMIN = items.getSubImage(5, 0);
-        STAFF = items.getSubImage(0, 1);
-        BAG = items.getSubImage(1, 1);
-        GREAT_DOUBLE_AXE = items.getSubImage(2, 1);
-        DOUBLE_AXE = items.getSubImage(3, 1);
-        CHEST = items.getSubImage(4, 1);
-        BOW = items.getSubImage(5, 1);
-        WOODEN_SWORD = items.getSubImage(0, 2);
-        TOOLS = items.getSubImage(1, 2);
-        GREAT_SWORD = items.getSubImage(2, 2);
-        SWORD = items.getSubImage(3, 2);
-        HELM = items.getSubImage(4, 2);
-        HEART = items.getSubImage(5, 2);
-        CROSS = items.getSubImage(0, 3);
-        BOOK = items.getSubImage(1, 3);
-        COIN = items.getSubImage(2, 3);
-        GREEN_GEM = items.getSubImage(3, 3);
-        BLUE_GEM = items.getSubImage(4, 3);
-        RED_GEM = items.getSubImage(5, 3);
-        GREEN_POTION = items.getSubImage(0, 4);
-        BLUE_POTION = items.getSubImage(2, 4);
-        RED_POTION = items.getSubImage(3, 4);
-        MAIL = items.getSubImage(4, 4);
-        
+        FOOD_1 = items.getSubImage(0, 0);
+        FOOD_2 = items.getSubImage(1, 0);
+        FOOD_3 = items.getSubImage(2, 0);
+        FOOD_4 = items.getSubImage(3, 0);
+        FOOD_5 = items.getSubImage(4, 0);
+        FOOD_6 = items.getSubImage(5, 0);
+        FOOD_7 = items.getSubImage(6, 0);
+        FOOD_8 = items.getSubImage(7, 0);
+        FOOD_9 = items.getSubImage(8, 0);
+        FOOD_10 = items.getSubImage(9, 0);
+        FOOD_11 = items.getSubImage(10, 0);
+        FOOD_12 = items.getSubImage(11, 0);
+        FOOD_13 = items.getSubImage(12, 0);
+        FOOD_14 = items.getSubImage(13, 0);
+        FOOD_15 = items.getSubImage(0, 1);
+        FOOD_16 = items.getSubImage(1, 1);
+        FOOD_17 = items.getSubImage(2, 1);
+        FOOD_18 = items.getSubImage(3, 1);
+        FOOD_19 = items.getSubImage(4, 1);
+        FOOD_20 = items.getSubImage(5, 1);
+        FOOD_21 = items.getSubImage(6, 1);
+        FOOD_22 = items.getSubImage(7, 1);
+        FOOD_23 = items.getSubImage(8, 1);
+        FOOD_24 = items.getSubImage(9, 1);
+        FOOD_25 = items.getSubImage(10, 1);
+        FOOD_26 = items.getSubImage(11, 1);
+        FOOD_27 = items.getSubImage(12, 1);
+        FOOD_28 = items.getSubImage(13, 1);
+        BIG_ELIXIR_RED = items.getSubImage(0, 2);
+        BIG_ELIXIR_ORANGE = items.getSubImage(1, 2);
+        BIG_ELIXIR_YELLOW = items.getSubImage(2, 2);
+        BIG_ELIXIR_BLUE = items.getSubImage(3, 2);
+        BIG_ELIXIR_PURPLE = items.getSubImage(4, 2);
+        BIG_ELIXIR_GREEN = items.getSubImage(5, 2);
+        BIG_ELIXIR_GREY = items.getSubImage(6, 2); 
+        SMALL_ELIXIR_RED = items.getSubImage(7, 2);
+        SMALL_ELIXIR_ORANGE = items.getSubImage(8, 2);
+        SMALL_ELIXIR_YELLOW = items.getSubImage(9, 2);
+        SMALL_ELIXIR_BLUE = items.getSubImage(10, 2);
+        SMALL_ELIXIR_PURPLE = items.getSubImage(11, 2);
+        SMALL_ELIXIR_GREEN = items.getSubImage(12, 2);
+        SMALL_ELIXIR_GREY = items.getSubImage(13, 2);
+        SWORD_1 = items.getSubImage(0, 3);
+        SWORD_2 = items.getSubImage(1, 3);
+        SWORD_3 = items.getSubImage(2, 3);
+        SWORD_4 = items.getSubImage(3, 3);
+        SWORD_5 = items.getSubImage(4, 3);
+        SWORD_6 = items.getSubImage(5, 3);
+        SWORD_7 = items.getSubImage(6, 3);
+        SWORD_8 = items.getSubImage(7, 3);
+        SWORD_9 = items.getSubImage(8, 3);
+        SWORD_10 = items.getSubImage(9, 3);
+        SWORD_11 = items.getSubImage(10, 3);
+        SWORD_12 = items.getSubImage(11, 3);
+        SWORD_13 = items.getSubImage(12, 3);
+        SWORD_14 = items.getSubImage(13, 3);
+        SPEAR_1 = items.getSubImage(0, 4);
+        SPEAR_2 = items.getSubImage(1, 4);
+        SPEAR_3 = items.getSubImage(2, 4);
+        SPEAR_4 = items.getSubImage(3, 4);
+        SPEAR_5 = items.getSubImage(4, 4);
+        SPEAR_6 = items.getSubImage(5, 4);
+        SPEAR_7 = items.getSubImage(6, 4);
+        SPEAR_8 = items.getSubImage(7, 4);
+        SPEAR_9 = items.getSubImage(8, 4);
+        SPEAR_10 = items.getSubImage(9, 4);
+        SPEAR_11 = items.getSubImage(10, 4);
+        SPEAR_12 = items.getSubImage(11, 4);
+        SPEAR_13 = items.getSubImage(12, 4);
+        SPEAR_14 = items.getSubImage(13, 4);
+        MACE_1 = items.getSubImage(0, 5);
+        MACE_2 = items.getSubImage(1, 5);
+        MACE_3 = items.getSubImage(2, 5);
+        MACE_4 = items.getSubImage(3, 5);
+        MACE_5 = items.getSubImage(4, 5);
+        MACE_6 = items.getSubImage(5, 5);
+        MACE_7 = items.getSubImage(6, 5);
+        MACE_8 = items.getSubImage(7, 5);
+        MACE_9 = items.getSubImage(8, 5);
+        MACE_10 = items.getSubImage(9, 5);
+        MACE_11 = items.getSubImage(10, 5);
+        MACE_12 = items.getSubImage(11, 5);
+        MACE_13 = items.getSubImage(12, 5);
+        MACE_14 = items.getSubImage(13, 5);
+        AXE_1 = items.getSubImage(0, 6);
+        AXE_2 = items.getSubImage(1, 6);
+        AXE_3 = items.getSubImage(2, 6);
+        AXE_4 = items.getSubImage(3, 6);
+        AXE_5 = items.getSubImage(4, 6);
+        AXE_6 = items.getSubImage(5, 6);
+        AXE_7 = items.getSubImage(6, 6);
+        AXE_8 = items.getSubImage(7, 6);
+        AXE_9 = items.getSubImage(8, 6);
+        AXE_10 = items.getSubImage(9, 6);
+        BOOK_1 = items.getSubImage(10, 6);
+        BOOK_2 = items.getSubImage(11, 6);
+        BOOK_3 = items.getSubImage(12, 6);
+        BOOK_4 = items.getSubImage(13, 6);
+        SHIELD_1 = items.getSubImage(0, 6);
+        SHIELD_2 = items.getSubImage(1, 7);
+        SHIELD_3 = items.getSubImage(2, 7);
+        SHIELD_4 = items.getSubImage(3, 7);
+        SHIELD_5 = items.getSubImage(4, 7);
+        SHIELD_6 = items.getSubImage(5, 7);
+        SHIELD_7 = items.getSubImage(6, 7);
+        SHIELD_8 = items.getSubImage(7, 7);
+        SHIELD_9 = items.getSubImage(8, 7);
+        SHIELD_10 = items.getSubImage(9, 7);
+        SHIELD_11 = items.getSubImage(10, 7);
+        SHIELD_12 = items.getSubImage(11, 7);
+        SHIELD_13 = items.getSubImage(12, 7);
+        SHIELD_14 = items.getSubImage(13, 7);
+        GEM_1 = items.getSubImage(0, 8);
+        GEM_2 = items.getSubImage(1, 8);
+        GEM_3 = items.getSubImage(2, 8);
+        GEM_4 = items.getSubImage(3, 8);
+        GEM_5 = items.getSubImage(4, 8);
+        GEM_6 = items.getSubImage(5, 8);
+        GEM_7 = items.getSubImage(6, 8);
+        GEM_8 = items.getSubImage(7, 8);
+        GEM_9 = items.getSubImage(8, 8);
+        GEM_10 = items.getSubImage(9, 8);
+        GEM_11 = items.getSubImage(10, 8);
+        GEM_12 = items.getSubImage(11, 8);
+        GEM_13 = items.getSubImage(12, 8);
+        GEM_14 = items.getSubImage(13, 8);
+        CRAP_1 = items.getSubImage(0, 9);
+        CRAP_2 = items.getSubImage(1, 9);
+        CRAP_3 = items.getSubImage(2, 9);
+        CRAP_4 = items.getSubImage(3, 9);
+        CRAP_5 = items.getSubImage(4, 9);
+        CRAP_6 = items.getSubImage(5, 9);
+        CRAP_7 = items.getSubImage(6, 9);
+        CRAP_8 = items.getSubImage(7, 9);
+        CRAP_9 = items.getSubImage(8, 9);
+        CRAP_10 = items.getSubImage(9, 9);
+        CRAP_11 = items.getSubImage(10, 9);
+        CRAP_12 = items.getSubImage(11, 9);
+        CRAP_13 = items.getSubImage(12, 9);
+        CRAP_14 = items.getSubImage(13, 9);
+        CHEST_1 = items.getSubImage(0, 10);
+        CHEST_2 = items.getSubImage(1, 10);
+        CHEST_3 = items.getSubImage(2, 10);
+        CHEST_4 = items.getSubImage(3, 10);
+        TORCH_FLAME = items.getSubImage(4, 10);
+        TORCH = items.getSubImage(5, 10);
+        KEY_1 = items.getSubImage(6, 10);
+        KEY_2 = items.getSubImage(7, 10);
+        KEY_3 = items.getSubImage(8, 10);
+        KEY_4 = items.getSubImage(9, 10);
+        KEY_5 = items.getSubImage(10, 10);
+        KEY_6 = items.getSubImage(11, 10);
+        KEY_7 = items.getSubImage(12, 10);
+        KEY_8 = items.getSubImage(13, 10);
+        HELM_1 = items.getSubImage(0, 11);
+        HELM_2 = items.getSubImage(1, 11);
+        HELM_3 = items.getSubImage(2, 11);
+        HELM_4 = items.getSubImage(3, 11);
+        HELM_5 = items.getSubImage(4, 11);
+        MIRROR = items.getSubImage(5, 11);
+        FEATHER_1 = items.getSubImage(6, 11);
+        FEATHER_2 = items.getSubImage(7, 11);
+        CHAIN = items.getSubImage(8, 11);
+        POISON = items.getSubImage(9, 11);
+        BAG = items.getSubImage(10, 11);
+        PAPER_1 = items.getSubImage(11, 11);
+        PAPER_2 = items.getSubImage(12, 11);
+        PAPER_3 = items.getSubImage(13, 11);
+        TRINKET_1 = items.getSubImage(0, 12);
+        TRINKET_2 = items.getSubImage(1, 12);
+        TRINKET_3 = items.getSubImage(2, 12);
+        TRINKET_4 = items.getSubImage(3, 12);
+        TRINKET_5 = items.getSubImage(4, 12);
+        TRINKET_6 = items.getSubImage(5, 12);
+        TRINKET_7 = items.getSubImage(6, 12);
+        TRINKET_8 = items.getSubImage(7, 12);
+        TRINKET_9 = items.getSubImage(8, 12);
+        TRINKET_10 = items.getSubImage(9, 12);
+        GLOVE_1 = items.getSubImage(10, 12);
+        GLOVE_2 = items.getSubImage(11, 12);
+        GLOVE_3 = items.getSubImage(12, 12);
+        GLOVE_4 = items.getSubImage(13, 12);
+        OTHER_1 = items.getSubImage(0, 13);
+        OTHER_2 = items.getSubImage(1, 13);
+        OTHER_3 = items.getSubImage(2, 13);
+        OTHER_4 = items.getSubImage(3, 13);
+        OTHER_5 = items.getSubImage(4, 13);
+        OTHER_6 = items.getSubImage(5, 13);
+        OTHER_7 = items.getSubImage(6, 13);
+        OTHER_8 = items.getSubImage(7, 13);
+        OTHER_9 = items.getSubImage(8, 13);
+        OTHER_10 = items.getSubImage(9, 13);
+        OTHER_11 = items.getSubImage(10, 13);
+        OTHER_12 = items.getSubImage(11, 13);
+        OTHER_13 = items.getSubImage(12, 13);
+        OTHER_14 = items.getSubImage(13, 13);
+        OTHER_15 = items.getSubImage(0, 14);
+        OTHER_16 = items.getSubImage(1, 14);
+        OTHER_17 = items.getSubImage(2, 14);
+        OTHER_18 = items.getSubImage(3, 14);
+        OTHER_19 = items.getSubImage(4, 14);
+        OTHER_20 = items.getSubImage(5, 14);
+        OTHER_21 = items.getSubImage(6, 14);
+        OTHER_22 = items.getSubImage(7, 14);
+        OTHER_23 = items.getSubImage(8, 14);
+        OTHER_24 = items.getSubImage(9, 14);
+        OTHER_25 = items.getSubImage(10, 14);
+        OTHER_26 = items.getSubImage(11, 14);
+        OTHER_27 = items.getSubImage(12, 14);
+        OTHER_28 = items.getSubImage(13, 14);
+
         
         END_TURN_B = ImageLoader.loadImage("/buttons/EndTurnB.png");
         COLLECT_B = ImageLoader.loadImage("/buttons/CollectB.png");

@@ -7,6 +7,7 @@ package silmarillionreloaded.player;
 
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
+import silmarillionreloaded.game.Game;
 import silmarillionreloaded.renderableObjects.ObjectManager;
 
 /**
@@ -15,8 +16,8 @@ import silmarillionreloaded.renderableObjects.ObjectManager;
  */
 public class Deck extends ObjectManager<Card>{
 
-    public static Deck generateRandomDeck() {
-        Deck deck = new Deck();
+    public static Deck generateRandomDeck(final Game game) {
+        Deck deck = new Deck(game);
         for(int i = 0; i < MAX_CARDS_IN_DECK; i++) {
             deck.addObject(Card.createRandomSummonCard());
         }
@@ -25,8 +26,12 @@ public class Deck extends ObjectManager<Card>{
     
     public final static int MAX_CARDS_IN_DECK = 60;
      
-    public Deck() {
+    
+    private final Game game;
+    
+    public Deck(final Game game) {
         super(0,0,0,0,1,Card.CARD_WIDTH,Card.CARD_HEIGHT,MAX_CARDS_IN_DECK);
+        this.game = game;
         setDefaultRenderPoints();
     }
 

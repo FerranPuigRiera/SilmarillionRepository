@@ -8,6 +8,7 @@ package silmarillionreloaded.player;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
+import java.util.Random;
 import java.util.Set;
 import silmarillionreloaded.renderableObjects.RenderableObject;
 import silmarillionreloaded.pieces.Piece;
@@ -22,6 +23,12 @@ import silmarillionreloaded.tiles.Tile;
  * @author Ferran
  */
 public abstract class Player extends RenderableObject {
+    
+    public static RegularPlayer createNewRandomRegularPlayer(final Game game, Alliance alliance) {
+        Random r = new Random();
+        return new RegularPlayer(game, "Player "+r.nextInt(10000), alliance, Deck.generateRandomDeck(game), King.createNewKing(Piece.getRandomIndexOnCache(), alliance));
+    }
+    
     
     public static final int PLAYER_X = 25;
     public static final int PLAYER_Y = 25;
@@ -70,21 +77,21 @@ public abstract class Player extends RenderableObject {
         public RegularPlayer(Game game, String name, Alliance alliance, Deck deck, King king) {
             super(game, name, alliance);
             this.deck = deck;
-            this.hand = new Hand();
-            this.inventory = new Inventory();
+            this.hand = new Hand(game);
+            this.inventory = new Inventory(game);
             this.king = king;
             deployTiles = new DeployTiles();
         }
 
         
         public void initDeployCoordinates() {
-            Tile kingsTile = Game.INSTANCE.getWorld().findTilesPieceOnWorld(king);
+            Tile kingsTile = game.getWorld().findTilesPieceOnWorld(king);
             deployTiles.addTile(kingsTile);
-            Set<Tile> tilesAround = Game.INSTANCE.getWorld().getTilesAround(kingsTile);
+            Set<Tile> tilesAround = game.getWorld().getTilesAround(kingsTile);
             tilesAround.forEach((tile) -> {
                 deployTiles.addTile(tile);
             });
-            valor = Settings.INITIAL_VALOR_FOR_PLAYER;
+            valor = Game.INITIAL_VALOR_FOR_PLAYER;
         }
         
         public Hand getHand() {

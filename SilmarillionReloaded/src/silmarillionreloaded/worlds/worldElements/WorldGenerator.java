@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Random;
 import silmarillionreloaded.pieces.Piece;
 import silmarillionreloaded.game.Alliance;
+import silmarillionreloaded.game.Game;
 import silmarillionreloaded.gfx.CropCode;
 import silmarillionreloaded.gfx.TileImage;
 import silmarillionreloaded.tiles.Texture;
@@ -30,21 +31,21 @@ public class WorldGenerator {
     
     private final Texture baseTexture;
     
-    public WorldGenerator(World world) {
-        width = world.getColumns();
-        height = world.getRows();
+    public WorldGenerator(Game game, int width,int height) {
+        this.width = width;
+        this.height = height;
         generatedWorld = new ArrayList<>();
         baseTexture = Texture.GRASS;
-        init();
+        init(game);
         setBase();
         setWorld();
         
     }
     
-    public void init() {
+    public void init(final Game game) {
 
         for(int i = 0; i < width*height; i++) {
-            generatedWorld.add(new Tile(i));
+            generatedWorld.add(new Tile(game,i));
         }
     }
     

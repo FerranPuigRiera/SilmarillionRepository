@@ -17,9 +17,11 @@ import silmarillionreloaded.tiles.Tile;
  */
 public class GameCamera {
     
+    private final Game game;
     private float xOffset, yOffset;
     
-    public GameCamera(float xOffset, float yOffset) {
+    public GameCamera(Game game, float xOffset, float yOffset) {
+        this.game = game;
         this.xOffset = xOffset;
         this.yOffset = yOffset;
     }
@@ -27,7 +29,7 @@ public class GameCamera {
     public void centerOnPiece(Piece e) {
         
         
-        Tile tile = Game.INSTANCE.getWorld().findTilesPieceOnWorld(e);
+        Tile tile = game.getWorld().findTilesPieceOnWorld(e);
         
         if(e == null) {
             System.err.println("Piece not found!");

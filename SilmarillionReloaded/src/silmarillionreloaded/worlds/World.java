@@ -31,14 +31,15 @@ public final class World extends ObjectManager<Tile>{
     public static final int NUMBER_COLUMNS = 55;
     public static final int NUMBER_ROWS = 30;
     
-    
+    private final Game game;
 
     private final int rows;
     
-    public World() {
+    public World(final Game game) {
         super(0,0,NUMBER_COLUMNS*Tile.TILE_WIDTH,NUMBER_ROWS*Tile.TILE_HEIGHT, NUMBER_COLUMNS, Tile.TILE_WIDTH, Tile.TILE_HEIGHT, NUMBER_COLUMNS*NUMBER_ROWS);     
+        this.game = game;
         rows = NUMBER_ROWS;
-        WorldGenerator generator = new WorldGenerator(this);
+        WorldGenerator generator = new WorldGenerator(this.game,NUMBER_COLUMNS,NUMBER_ROWS);
         setDefaultRenderPoints();
         generator.getGeneratedWorld().forEach(tile -> addObject(tile));
         getCloneList().forEach(tile -> tile.setItem(Item.getNewRandomItemOrNot()));
@@ -104,7 +105,7 @@ public final class World extends ObjectManager<Tile>{
     public Map<Tile,Float> getTilesAroundDistances(final Tile tile) {
         HashMap<Tile, Float> map = new HashMap<>();
         if(tile == null) {
-            throw new RuntimeException("Null tile 2");
+            throw new RuntimeException("Null tile");
         }
         getTilesAround(tile).stream().filter(tileAround -> tileAround != null).forEach(tileAround -> {
             if(tileAround.isTileOccupied()) {
@@ -122,10 +123,10 @@ public final class World extends ObjectManager<Tile>{
     public void renderList(Graphics g) {
         getCloneList().forEach(tile -> tile.render(g, renderPoints.get(tile).x, renderPoints.get(tile).y));
         getCloneList().stream().filter(tile -> tile.isTileOccupied()).forEach(tile -> tile.getPiece().render(g, renderPoints.get(tile).x, renderPoints.get(tile).y));
-        /*getCloneList().stream().filter(tile -> !Game.INSTANCE.getCurrentPlayer().getVision().contains(tile)).forEach(tile -> {
-        g.setColor(Color.black);
-        g.fillRect(renderPoints.get(tile).x, renderPoints.get(tile).y,width, height);
-        });*/
+        getCloneList().stream().filter(tile -> !game.getCurrentPlayer().getVision().contains(tile)).forEach(tile -> {
+            g.setColor(Color.black);
+            g.fillRect((int)game.getGameCamera().getxOffset() + renderPoints.get(tile).x,(int)game.getGameCamera().getyOffset() + renderPoints.get(tile).y,Tile.TILE_WIDTH, Tile.TILE_HEIGHT);
+        });
     }
     
     @Override

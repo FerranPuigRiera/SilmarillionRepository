@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 import silmarillionreloaded.renderableObjects.Button;
 import silmarillionreloaded.renderableObjects.PanelManager;
 import silmarillionreloaded.Application;
@@ -33,8 +34,8 @@ import silmarillionreloaded.worlds.World;
  * @author Ferran
  */
 public final class Game {
-
-    public static Game INSTANCE;
+    public static final int INITIAL_VALOR_FOR_PLAYER = 500;
+    //public static Game INSTANCE;
 
     public Player getNextPlayer() {
         Player firstPlayer = getAllPlayers().get(0);
@@ -69,18 +70,37 @@ public final class Game {
     
     
     public Game(Application app) {
-        INSTANCE = this;
+        //INSTANCE = this;
         this.app = app;
         PlayableAction.init(this);
-        Piece.init();
-        Card.init();
-        Item.init();
-        Settings.init(this);
-        players = Settings.PLAYERS;
+        Piece.init(this);
+        Card.init(this);
+        Item.init(this);
         
+        world = new World(this);
+        players = new ArrayList<>();
+        players.add(Player.createNewRandomRegularPlayer(this, Alliance.ALLIANCE_1));
+        players.add(Player.createNewRandomRegularPlayer(this, Alliance.ALLIANCE_2));
+        players.add(Player.createNewRandomRegularPlayer(this, Alliance.ALLIANCE_3));
+        Random r = new Random();
+        players.stream().filter(player -> player.isRegularPlayer()).forEach(player -> {
+            RegularPlayer rp = (RegularPlayer)player;
+            rp.drawCard();
+            rp.drawCard();
+            rp.drawCard();
+            rp.drawCard();
+            int kingSpawn; 
+            do {
+                kingSpawn = r.nextInt(world.getColumns()*world.getRows());
+            } while(world.get(kingSpawn).isTileOccupied());
+            Tile kingTile = world.get(kingSpawn);
+            kingTile.setPiece(rp.getKing());
+            rp.getVision().addTile(kingTile);
+            world.getTilesAround(kingTile).forEach(tileAround -> rp.getVision().addTile(tileAround));
+            rp.initDeployCoordinates();
+        });
         currentPlayer = players.get(0);
-        world = Settings.WORLD;
-        gameCamera = new GameCamera(0,0);
+        gameCamera = new GameCamera(this,0,0);
         animationManager = new FreeObjectManager();
         animationManager.setCamera(gameCamera);
         if(currentPlayer.isRegularPlayer()) {
@@ -89,10 +109,6 @@ public final class Game {
         }
         
         panelManager = new PanelManager();
-        players.stream().filter(player -> player.isRegularPlayer()).forEach(player -> {
-            RegularPlayer rp = (RegularPlayer)player;
-            rp.initDeployCoordinates();
-        });
         Application.MOUSE_MANAGER.addGame(this);
         BufferedImage[] endTurnButtonImages = new BufferedImage[2];
         endTurnButtonImages[0] = Assets.END_TURN_B;
@@ -102,13 +118,6 @@ public final class Game {
         collectButtonImages[0] = Assets.COLLECT_B;
         collectButtonImages[1] = Assets.COLLECT_H;
         collectButton = new Button(120, 60, collectButtonImages, PlayableAction.COLLECT_ITEM::execute);
-        players.stream().filter(player -> player.isRegularPlayer()).forEach(player -> {
-            RegularPlayer rp = (RegularPlayer)player;
-            Tile kingTile = world.findTilesPieceOnWorld(rp.getKing());
-            rp.getVision().addTile(kingTile);
-            world.getTilesAround(kingTile).forEach(tileAround -> rp.getVision().addTile(tileAround));
-        });
-        
     }
     
     
@@ -128,14 +137,14 @@ public final class Game {
            !innerRect.contains(mm.getMouseX(),mm.getMouseY())) {
             
             if(mm.getMouseX() < innerRect.x) {
-                Game.INSTANCE.getGameCamera().move(-1, 0);
+                getGameCamera().move(-1, 0);
             } else if(mm.getMouseX() > innerRect.x + innerRect.width) {
-                Game.INSTANCE.getGameCamera().move(1, 0);
+                getGameCamera().move(1, 0);
             }
             if(mm.getMouseY() < innerRect.y) {
-                Game.INSTANCE.getGameCamera().move(0, -1);
+                getGameCamera().move(0, -1);
             } else if(mm.getMouseY() > innerRect.y + innerRect.height) {
-                Game.INSTANCE.getGameCamera().move(0, 1);
+                getGameCamera().move(0, 1);
             }
             
             

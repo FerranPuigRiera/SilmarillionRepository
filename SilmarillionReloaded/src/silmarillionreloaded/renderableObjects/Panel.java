@@ -168,23 +168,44 @@ public abstract class Panel<A extends RenderableObject>  {
             g.drawRect((int)x, (int)y, width, height);
             g.drawString(item.getName(), (int)x + 10, (int)y + 20);
             int drawY = 40;
-            if(item.moddifyHealth() > 0) {
-                g.drawString("Add +"+item.moddifyHealth()+" health", (int)x + 10, (int)y + drawY);
+            if(item.modifyHealth() > 0) {
+                g.drawString("Add +"+item.modifyHealth()+" health", (int)x + 10, (int)y + drawY);
                 drawY += 20;
-            } else if(item.moddifyDamage() > 0) {
-                g.drawString("Add +"+item.moddifyDamage()+" damage", (int)x + 10, (int)y + drawY);
+            }  
+            if(item.modifyDamage() > 0) {
+                g.drawString("Add +"+item.modifyDamage()+" damage", (int)x + 10, (int)y + drawY);
                 drawY += 20;
-            } else if(item.moddifyArmor() > 0) {
-                g.drawString("Add +"+item.moddifyArmor()+" armor", (int)x + 10, (int)y + drawY);
+            }  
+            if(item.modifyArmor() > 0) {
+                g.drawString("Add +"+item.modifyArmor()+" armor", (int)x + 10, (int)y + drawY);
                 drawY += 20;
-            } else if(item.moddifyElementalDamage() > 0) {
-                g.drawString("Add +"+item.moddifyElementalDamage()+" elemental damage", (int)x + 10, (int)y + drawY);
+            }  
+            if(item.modifyElementalDamage() > 0) {
+                g.drawString("Add +"+item.modifyElementalDamage()+" elemental damage", (int)x + 10, (int)y + drawY);
                 drawY += 20;
-            } else if(item.moddifyElementalArmor() > 0) {
-                g.drawString("Add +"+item.moddifyElementalArmor()+" elemental armor", (int)x + 10, (int)y + drawY);
+            }  
+            if(item.modifyElementalArmor() > 0) {
+                g.drawString("Add +"+item.modifyElementalArmor()+" elemental armor", (int)x + 10, (int)y + drawY);
                 drawY += 20;
-            } else if(item.moddifyMoves() > 0) {
-                g.drawString("Add +"+item.moddifyMoves()+" moves", (int)x + 10, (int)y + drawY);
+            }  
+            if(item.modifyMoves() > 0) {
+                g.drawString("Add +"+item.modifyMoves()+" moves", (int)x + 10, (int)y + drawY);
+                drawY += 20;
+            } 
+            if(item.modifyCriticalChance()> 0) {
+                g.drawString("Add +"+item.modifyCriticalChance()+" critical chance", (int)x + 10, (int)y + drawY);
+                drawY += 20;
+            }  
+            if(item.modifyCriticalDamage()> 0) {
+                g.drawString("Add +"+item.modifyCriticalDamage()+" critical damage", (int)x + 10, (int)y + drawY);
+                drawY += 20;
+            }  
+            if(item.modifyLifeSteal()> 0) {
+                g.drawString("Add +"+item.modifyLifeSteal()+" life steal", (int)x + 10, (int)y + drawY);
+                drawY += 20;
+            }  
+            if(item.modifyArmorPenetration()> 0) {
+                g.drawString("Add +"+item.modifyArmorPenetration()+" armor penetration", (int)x + 10, (int)y + drawY);
                 drawY += 20;
             } 
         }
