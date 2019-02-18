@@ -6,6 +6,7 @@
 package silmarillionreloaded.actions;
 
 import java.awt.Point;
+import java.util.Random;
 import silmarillionreloaded.renderableObjects.TemporalPanel;
 import silmarillionreloaded.game.Game;
 import silmarillionreloaded.gfx.Assets;
@@ -193,8 +194,10 @@ public abstract class PlayableAction {
                 }
                 RegularPlayer rp = (RegularPlayer)game.getCurrentPlayer();
                 Card card = game.selectedObject.getCard();
-                Piece piece = Piece.createNewPiece(Piece.PIECES_CACHE.indexOf(game.selectedObject.getCard().getSummonPiece()), rp.getAlliance());
+                Piece piece = new Piece(card.getSummonPiece());
                 piece.setAvailableMoves(0);
+                piece.setAlliance(rp.getAlliance());
+                
                 rp.addValor(card.getCost()*-1);
                 rp.getHand().removeObject(card);
                 tile.setPiece(piece);
@@ -254,9 +257,11 @@ public abstract class PlayableAction {
                 anim.start();
                 
                 Piece attaker = game.selectedObject.getPiece();
-                int amt = attaker.getDamage();
-                if(piece.getArmor() < 90) {
-                    amt -= amt*piece.getArmor()/100;
+                float realArmor = piece.getStats().getRealArmor() - attaker.getStats().getRealArmorPenetration();
+                if(realArmor < 0) realArmor = 0;
+                float amt = attaker.getDamage();
+                if(realArmor < 90) {
+                    amt -= amt*realArmor/100;
                 } else {
                     amt -= amt*90/100;
                 }
@@ -273,7 +278,22 @@ public abstract class PlayableAction {
                 } else if(piece.getElement().isResistantTo().equals(attaker.getElement())) {
                     amt = (amt*7)/10;
                 }
-                piece.getStats().health.substractValue(amt);
+                
+                Random rand = new Random();
+                
+                if(rand.nextInt(100) <= attaker.getStats().getRealCritChance()) {
+                    amt *= 2;
+                } else if(rand.nextInt(100) <= piece.getStats().getRealBlockChance()) {
+                    amt = 0;
+                }
+                
+                float lifeSteal = amt*attaker.getStats().getRealLifeSteal()/100;
+                if(piece.getStats().getHealth().getValue() + lifeSteal > piece.getStats().getHealth().getMaxValue()) {
+                    piece.getStats().getHealth().setValue(piece.getStats().getHealth().getMaxValue());
+                } else {
+                    attaker.getStats().getHealth().sumValue(lifeSteal);
+                }
+                piece.getStats().getHealth().substractValue(amt); 
                 attaker.setAvailableMoves(0);
                 if(game.getCurrentPlayer().isRegularPlayer()) {
                     RegularPlayer rp = (RegularPlayer)game.getCurrentPlayer();

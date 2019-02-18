@@ -30,8 +30,8 @@ import silmarillionreloaded.worlds.World;
  */
 public class Tile extends RenderableObject {
     
-    public static final int TILE_WIDTH = 40;
-    public static final int TILE_HEIGHT = 40;
+    public static final int TILE_WIDTH = 100;
+    public static final int TILE_HEIGHT = 100;
     
     private final Game game;
     private final int coordinate;
@@ -137,7 +137,7 @@ public class Tile extends RenderableObject {
             }
 
             if(game.selectedObject != null && game.selectedObject.isPiece() && game.selectedObject.getPiece().getAlliance().equals(game.getCurrentPlayer().getAlliance())) {
-                int pieceMoves = game.selectedObject.getPiece().getAvailableMoves();
+                float pieceMoves = game.selectedObject.getPiece().getAvailableMoves();
                 if(getDistance() <= pieceMoves) {
                     g.setColor(Color.yellow);
                     g.drawOval((int)(game.getGameCamera().getxOffset() + x), (int)(game.getGameCamera().getyOffset() + y), width - 1, height - 1);

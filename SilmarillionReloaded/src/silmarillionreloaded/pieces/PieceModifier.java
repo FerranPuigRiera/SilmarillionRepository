@@ -5,22 +5,26 @@
  */
 package silmarillionreloaded.pieces;
 
+import java.awt.image.BufferedImage;
+
 /**
  *
  * @author Ferran
  */
 public interface PieceModifier {
     
-    public int modifyHealth();
-    public int modifyMaxHealth();
-    public int modifyDamage();
-    public int modifyArmor();
-    public int modifyElementalDamage();
-    public int modifyElementalArmor();
-    public int modifyMoves();
-    public int modifyCriticalChance();
-    public float modifyCriticalDamage();
-    public int modifyLifeSteal();
-    public int modifyArmorPenetration();
+    public float modifyHealth();
+    public float modifyMaxHealth();
+    public float modifyDamage();
+    public float modifyArmor();
+    public float modifyElementalDamage();
+    public float modifyElementalArmor();
+    public float modifyMoves();
+    public float modifyCriticalChance();
+    public float modifyBlockChance();
+    public float modifyLifeSteal();
+    public float modifyArmorPenetration();
+    
+    public BufferedImage getIcon();
     
 }

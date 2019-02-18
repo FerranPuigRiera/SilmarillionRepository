@@ -31,7 +31,7 @@ public class GameCamera {
         
         Tile tile = game.getWorld().findTilesPieceOnWorld(e);
         
-        if(e == null) {
+        if(tile == null) {
             System.err.println("Piece not found!");
             TemporalPanel.addErrorMessage("ERROR: Piece not found");
             return;

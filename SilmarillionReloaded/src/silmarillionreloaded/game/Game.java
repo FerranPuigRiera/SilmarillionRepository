@@ -5,6 +5,7 @@
  */
 package silmarillionreloaded.game;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -70,12 +71,12 @@ public final class Game {
     
     
     public Game(Application app) {
-        //INSTANCE = this;
         this.app = app;
-        PlayableAction.init(this);
+        
         Piece.init(this);
         Card.init(this);
         Item.init(this);
+        PlayableAction.init(this);
         
         world = new World(this);
         players = new ArrayList<>();
@@ -123,8 +124,8 @@ public final class Game {
     
     public void tick() {
         
-        Rectangle outerRect = new Rectangle(0,0,world.getWidth(),world.getHeight());
-        Rectangle innerRect = new Rectangle(world.getWidth()/4,world.getHeight()/4,world.getWidth()/2,world.getHeight()/2);
+        Rectangle outerRect = new Rectangle(0,0,Application.FRAME_WIDTH,Application.FRAME_HEIGHT);
+        Rectangle innerRect = new Rectangle(outerRect.width/4,outerRect.height/4,outerRect.width/2,outerRect.height/2);
         MouseManager mm = Application.MOUSE_MANAGER;
         boolean movingMap = true;
         if(currentPlayer.isRegularPlayer()) {
@@ -169,6 +170,7 @@ public final class Game {
         if(PlayableAction.COLLECT_ITEM.isExecutable()) {
             collectButton.render(g, 1500, 700);
         }
+        
     }
     
     public Button getEndTurnButton() {

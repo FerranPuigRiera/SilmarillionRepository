@@ -336,17 +336,17 @@ public class Item extends RenderableObject implements ObjectSelected, PieceModif
     protected final BufferedImage image;
     protected final float proc;
     
-    protected int hpMod;
-    protected int maxHpMod;
-    protected int atkMod;
-    protected int armMod;
-    protected int elemAtkMod;
-    protected int elemArmMod;
-    protected int movesMod;
-    protected int critChanceMod;
-    protected float critDamageMod;
-    protected int lifeStealMod;
-    protected int arpenMod;
+    protected float hpMod;
+    protected float maxHpMod;
+    protected float atkMod;
+    protected float armMod;
+    protected float elemAtkMod;
+    protected float elemArmMod;
+    protected float movesMod;
+    protected float critChanceMod;
+    protected float blockChanceMod;
+    protected float lifeStealMod;
+    protected float arpenMod;
 
     public Item(Game game, String name, BufferedImage image, float proc) {
         super(ITEM_WIDTH, ITEM_HEIGHT);
@@ -361,7 +361,7 @@ public class Item extends RenderableObject implements ObjectSelected, PieceModif
         elemArmMod = 0;
         movesMod = 0;
         critChanceMod = 0;
-        critDamageMod = 0;
+        blockChanceMod = 0;
         lifeStealMod = 0;
         arpenMod = 0;
         this.proc = proc;
@@ -378,9 +378,9 @@ public class Item extends RenderableObject implements ObjectSelected, PieceModif
         armMod = item.armMod;
         elemAtkMod = item.elemAtkMod;
         elemArmMod = item.elemArmMod;
-        movesMod = item.armMod;
+        movesMod = item.movesMod;
         critChanceMod = item.critChanceMod;
-        critDamageMod = item.critDamageMod;
+        blockChanceMod = item.blockChanceMod;
         lifeStealMod = item.lifeStealMod;
         arpenMod = item.arpenMod;
         proc = item.proc;
@@ -440,65 +440,69 @@ public class Item extends RenderableObject implements ObjectSelected, PieceModif
         return null;
     }
     @Override
-    public int modifyMaxHealth() {
+    public float modifyMaxHealth() {
         return maxHpMod;
     }
     
     @Override
-    public int modifyHealth() {
+    public float modifyHealth() {
         return hpMod;
     }
 
     @Override
-    public int modifyDamage() {
+    public float modifyDamage() {
         return atkMod;
     }
 
     @Override
-    public int modifyArmor() {
+    public float modifyArmor() {
         return armMod;
     }
 
     @Override
-    public int modifyElementalDamage() {
+    public float modifyElementalDamage() {
         return elemAtkMod;
     }
 
     @Override
-    public int modifyElementalArmor() {
+    public float modifyElementalArmor() {
         return elemArmMod;
     }
 
     @Override
-    public int modifyMoves() {
+    public float modifyMoves() {
         return movesMod;
     }
 
     @Override
-    public int modifyCriticalChance() {
+    public float modifyCriticalChance() {
         return critChanceMod;
     }
 
     @Override
-    public float modifyCriticalDamage() {
-        return critDamageMod;
+    public float modifyBlockChance() {
+        return blockChanceMod;
     }
 
     @Override
-    public int modifyLifeSteal() {
+    public float modifyLifeSteal() {
         return lifeStealMod;
     }
 
     @Override
-    public int modifyArmorPenetration() {
+    public float modifyArmorPenetration() {
         return arpenMod;
+    }
+
+    @Override
+    public BufferedImage getIcon() {
+        return image;
     }
     
     public static final class Food extends Item {
         public static final int MAX_MOVES = 3;
         public static final int MAX_ARMOR = 40;
         public static final int MAX_ELEM_ARMOR = 40;
-        
         public static final int MAX_LEVEL = 28;
         
         
@@ -589,7 +593,6 @@ public class Item extends RenderableObject implements ObjectSelected, PieceModif
         public Weapon(Game game, String name, BufferedImage image, float proc, int level) {
             super(game, name, image, proc);
             critChanceMod = MIN_PROC;
-            critDamageMod = 0.1f;
             lifeStealMod = MIN_PROC;
             arpenMod = MIN_PROC;
         }
@@ -601,7 +604,7 @@ public class Item extends RenderableObject implements ObjectSelected, PieceModif
             public Sword(Game game, String name, BufferedImage image, float proc, int level) {
                 super(game, name, image, proc, level);
                 this.atkMod = MAX_DAMAGE*level/NUMBER;
-                this.critDamageMod = MAX_PROC*level/NUMBER;
+                this.critChanceMod = MAX_PROC*level/NUMBER;
             }
             
         }
@@ -610,7 +613,7 @@ public class Item extends RenderableObject implements ObjectSelected, PieceModif
             public Spear(Game game, String name, BufferedImage image, float proc, int level) {
                 super(game, name, image, proc, level);
                 this.atkMod = MAX_DAMAGE*level/NUMBER;
-                this.critChanceMod = MAX_PROC*level/NUMBER;
+                this.arpenMod = MAX_PROC*level/NUMBER;
             }
             
         }
@@ -629,6 +632,7 @@ public class Item extends RenderableObject implements ObjectSelected, PieceModif
                 super(game, name, image, proc, level);
                 this.atkMod = MAX_DAMAGE*level/NUMBER;
                 this.arpenMod = MAX_PROC*level/NUMBER;
+                this.critChanceMod = MAX_PROC*level/NUMBER;
             }
             
         }
@@ -636,15 +640,15 @@ public class Item extends RenderableObject implements ObjectSelected, PieceModif
     public static final class Shield extends Item {
         public static final int MAX_DEFFENSE = 80;
         public static final int NUMBER = 14;
+        public static final int MAX_PROC = 50;
         public Shield(Game game, String name, BufferedImage image, float proc, int level) {
             super(game, name, image, proc);
             this.armMod = MAX_DEFFENSE*level/NUMBER;
             this.elemArmMod = MAX_DEFFENSE*level/NUMBER / 2;
-            this.movesMod = 0;
+            this.blockChanceMod = MAX_PROC*level/NUMBER;
         }
         
-    } 
-    
+    }   
     public static final class Chest extends Item {
         public static final int MAX_DEFFENSE = 80;
         public static final int MAX_HP = 600;
@@ -694,5 +698,4 @@ public class Item extends RenderableObject implements ObjectSelected, PieceModif
             this.elemAtkMod = ELEM_DAMAGE*level/NUMBER;
         }       
     }
-
 }

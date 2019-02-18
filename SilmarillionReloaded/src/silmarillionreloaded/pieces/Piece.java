@@ -5,14 +5,13 @@
  */
 package silmarillionreloaded.pieces;
 
-import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import silmarillionreloaded.renderableObjects.Panel.PiecePanel;
 import silmarillionreloaded.renderableObjects.RenderableObject;
@@ -22,9 +21,18 @@ import silmarillionreloaded.game.Alliance;
 import silmarillionreloaded.game.Game;
 import silmarillionreloaded.game.ObjectSelected;
 import silmarillionreloaded.gfx.Assets;
+import silmarillionreloaded.pieces.Stat.Armor;
+import silmarillionreloaded.pieces.Stat.ArmorPenetration;
+import silmarillionreloaded.pieces.Stat.BlockChance;
+import silmarillionreloaded.pieces.Stat.CriticalChance;
+import silmarillionreloaded.pieces.Stat.Damage;
+import silmarillionreloaded.pieces.Stat.ElementalArmor;
+import silmarillionreloaded.pieces.Stat.ElementalDamage;
+import silmarillionreloaded.pieces.Stat.Health;
+import silmarillionreloaded.pieces.Stat.LifeSteal;
+import silmarillionreloaded.pieces.Stat.Moves;
 import silmarillionreloaded.player.Card;
 import silmarillionreloaded.player.Item;
-import silmarillionreloaded.renderableObjects.SpriteAnimation;
 import silmarillionreloaded.tiles.Tile;
 
 /**
@@ -33,16 +41,15 @@ import silmarillionreloaded.tiles.Tile;
  */
 public class Piece extends RenderableObject implements ObjectSelected {
 
-    private static Piece BEREN, HURIN, EAGLE, SINDAR_ELF, NUMENORIAN_SOLDIER, HUOR,
+    public static Piece BEREN, HURIN, EAGLE, SINDAR_ELF, NUMENORIAN_SOLDIER, HUOR,
                         TUOR, FEANOR, FINGOLFIN, LUTHIEN, MANWE, VARDA, GONDOLIN_SOLDIER,
-                        DORIAH_RANGER, NOLDOR_ELF, INCOGNITO, WINDOR, CIRDAN, MAEDHROS,
+                        DORIAH_RANGER, NOLDOR_ELF, DWARF_BELEGOST, WINDOR, CIRDAN, MAEDHROS,
                         MORGOTH, SAURON, GOTHMOG, GLAURUNG, UNGOLIANT, ORC, SPIDER, 
                         WARG, WOLF, ORC_CAPITAN, ORC_RANGER, ORC_WARRIOR, MORGOTH_SLAVE,
                         DRAGON, URUK_HAI, ELITE_URUK_HAI,BALROG, ORC_ELITE, ENT, NAUGRIM; 
 
                         
                
-    
     
     public static Piece createNewPiece(int index, Alliance alliance)  {
         if(PIECES_CACHE.size() > index) {
@@ -55,7 +62,7 @@ public class Piece extends RenderableObject implements ObjectSelected {
     }
 
     public static King createNewKing(int index, Alliance alliance) {
-        System.out.println(PIECES_CACHE.size());
+
         if(PIECES_CACHE.size() > index) {
             King piece = new King(PIECES_CACHE.get(index));
             piece.setAlliance(alliance);
@@ -101,7 +108,6 @@ public class Piece extends RenderableObject implements ObjectSelected {
         b1.setElementalArmor(15);
         b1.setMoves(4);
         b1.setImage(Assets.PIECE_0001);
-        PIECES_CACHE.add(b1.build());
         
         Builder b2 = new Builder(game);
         b2.setName("Hurin");
@@ -113,7 +119,6 @@ public class Piece extends RenderableObject implements ObjectSelected {
         b2.setElementalArmor(5);
         b2.setMoves(3);
         b2.setImage(Assets.PIECE_0002);
-        PIECES_CACHE.add(b2.build());
         
         Builder b3 = new Builder(game);
         b3.setName("Eagle");
@@ -125,7 +130,6 @@ public class Piece extends RenderableObject implements ObjectSelected {
         b3.setElementalArmor(15);
         b3.setMoves(6);
         b3.setImage(Assets.PIECE_0003);
-        PIECES_CACHE.add(b3.build());
         
         Builder b4 = new Builder(game);
         b4.setName("Sindar Elf");
@@ -137,7 +141,6 @@ public class Piece extends RenderableObject implements ObjectSelected {
         b4.setElementalArmor(50);
         b4.setMoves(2);
         b4.setImage(Assets.PIECE_0004);
-        PIECES_CACHE.add(b4.build());
         
         Builder b5 = new Builder(game);
         b5.setName("Numenorian Soldier");
@@ -149,7 +152,6 @@ public class Piece extends RenderableObject implements ObjectSelected {
         b5.setElementalArmor(10);
         b5.setMoves(4);
         b5.setImage(Assets.PIECE_0005);
-        PIECES_CACHE.add(b5.build());
         
         Builder b6 = new Builder(game);
         b6.setName("Huor");
@@ -161,7 +163,6 @@ public class Piece extends RenderableObject implements ObjectSelected {
         b6.setElementalArmor(20);
         b6.setMoves(4);
         b6.setImage(Assets.PIECE_0006);
-        PIECES_CACHE.add(b6.build());
         
         Builder b7 = new Builder(game);
         b7.setName("Tuor");
@@ -173,8 +174,7 @@ public class Piece extends RenderableObject implements ObjectSelected {
         b7.setElementalArmor(15);
         b7.setMoves(4);
         b7.setImage(Assets.PIECE_0007);
-        PIECES_CACHE.add(b7.build());
-        
+
         Builder b8 = new Builder(game);
         b8.setName("Feanor");
         b8.setElement(Element.FIRE);
@@ -185,7 +185,6 @@ public class Piece extends RenderableObject implements ObjectSelected {
         b8.setElementalArmor(40);
         b8.setMoves(5);
         b8.setImage(Assets.PIECE_0008);
-        PIECES_CACHE.add(b8.build());
         
         Builder b9 = new Builder(game);
         b9.setName("Fingolfin");
@@ -197,7 +196,6 @@ public class Piece extends RenderableObject implements ObjectSelected {
         b9.setElementalArmor(45);
         b9.setMoves(4);
         b9.setImage(Assets.PIECE_0009);
-        PIECES_CACHE.add(b9.build());
         
         Builder b10 = new Builder(game);
         b10.setName("Luthien");
@@ -209,8 +207,7 @@ public class Piece extends RenderableObject implements ObjectSelected {
         b10.setElementalArmor(50);
         b10.setMoves(5);
         b10.setImage(Assets.PIECE_0010);
-        PIECES_CACHE.add(b10.build());
-        
+
         Builder b11 = new Builder(game);
         b11.setName("Manwe");
         b11.setElement(Element.WIND);
@@ -221,7 +218,6 @@ public class Piece extends RenderableObject implements ObjectSelected {
         b11.setElementalArmor(50);
         b11.setMoves(6);
         b11.setImage(Assets.PIECE_0011);
-        PIECES_CACHE.add(b11.build());
         
         Builder b12 = new Builder(game);
         b12.setName("Varda");
@@ -233,7 +229,6 @@ public class Piece extends RenderableObject implements ObjectSelected {
         b12.setElementalArmor(50);
         b12.setMoves(6);
         b12.setImage(Assets.PIECE_0012);
-        PIECES_CACHE.add(b12.build());
         
         Builder b13 = new Builder(game);
         b13.setName("Gondolin Soldier");
@@ -245,7 +240,6 @@ public class Piece extends RenderableObject implements ObjectSelected {
         b13.setElementalArmor(40);
         b13.setMoves(2);
         b13.setImage(Assets.PIECE_0013);
-        PIECES_CACHE.add(b13.build());
         
         Builder b14 = new Builder(game);
         b14.setName("Doriah ranger");
@@ -257,7 +251,6 @@ public class Piece extends RenderableObject implements ObjectSelected {
         b14.setElementalArmor(20);
         b14.setMoves(6);
         b14.setImage(Assets.PIECE_0014);
-        PIECES_CACHE.add(b14.build());
         
         Builder b15 = new Builder(game);
         b15.setName("Noldor elf");
@@ -269,7 +262,6 @@ public class Piece extends RenderableObject implements ObjectSelected {
         b15.setElementalArmor(20);
         b15.setMoves(4);
         b15.setImage(Assets.PIECE_0015);
-        PIECES_CACHE.add(b15.build());
         
         Builder b16 = new Builder(game);
         b16.setName("Dwarf of Belegost");
@@ -281,7 +273,6 @@ public class Piece extends RenderableObject implements ObjectSelected {
         b16.setElementalArmor(20);
         b16.setMoves(3);
         b16.setImage(Assets.PIECE_0016);
-        PIECES_CACHE.add(b16.build());
         
         Builder b21 = new Builder(game);
         b21.setName("Windor");
@@ -293,7 +284,6 @@ public class Piece extends RenderableObject implements ObjectSelected {
         b21.setElementalArmor(30);
         b21.setMoves(3);
         b21.setImage(Assets.PIECE_0021);
-        PIECES_CACHE.add(b21.build());
         
         Builder b22 = new Builder(game);
         b22.setName("Cirdan");
@@ -305,7 +295,6 @@ public class Piece extends RenderableObject implements ObjectSelected {
         b22.setElementalArmor(40);
         b22.setMoves(4);
         b22.setImage(Assets.PIECE_0022);
-        PIECES_CACHE.add(b22.build());
         
         Builder b23 = new Builder(game);
         b23.setName("Maedhros");
@@ -317,7 +306,6 @@ public class Piece extends RenderableObject implements ObjectSelected {
         b23.setElementalArmor(35);
         b23.setMoves(4);
         b23.setImage(Assets.PIECE_0023);
-        PIECES_CACHE.add(b23.build());
         
         Builder b24 = new Builder(game);
         b24.setName("Morgoth");
@@ -329,7 +317,6 @@ public class Piece extends RenderableObject implements ObjectSelected {
         b24.setElementalArmor(50);
         b24.setMoves(2);
         b24.setImage(Assets.PIECE_0024);
-        PIECES_CACHE.add(b24.build());
         
         Builder b25 = new Builder(game);
         b25.setName("Sauron");
@@ -341,7 +328,6 @@ public class Piece extends RenderableObject implements ObjectSelected {
         b25.setElementalArmor(50);
         b25.setMoves(3);
         b25.setImage(Assets.PIECE_0025);
-        PIECES_CACHE.add(b25.build());
         
         Builder b26 = new Builder(game);
         b26.setName("Gothmog");
@@ -353,7 +339,6 @@ public class Piece extends RenderableObject implements ObjectSelected {
         b26.setElementalArmor(50);
         b26.setMoves(4);
         b26.setImage(Assets.PIECE_0026);
-        PIECES_CACHE.add(b26.build());
         
         Builder b27 = new Builder(game);
         b27.setName("Glaurung");
@@ -365,7 +350,6 @@ public class Piece extends RenderableObject implements ObjectSelected {
         b27.setElementalArmor(45);
         b27.setMoves(5);
         b27.setImage(Assets.PIECE_0027);
-        PIECES_CACHE.add(b27.build());
         
         Builder b28 = new Builder(game);
         b28.setName("Ungoliant");
@@ -377,7 +361,6 @@ public class Piece extends RenderableObject implements ObjectSelected {
         b28.setElementalArmor(50);
         b28.setMoves(5);
         b28.setImage(Assets.PIECE_0028);
-        PIECES_CACHE.add(b28.build());
         
         
         Builder b30 = new Builder(game);
@@ -390,7 +373,6 @@ public class Piece extends RenderableObject implements ObjectSelected {
         b30.setElementalArmor(10);
         b30.setMoves(3);
         b30.setImage(Assets.PIECE_0030);
-        PIECES_CACHE.add(b30.build());
         
         Builder b31 = new Builder(game);
         b31.setName("Spider");
@@ -402,7 +384,6 @@ public class Piece extends RenderableObject implements ObjectSelected {
         b31.setElementalArmor(10);
         b31.setMoves(4);
         b31.setImage(Assets.PIECE_0031);
-        PIECES_CACHE.add(b31.build());
         
         Builder b32 = new Builder(game);
         b32.setName("Warg");
@@ -414,7 +395,6 @@ public class Piece extends RenderableObject implements ObjectSelected {
         b32.setElementalArmor(15);
         b32.setMoves(5);
         b32.setImage(Assets.PIECE_0032);
-        PIECES_CACHE.add(b32.build());
         
         Builder b33 = new Builder(game);
         b33.setName("Wolf");
@@ -426,7 +406,6 @@ public class Piece extends RenderableObject implements ObjectSelected {
         b33.setElementalArmor(10);
         b33.setMoves(5);
         b33.setImage(Assets.PIECE_0033);
-        PIECES_CACHE.add(b33.build());
         
         Builder b34 = new Builder(game);
         b34.setName("Orc capitan");
@@ -438,7 +417,6 @@ public class Piece extends RenderableObject implements ObjectSelected {
         b34.setElementalArmor(25);
         b34.setMoves(4);
         b34.setImage(Assets.PIECE_0034);
-        PIECES_CACHE.add(b34.build());
         
         Builder b35 = new Builder(game);
         b35.setName("Orc ranger");
@@ -450,7 +428,6 @@ public class Piece extends RenderableObject implements ObjectSelected {
         b35.setElementalArmor(25);
         b35.setMoves(6);
         b35.setImage(Assets.PIECE_0035);
-        PIECES_CACHE.add(b35.build());
         
         Builder b36 = new Builder(game);
         b36.setName("Orc warrior");
@@ -462,7 +439,6 @@ public class Piece extends RenderableObject implements ObjectSelected {
         b36.setElementalArmor(20);
         b36.setMoves(4);
         b36.setImage(Assets.PIECE_0036);
-        PIECES_CACHE.add(b36.build());
         
         Builder b37 = new Builder(game);
         b37.setName("Morgoth slave");
@@ -474,7 +450,6 @@ public class Piece extends RenderableObject implements ObjectSelected {
         b37.setElementalArmor(5);
         b37.setMoves(5);
         b37.setImage(Assets.PIECE_0037);
-        PIECES_CACHE.add(b37.build());
         
         Builder b39 = new Builder(game);
         b39.setName("Dragon");
@@ -486,7 +461,6 @@ public class Piece extends RenderableObject implements ObjectSelected {
         b39.setElementalArmor(25);
         b39.setMoves(6);
         b39.setImage(Assets.PIECE_0039);
-        PIECES_CACHE.add(b39.build());
                
         Builder b42 = new Builder(game);
         b42.setName("Uruk-hai");
@@ -498,7 +472,6 @@ public class Piece extends RenderableObject implements ObjectSelected {
         b42.setElementalArmor(10);
         b42.setMoves(4);
         b42.setImage(Assets.PIECE_0042);
-        PIECES_CACHE.add(b42.build());
         
         Builder b43 = new Builder(game);
         b43.setName("Elite uruk-hai");
@@ -510,7 +483,6 @@ public class Piece extends RenderableObject implements ObjectSelected {
         b43.setElementalArmor(15);
         b43.setMoves(4);
         b43.setImage(Assets.PIECE_0043);
-        PIECES_CACHE.add(b43.build());
         
         Builder b44 = new Builder(game);
         b44.setName("Balrog");
@@ -522,7 +494,6 @@ public class Piece extends RenderableObject implements ObjectSelected {
         b44.setElementalArmor(45);
         b44.setMoves(3);
         b44.setImage(Assets.PIECE_0044);
-        PIECES_CACHE.add(b44.build());
         
         Builder b45 = new Builder(game);
         b45.setName("Orc elite");
@@ -534,7 +505,6 @@ public class Piece extends RenderableObject implements ObjectSelected {
         b45.setElementalArmor(20);
         b45.setMoves(4);
         b45.setImage(Assets.PIECE_0045);
-        PIECES_CACHE.add(b45.build());
         
         Builder b46 = new Builder(game);
         b46.setName("Ent");
@@ -546,7 +516,6 @@ public class Piece extends RenderableObject implements ObjectSelected {
         b46.setElementalArmor(50);
         b46.setMoves(1);
         b46.setImage(Assets.PIECE_0046);
-        PIECES_CACHE.add(b46.build());
         
         Builder b47 = new Builder(game);
         b47.setName("Naugrim");
@@ -558,7 +527,47 @@ public class Piece extends RenderableObject implements ObjectSelected {
         b47.setElementalArmor(20);
         b47.setMoves(2);
         b47.setImage(Assets.PIECE_0047);
-        PIECES_CACHE.add(b47.build());
+        
+        BEREN = b1.build(); PIECES_CACHE.add(BEREN);
+        HURIN = b2.build(); PIECES_CACHE.add(HURIN);
+        EAGLE = b3.build(); PIECES_CACHE.add(EAGLE);
+        SINDAR_ELF = b4.build(); PIECES_CACHE.add(SINDAR_ELF);
+        NUMENORIAN_SOLDIER = b5.build(); PIECES_CACHE.add(NUMENORIAN_SOLDIER);
+        HUOR = b6.build(); PIECES_CACHE.add(HUOR);
+        TUOR = b7.build(); PIECES_CACHE.add(TUOR);
+        FEANOR = b8.build(); PIECES_CACHE.add(FEANOR);
+        FINGOLFIN = b9.build(); PIECES_CACHE.add(FINGOLFIN);
+        LUTHIEN = b10.build(); PIECES_CACHE.add(LUTHIEN);
+        MANWE = b11.build(); PIECES_CACHE.add(MANWE);
+        VARDA = b12.build(); PIECES_CACHE.add(VARDA);
+        GONDOLIN_SOLDIER = b13.build(); PIECES_CACHE.add(GONDOLIN_SOLDIER);
+        DORIAH_RANGER = b14.build(); PIECES_CACHE.add(DORIAH_RANGER);
+        NOLDOR_ELF = b15.build(); PIECES_CACHE.add(NOLDOR_ELF);
+        DWARF_BELEGOST = b16.build(); PIECES_CACHE.add(DWARF_BELEGOST);
+        WINDOR = b21.build(); PIECES_CACHE.add(WINDOR);
+        CIRDAN = b22.build(); PIECES_CACHE.add(CIRDAN);
+        MAEDHROS = b23.build(); PIECES_CACHE.add(MAEDHROS);
+        MORGOTH = b24.build(); PIECES_CACHE.add(MORGOTH);
+        SAURON = b25.build(); PIECES_CACHE.add(SAURON);
+        GOTHMOG = b26.build(); PIECES_CACHE.add(GOTHMOG);
+        GLAURUNG = b27.build(); PIECES_CACHE.add(GLAURUNG);
+        UNGOLIANT = b28.build(); PIECES_CACHE.add(UNGOLIANT);
+        ORC = b30.build(); PIECES_CACHE.add(ORC);
+        SPIDER = b31.build(); PIECES_CACHE.add(SPIDER); 
+        WARG = b32.build(); PIECES_CACHE.add(WARG);
+        WOLF = b33.build(); PIECES_CACHE.add(WOLF);
+        ORC_CAPITAN = b34.build(); PIECES_CACHE.add(ORC_CAPITAN);
+        ORC_RANGER = b35.build(); PIECES_CACHE.add(ORC_RANGER);
+        ORC_WARRIOR = b36.build(); PIECES_CACHE.add(ORC_WARRIOR);
+        MORGOTH_SLAVE = b37.build(); PIECES_CACHE.add(MORGOTH_SLAVE);
+        DRAGON = b39.build(); PIECES_CACHE.add(DRAGON);
+        URUK_HAI = b42.build(); PIECES_CACHE.add(URUK_HAI); 
+        ELITE_URUK_HAI = b43.build(); PIECES_CACHE.add(ELITE_URUK_HAI);
+        BALROG = b44.build(); PIECES_CACHE.add(BALROG);
+        ORC_ELITE = b45.build(); PIECES_CACHE.add(ORC_ELITE);
+        ENT = b46.build(); PIECES_CACHE.add(ENT);
+        NAUGRIM = b47.build(); PIECES_CACHE.add(NAUGRIM);
+        
     }
     
     private final Game game;
@@ -568,21 +577,22 @@ public class Piece extends RenderableObject implements ObjectSelected {
     
     private final BufferedImage image;
     private Alliance alliance;
-    private int availableMoves;
+    private float availableMoves;
     
-    private final SpriteAnimation aura; 
+    //private final SpriteAnimation aura; 
+    private final PieceBar hpBar;
     
     
-    private Piece(Piece piece) {
+    public Piece(Piece piece) {
         super(Tile.TILE_WIDTH, Tile.TILE_HEIGHT);
         game = piece.game;
         name = piece.name;
         element = piece.element;
-        stats = piece.stats;
+        stats = new PieceStats(piece.stats);
         image = piece.image;
         alliance = piece.alliance;
-        availableMoves = stats.getRealMoves();
-        aura = piece.aura;
+        availableMoves = (int)stats.getRealMoves();
+        hpBar = new PieceBar(game,this);  
     }
     
     private Piece(Builder builder) {
@@ -590,20 +600,63 @@ public class Piece extends RenderableObject implements ObjectSelected {
         game = builder.game;
         name = builder.name;
         element = builder.element;
-        stats = builder.stats;
+        stats = new PieceStats(builder.pieceStats);
         image = builder.image;
         alliance = Alliance.NULL;
-        availableMoves = stats.getRealMoves();
-        aura = new SpriteAnimation(Assets.AURA);
-        aura.setCycle(true);
+        availableMoves = (int)stats.getRealMoves();
+        hpBar = new PieceBar(game,this);
     }
 
-    public int getAvailableMoves() {
+    public float getAvailableMoves() {
         return availableMoves;
     }
 
-    public void setAvailableMoves(int availableMoves) {
+    public void setAvailableMoves(float availableMoves) {
         this.availableMoves = availableMoves;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 29 * hash + Objects.hashCode(this.game);
+        hash = 29 * hash + Objects.hashCode(this.name);
+        hash = 29 * hash + Objects.hashCode(this.stats);
+        hash = 29 * hash + Objects.hashCode(this.element);
+        hash = 29 * hash + Objects.hashCode(this.image);
+        hash = 29 * hash + Objects.hashCode(this.alliance);
+        hash = 29 * hash + Objects.hashCode(availableMoves);
+        hash = 29 * hash + Objects.hashCode(this.hpBar);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Piece other = (Piece) obj;
+        if (this.availableMoves != other.availableMoves) {
+            return false;
+        }
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.stats, other.stats)) {
+            return false;
+        }
+        if (this.element != other.element) {
+            return false;
+        }
+        if (this.alliance != other.alliance) {
+            return false;
+        }
+        return true;
     }
     
     
@@ -617,7 +670,7 @@ public class Piece extends RenderableObject implements ObjectSelected {
     
     @Override
     public void tick() {
-
+        hpBar.tick();
          
     }
 
@@ -625,30 +678,49 @@ public class Piece extends RenderableObject implements ObjectSelected {
         this.alliance = alliance;
     }
     
-    public int getHealth() {
+    public float getMaxHealth() {
+        return stats.getHealth().getMaxValue();
+    }
+    
+    public float getHealth() {
         return stats.getRealHealh();
     }
 
-    public int getDamage() {
+    public float getDamage() {
         return stats.getRealDamage();
     }
 
-    public int getArmor() {
+    public float getArmor() {
         return stats.getRealArmor();
     }
 
-    public int getElementalDamage() {
+    public float getElementalDamage() {
         return stats.getRealElementalDamage();
     }
 
-    public int getElementalArmor() {
+    public float getElementalArmor() {
         return stats.getRealElementalArmor();
     }
 
-    public int getMoves() {
+    public float getMoves() {
         return stats.getRealMoves();
     }
 
+    public float getCriticalChance() {
+        return stats.getRealCritChance();
+    }
+
+    public float getBlockChance() {
+        return stats.getRealBlockChance();
+    }
+
+    public float getLifeSteal() {
+        return stats.getRealLifeSteal();
+    }
+
+    public float getArmorPenetration() {
+        return stats.getRealArmorPenetration();
+    }
     
     
     @Override
@@ -657,13 +729,10 @@ public class Piece extends RenderableObject implements ObjectSelected {
         int print_x = (int)(x + game.getGameCamera().getxOffset());
         int print_y = (int)(y + game.getGameCamera().getyOffset());
         
-        /*if(this.equals(game.selectedObject)) {
-        g.setColor(Color.GREEN);
-        g.fillRect((int)print_x, (int)print_y, width, height);
-        }*/
         g.setColor(alliance.getRenderColor());
         g.fillOval((int)print_x - 1, (int)print_y - 1, width + 2, height + 2);
         g.drawImage(image, (int)print_x , (int)print_y, width, height, null);
+        hpBar.render(g, (int)print_x, (int)print_y);
     }
     
     public String getName() {
@@ -675,8 +744,8 @@ public class Piece extends RenderableObject implements ObjectSelected {
     }
     
     public int calculateCost() {
-        return stats.getRealHealh()/10 + stats.getRealDamage() + stats.getRealArmor() + 
-               stats.getRealElementalDamage() + stats.getRealElementalArmor() + stats.getRealMoves()*3;
+        return (int) (stats.getRealHealh()/10 + stats.getRealDamage() + stats.getRealArmor() + 
+               stats.getRealElementalDamage() + stats.getRealElementalArmor() + stats.getRealMoves()*3);
     }
     
    
@@ -686,13 +755,9 @@ public class Piece extends RenderableObject implements ObjectSelected {
         if(e.getButton() == MouseEvent.BUTTON1) {
 
             game.selectedObject = this;
-            game.getWorld().getCloneList().stream().filter(tile -> tile.isTileOccupied()).forEach(tile -> {tile.getPiece().aura.stop();tile.getPiece().aura.delete();});
             int x = game.getWorld().findTilesPieceOnWorld(this).getCoordinate_x()*Tile.TILE_WIDTH;
             int y = game.getWorld().findTilesPieceOnWorld(this).getCoordinate_y()*Tile.TILE_HEIGHT;
-            game.getAnimationManager().addObject(aura, new Point(x,y));
-            aura.setSize(Tile.TILE_WIDTH*2, Tile.TILE_HEIGHT*2);
-            aura.start();
-            game.getPanelManager().addObject(new TemporalPanel(new PiecePanel(this,e.getX(),e.getY(),200, 200),700));
+            game.getPanelManager().addObject(new TemporalPanel(new PiecePanel(this,e.getX(),e.getY(),200, 300),700));
             game.getWorld().getCloneList().forEach(tile -> {tile.setDistance(Integer.MAX_VALUE);
                                                                                  tile.setShortestPath(new LinkedList<>());});
             game.getWorld().calculateShortestPathFromSource(game.getWorld().findTilesPieceOnWorld(this));
@@ -761,8 +826,6 @@ public class Piece extends RenderableObject implements ObjectSelected {
         public void setAlliance(Alliance alliance) {
             super.setAlliance(alliance);
         }
-        
-        
     }
     
     
@@ -772,16 +835,39 @@ public class Piece extends RenderableObject implements ObjectSelected {
         private String name;
 
         private Element element;
-        private PieceStats stats;
+        private Health health;
+        private Damage damage;
+        private Armor armor;
+        private ElementalDamage elementalDamage;
+        private ElementalArmor elementalDeffense;
+        private Moves moves;
+        private CriticalChance criticChance;
+        private BlockChance blockChance;
+        private LifeSteal lifeSteal;
+        private ArmorPenetration armorPenetration;
+        
+        private PieceStats pieceStats;
+        
         private BufferedImage image;
         
         public Builder(final Game game) {
             this.game = game;
-            name = "New Piece";
-            stats = new PieceStats(new Stat(100),new Stat(10),new Stat(5), new Stat(10),new Stat(5),
-                    new Stat(3), new Stat(0), new Stat(0), new Stat(0), new Stat(0));
-            element = Element.EARTH;
-            image = Assets.PIECE_0001;
+            this.name = "New Piece";
+            this.health = new Health(100,100);
+            this.damage = new Damage(10);
+            this.armor = new Armor(5);
+            this.elementalDamage = new ElementalDamage(10);
+            this.elementalDeffense = new ElementalArmor(5);
+            this.moves = new Moves(3);
+            this.criticChance = new CriticalChance(0);
+            this.blockChance = new BlockChance(0);
+            this.lifeSteal = new LifeSteal(0);
+            this.armorPenetration = new ArmorPenetration(0);
+            this.pieceStats = new PieceStats(health, damage,armor,elementalDamage,
+                    elementalDeffense,criticChance, blockChance,
+                    lifeSteal, armorPenetration, moves);
+            this.element = Element.EARTH;
+            this.image = Assets.PIECE_0001;
         }
 
         public Builder setName(String name) {
@@ -789,21 +875,24 @@ public class Piece extends RenderableObject implements ObjectSelected {
             return this;
         }
 
-        public Builder setHealth(int health) {
-            stats.health.setInitialValue(health);
-            stats.health.setValue(health);
+        public Builder setMaxHealth(float health) {
+            this.health.setMaxValue(health);
+            return this;
+        }
+        
+        public Builder setHealth(float health) {
+            this.health.setValue(health);
+            setMaxHealth(health);
             return this;
         }
 
-        public Builder setDamage(int damage) {
-            stats.damage.setInitialValue(damage);
-            stats.damage.setValue(damage);
+        public Builder setDamage(float damage) {
+            this.damage.setValue(damage);
             return this;
         }
 
-        public Builder setArmor(int armor) {
-            stats.armor.setInitialValue(armor);
-            stats.armor.setValue(armor);
+        public Builder setArmor(float armor) {
+            this.armor.setValue(armor);
             return this;
         }
 
@@ -812,21 +901,34 @@ public class Piece extends RenderableObject implements ObjectSelected {
             return this;
         }
 
-        public Builder setElementalDamage(int elementalDamage) {
-            stats.elementalDamage.setInitialValue(elementalDamage);
-            stats.elementalDamage.setValue(elementalDamage);
+        public Builder setElementalDamage(float elementalDamage) {
+            this.elementalDamage.setValue(elementalDamage);
             return this;
         }
 
-        public Builder setElementalArmor(int elementalArmor) {
-            stats.elementalArmor.setInitialValue(elementalArmor);
-            stats.elementalArmor.setValue(elementalArmor);
+        public Builder setElementalArmor(float elementalArmor) {
+            this.elementalDeffense.setValue(elementalArmor);
             return this;
         }
-
-        public Builder setMoves(int moves) {
-            stats.moves.setInitialValue(moves);
-            stats.moves.setValue(moves);
+        public Builder setCriticalChance(float critChance) {
+            this.criticChance.setValue(critChance);
+            return this;
+        }
+        public Builder setBlockChance(float blockChance) {
+            this.blockChance.setValue(blockChance);
+            return this;
+        }
+        public Builder setLifeSteal(float lifeSteal) {
+            this.lifeSteal.setValue(lifeSteal);
+            return this;
+        }
+        public Builder setArmorPenetration(float arpen) {
+            this.armorPenetration.setValue(arpen);
+            return this;
+        }
+        
+        public Builder setMoves(float moves) {
+            this.moves.setValue(moves);
             return this;
         }
         public Builder setImage(BufferedImage bi) {
@@ -835,6 +937,9 @@ public class Piece extends RenderableObject implements ObjectSelected {
         }
         
         public Piece build() {
+            this.pieceStats = new PieceStats(health, damage,armor,elementalDamage,
+                    elementalDeffense, criticChance, blockChance,
+                    lifeSteal, armorPenetration, moves);
             return new Piece(this);
         }
         

@@ -51,7 +51,10 @@ public final class World extends ObjectManager<Tile>{
                 return tile;
             }
         }
+        System.err.println("Piece not found!");
+        System.exit(1);
         throw new RuntimeException("Piece not found!");
+        
     }
     
     public int getColumns() {

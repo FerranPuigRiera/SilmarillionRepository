@@ -5,6 +5,9 @@
  */
 package silmarillionreloaded.pieces;
 
+import java.awt.image.BufferedImage;
+import silmarillionreloaded.gfx.Assets;
+
 /**
  *
  * @author Ferran
@@ -20,58 +23,63 @@ public abstract class Buff implements PieceModifier {
     
     public static Buff KING_BUFF = new Buff() {
         @Override
-        public int modifyHealth() {
+        public float modifyHealth() {
             return 100;
         }
 
         @Override
-        public int modifyMaxHealth() {
+        public float modifyMaxHealth() {
             return 100;
         }
 
         @Override
-        public int modifyDamage() {
+        public float modifyDamage() {
             return 20;
         }
 
         @Override
-        public int modifyArmor() {
+        public float modifyArmor() {
             return 10;
         }
 
         @Override
-        public int modifyElementalDamage() {
+        public float modifyElementalDamage() {
             return 20;
         }
 
         @Override
-        public int modifyElementalArmor() {
+        public float modifyElementalArmor() {
             return 10;
         }
 
         @Override
-        public int modifyMoves() {
+        public float modifyMoves() {
             return 1;
         }
 
         @Override
-        public int modifyCriticalChance() {
+        public float modifyCriticalChance() {
             return 5;
         }
 
         @Override
-        public float modifyCriticalDamage() {
-            return 2.25f;
+        public float modifyBlockChance() {
+            return 5f;
         }
 
         @Override
-        public int modifyLifeSteal() {
+        public float modifyLifeSteal() {
             return 5;
         }
 
         @Override
-        public int modifyArmorPenetration() {
+        public float modifyArmorPenetration() {
             return 5;
+        }
+
+        @Override
+        public BufferedImage getIcon() {
+            return Assets.CROWN;
         }
     };
     

@@ -43,46 +43,45 @@ public class Card extends RenderableObject implements ObjectSelected{
     }
     
     public static void init(final Game game) {
-
-        CARDS_CACHE.add(new Card(game, Piece.PIECES_CACHE.get(0),Assets.CARD_0001));//Beren
-        CARDS_CACHE.add(new Card(game, Piece.PIECES_CACHE.get(1),Assets.CARD_0002));//Hurin
-        CARDS_CACHE.add(new Card(game, Piece.PIECES_CACHE.get(2),Assets.CARD_0003));//Eagle
-        CARDS_CACHE.add(new Card(game, Piece.PIECES_CACHE.get(3),Assets.CARD_0004));//Sindar elf
-        CARDS_CACHE.add(new Card(game, Piece.PIECES_CACHE.get(4),Assets.CARD_0005));//Numenorian
-        CARDS_CACHE.add(new Card(game, Piece.PIECES_CACHE.get(5),Assets.CARD_0006));//Huor
-        CARDS_CACHE.add(new Card(game, Piece.PIECES_CACHE.get(6),Assets.CARD_0007));//Tuor
-        CARDS_CACHE.add(new Card(game, Piece.PIECES_CACHE.get(7),Assets.CARD_0008));//Feanor
-        CARDS_CACHE.add(new Card(game, Piece.PIECES_CACHE.get(8),Assets.CARD_0009));//Fingolfin
-        CARDS_CACHE.add(new Card(game, Piece.PIECES_CACHE.get(9),Assets.CARD_0010));//Luthien
-        CARDS_CACHE.add(new Card(game, Piece.PIECES_CACHE.get(10),Assets.CARD_0011));//Manwe
-        CARDS_CACHE.add(new Card(game, Piece.PIECES_CACHE.get(11),Assets.CARD_0012));//Varda
-        CARDS_CACHE.add(new Card(game, Piece.PIECES_CACHE.get(12),Assets.CARD_0013));//Gondolin soldier
-        CARDS_CACHE.add(new Card(game, Piece.PIECES_CACHE.get(13),Assets.CARD_0014));//Doriah ranger
-        CARDS_CACHE.add(new Card(game, Piece.PIECES_CACHE.get(14),Assets.CARD_0015));//Noldor elf
-        CARDS_CACHE.add(new Card(game, Piece.PIECES_CACHE.get(15),Assets.CARD_0016));//Dwarf belegosy
-        CARDS_CACHE.add(new Card(game, Piece.PIECES_CACHE.get(16),Assets.CARD_0018));//Windor
-        CARDS_CACHE.add(new Card(game, Piece.PIECES_CACHE.get(17),Assets.CARD_0019));//Cirdan
-        CARDS_CACHE.add(new Card(game, Piece.PIECES_CACHE.get(18),Assets.CARD_0020));//Maedros
-        CARDS_CACHE.add(new Card(game, Piece.PIECES_CACHE.get(19),Assets.CARD_0021));//Morgoth
-        CARDS_CACHE.add(new Card(game, Piece.PIECES_CACHE.get(20),Assets.CARD_0022));//Sauron
-        CARDS_CACHE.add(new Card(game, Piece.PIECES_CACHE.get(21),Assets.CARD_0023));//Gothmog
-        CARDS_CACHE.add(new Card(game, Piece.PIECES_CACHE.get(22),Assets.CARD_0024));//Glaurung
-        CARDS_CACHE.add(new Card(game, Piece.PIECES_CACHE.get(23),Assets.CARD_0025));//Ungoliant
-        CARDS_CACHE.add(new Card(game, Piece.PIECES_CACHE.get(24),Assets.CARD_0026));//ORc
-        CARDS_CACHE.add(new Card(game, Piece.PIECES_CACHE.get(25),Assets.CARD_0027));//Spider
-        CARDS_CACHE.add(new Card(game, Piece.PIECES_CACHE.get(26),Assets.CARD_0028));//Warg
-        CARDS_CACHE.add(new Card(game, Piece.PIECES_CACHE.get(27),Assets.CARD_0029));//Wolf
-        CARDS_CACHE.add(new Card(game, Piece.PIECES_CACHE.get(28),Assets.CARD_0030));//Orc capt
-        CARDS_CACHE.add(new Card(game, Piece.PIECES_CACHE.get(29),Assets.CARD_0031));//Orc ranger
-        CARDS_CACHE.add(new Card(game, Piece.PIECES_CACHE.get(30),Assets.CARD_0032));//Orc warr
-        CARDS_CACHE.add(new Card(game, Piece.PIECES_CACHE.get(31),Assets.CARD_0033));//Morgoth slave
-        CARDS_CACHE.add(new Card(game, Piece.PIECES_CACHE.get(32),Assets.CARD_0034));//Dragon
-        CARDS_CACHE.add(new Card(game, Piece.PIECES_CACHE.get(33),Assets.CARD_0037));//Uruk
-        CARDS_CACHE.add(new Card(game, Piece.PIECES_CACHE.get(34),Assets.CARD_0038));//Elite uruk
-        CARDS_CACHE.add(new Card(game, Piece.PIECES_CACHE.get(35),Assets.CARD_0039));//Balrog
-        CARDS_CACHE.add(new Card(game, Piece.PIECES_CACHE.get(36),Assets.CARD_0040));//Orc elite
-        CARDS_CACHE.add(new Card(game, Piece.PIECES_CACHE.get(37),Assets.CARD_0041));//Ent
-        CARDS_CACHE.add(new Card(game, Piece.PIECES_CACHE.get(38),Assets.CARD_0042));//Naugrim
+        CARDS_CACHE.add(new Card(game, Piece.BEREN,Assets.CARD_0001));//Beren
+        CARDS_CACHE.add(new Card(game, Piece.HURIN,Assets.CARD_0002));//Hurin
+        CARDS_CACHE.add(new Card(game, Piece.EAGLE,Assets.CARD_0003));//Eagle
+        CARDS_CACHE.add(new Card(game, Piece.SINDAR_ELF,Assets.CARD_0004));//Sindar elf
+        CARDS_CACHE.add(new Card(game, Piece.NUMENORIAN_SOLDIER ,Assets.CARD_0005));//Numenorian
+        CARDS_CACHE.add(new Card(game, Piece.HUOR,Assets.CARD_0006));//Huor
+        CARDS_CACHE.add(new Card(game, Piece.TUOR,Assets.CARD_0007));//Tuor
+        CARDS_CACHE.add(new Card(game, Piece.FEANOR,Assets.CARD_0008));//Feanor
+        CARDS_CACHE.add(new Card(game, Piece.FINGOLFIN,Assets.CARD_0009));//Fingolfin
+        CARDS_CACHE.add(new Card(game, Piece.LUTHIEN,Assets.CARD_0010));//Luthien
+        CARDS_CACHE.add(new Card(game, Piece.MANWE,Assets.CARD_0011));//Manwe
+        CARDS_CACHE.add(new Card(game, Piece.VARDA,Assets.CARD_0012));//Varda
+        CARDS_CACHE.add(new Card(game, Piece.GONDOLIN_SOLDIER,Assets.CARD_0013));//Gondolin soldier
+        CARDS_CACHE.add(new Card(game, Piece.DORIAH_RANGER,Assets.CARD_0014));//Doriah ranger
+        CARDS_CACHE.add(new Card(game, Piece.NOLDOR_ELF,Assets.CARD_0015));//Noldor elf
+        CARDS_CACHE.add(new Card(game, Piece.DWARF_BELEGOST,Assets.CARD_0016));//Dwarf belegost
+        CARDS_CACHE.add(new Card(game, Piece.WINDOR,Assets.CARD_0018));//Windor
+        CARDS_CACHE.add(new Card(game, Piece.CIRDAN,Assets.CARD_0019));//Cirdan
+        CARDS_CACHE.add(new Card(game, Piece.MAEDHROS,Assets.CARD_0020));//Maedros
+        CARDS_CACHE.add(new Card(game, Piece.MORGOTH,Assets.CARD_0021));//Morgoth
+        CARDS_CACHE.add(new Card(game, Piece.SAURON,Assets.CARD_0022));//Sauron
+        CARDS_CACHE.add(new Card(game, Piece.GOTHMOG,Assets.CARD_0023));//Gothmog
+        CARDS_CACHE.add(new Card(game, Piece.GLAURUNG,Assets.CARD_0024));//Glaurung
+        CARDS_CACHE.add(new Card(game, Piece.UNGOLIANT,Assets.CARD_0025));//Ungoliant
+        CARDS_CACHE.add(new Card(game, Piece.ORC,Assets.CARD_0026));//ORc
+        CARDS_CACHE.add(new Card(game, Piece.SPIDER,Assets.CARD_0027));//Spider
+        CARDS_CACHE.add(new Card(game, Piece.WARG,Assets.CARD_0028));//Warg
+        CARDS_CACHE.add(new Card(game, Piece.WOLF,Assets.CARD_0029));//Wolf
+        CARDS_CACHE.add(new Card(game, Piece.ORC_CAPITAN,Assets.CARD_0030));//Orc capt
+        CARDS_CACHE.add(new Card(game, Piece.ORC_RANGER,Assets.CARD_0031));//Orc ranger
+        CARDS_CACHE.add(new Card(game, Piece.ORC_WARRIOR,Assets.CARD_0032));//Orc warr
+        CARDS_CACHE.add(new Card(game, Piece.MORGOTH_SLAVE,Assets.CARD_0033));//Morgoth slave
+        CARDS_CACHE.add(new Card(game, Piece.DRAGON,Assets.CARD_0034));//Dragon
+        CARDS_CACHE.add(new Card(game, Piece.URUK_HAI,Assets.CARD_0037));//Uruk
+        CARDS_CACHE.add(new Card(game, Piece.ELITE_URUK_HAI,Assets.CARD_0038));//Elite uruk
+        CARDS_CACHE.add(new Card(game, Piece.BALROG,Assets.CARD_0039));//Balrog
+        CARDS_CACHE.add(new Card(game, Piece.ELITE_URUK_HAI,Assets.CARD_0040));//Orc elite
+        CARDS_CACHE.add(new Card(game, Piece.ENT,Assets.CARD_0041));//Ent
+        CARDS_CACHE.add(new Card(game, Piece.NAUGRIM,Assets.CARD_0042));//Naugrim
     }
     
     public static int CARD_WIDTH = Hand.HAND_WIDTH / Hand.MAX_CARDS_IN_HAND;

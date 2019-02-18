@@ -13,6 +13,8 @@ import java.awt.image.BufferedImage;
  */
 public class Assets {
     
+    public static BufferedImage CROWN;
+    
     public static SpriteSheet lightEarth, mediumEarth, grass, hole, lava, blackEarth,
             desert, water, darkEarth, darkGrass, waterGrass, tallGreenBush,
             tallYellowBush, shortGreenBush, dirtGrass, tallTree; 
@@ -60,6 +62,8 @@ public class Assets {
     
     
     public static void init() {
+        
+        CROWN = ImageLoader.loadImage("/crown.png");
         
         //SpriteSheet baseOutAtlas = new SpriteSheet(ImageLoader.loadImage("/terrain/base_out_atlas.png/"),32,32);
         SpriteSheet terrainAtlas = new SpriteSheet(ImageLoader.loadImage("/terrain/terrain_atlas.png"),32,32);
@@ -195,7 +199,7 @@ public class Assets {
         
         TREASURE = ImageLoader.loadImage("/items/chest.png");
         
-        SpriteSheet items = new SpriteSheet(ImageLoader.loadImage("/items/items2.jpg"),14,15);
+        SpriteSheet items = new SpriteSheet(ImageLoader.loadImage("/items/items2.png"),14,15);
         
         FOOD_1 = items.getSubImage(0, 0);
         FOOD_2 = items.getSubImage(1, 0);

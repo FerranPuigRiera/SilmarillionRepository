@@ -26,7 +26,9 @@ public abstract class Player extends RenderableObject {
     
     public static RegularPlayer createNewRandomRegularPlayer(final Game game, Alliance alliance) {
         Random r = new Random();
-        return new RegularPlayer(game, "Player "+r.nextInt(10000), alliance, Deck.generateRandomDeck(game), King.createNewKing(Piece.getRandomIndexOnCache(), alliance));
+        return new RegularPlayer(game, "Player "+r.nextInt(10000), alliance, 
+                Deck.generateRandomDeck(game), 
+                King.createNewKing(Piece.getRandomIndexOnCache(), alliance));
     }
     
     

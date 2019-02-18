@@ -106,7 +106,11 @@ public abstract class Panel<A extends RenderableObject>  {
             g.drawString("Elemental damage : "+piece.getElementalDamage(), (int)x + 10, (int)y + 120);
             g.drawString("Armor : "+piece.getArmor(), (int)x + 10, (int)y + 140);
             g.drawString("Elemental armor : "+piece.getElementalArmor(), (int)x + 10, (int)y + 160);
-            g.drawString("Moves : "+piece.getAvailableMoves(), (int)x + 10, (int)y + 180);     
+            g.drawString("Moves : "+piece.getAvailableMoves() + " / "+ piece.getStats().getRealMoves(), (int)x + 10, (int)y + 180);     
+            g.drawString("Critic chance : "+piece.getCriticalChance(), (int)x + 10, (int)y + 200);
+            g.drawString("Block chance : "+piece.getBlockChance(), (int)x + 10, (int)y + 220);
+            g.drawString("Life steal : "+piece.getLifeSteal(), (int)x + 10, (int)y + 240);
+            g.drawString("Armor penetration : "+piece.getArmorPenetration(), (int)x + 10, (int)y + 260);     
             
             g.drawRect((int) x, (int)y, width, height);
         }
@@ -196,8 +200,8 @@ public abstract class Panel<A extends RenderableObject>  {
                 g.drawString("Add +"+item.modifyCriticalChance()+" critical chance", (int)x + 10, (int)y + drawY);
                 drawY += 20;
             }  
-            if(item.modifyCriticalDamage()> 0) {
-                g.drawString("Add +"+item.modifyCriticalDamage()+" critical damage", (int)x + 10, (int)y + drawY);
+            if(item.modifyBlockChance()> 0) {
+                g.drawString("Add +"+item.modifyBlockChance()+" block chance", (int)x + 10, (int)y + drawY);
                 drawY += 20;
             }  
             if(item.modifyLifeSteal()> 0) {
