@@ -5,7 +5,6 @@
  */
 package silmarillionreloaded.game;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -76,7 +75,6 @@ public final class Game {
         Piece.init(this);
         Card.init(this);
         Item.init(this);
-        PlayableAction.init(this);
         
         world = new World(this);
         players = new ArrayList<>();
@@ -100,6 +98,7 @@ public final class Game {
             world.getTilesAround(kingTile).forEach(tileAround -> rp.getVision().addTile(tileAround));
             rp.initDeployCoordinates();
         });
+        
         currentPlayer = players.get(0);
         gameCamera = new GameCamera(this,0,0);
         animationManager = new FreeObjectManager();
@@ -114,11 +113,11 @@ public final class Game {
         BufferedImage[] endTurnButtonImages = new BufferedImage[2];
         endTurnButtonImages[0] = Assets.END_TURN_B;
         endTurnButtonImages[1] = Assets.END_TURN_H;
-        endTurnButton = new Button(120, 60,endTurnButtonImages , PlayableAction.END_TURN::execute);
+        endTurnButton = new Button(120, 60,endTurnButtonImages , PlayableAction.EndTurn(this)::execute);
         BufferedImage[] collectButtonImages = new BufferedImage[2];
         collectButtonImages[0] = Assets.COLLECT_B;
         collectButtonImages[1] = Assets.COLLECT_H;
-        collectButton = new Button(120, 60, collectButtonImages, PlayableAction.COLLECT_ITEM::execute);
+        collectButton = new Button(120, 60, collectButtonImages, PlayableAction.CollectItem(this)::execute);
     }
     
     
@@ -167,7 +166,7 @@ public final class Game {
         currentPlayer.render(g, Player.PLAYER_X, Player.PLAYER_Y);
         panelManager.renderList(g);
         endTurnButton.render(g, 1500, 800);
-        if(PlayableAction.COLLECT_ITEM.isExecutable()) {
+        if(PlayableAction.CollectItem(this).isExecutable()) {
             collectButton.render(g, 1500, 700);
         }
         

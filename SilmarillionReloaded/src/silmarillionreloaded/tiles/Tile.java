@@ -73,7 +73,6 @@ public class Tile extends RenderableObject {
         images = new HashMap<>();
     }
 
-    
     public Piece getPiece() {
         return piece;
     }
@@ -124,34 +123,31 @@ public class Tile extends RenderableObject {
         
         
         images.entrySet().forEach((entry) -> {
-        g.drawImage(entry.getValue().getImage(), (int)(game.getGameCamera().getxOffset() + x), (int)(game.getGameCamera().getyOffset() + y), width, height, null);
-        
-        
-        if(game.selectedObject!= null && game.selectedObject.isCard() && 
-                game.getCurrentPlayer().isRegularPlayer()) {
-                RegularPlayer rp = (RegularPlayer)game.getCurrentPlayer();
-                if(rp.getDeployTiles().contains(this) && game.selectedObject != null && rp.getValor() >= game.selectedObject.getCard().getCost()) {
-                    g.setColor(rp.getAlliance().getRenderColor());
-                    g.drawRect((int)(game.getGameCamera().getxOffset() + x + 2), (int)(game.getGameCamera().getyOffset() + y + 2),width - 4, height - 4);
-                }
-            }
-
-            if(game.selectedObject != null && game.selectedObject.isPiece() && game.selectedObject.getPiece().getAlliance().equals(game.getCurrentPlayer().getAlliance())) {
-                float pieceMoves = game.selectedObject.getPiece().getAvailableMoves();
-                if(getDistance() <= pieceMoves) {
-                    g.setColor(Color.yellow);
-                    g.drawOval((int)(game.getGameCamera().getxOffset() + x), (int)(game.getGameCamera().getyOffset() + y), width - 1, height - 1);
-                } 
-            }
-
-            //if(isTileOccupied())piece.render(g, (int)(game.getGameCamera().getxOffset() + x), (int)(game.getGameCamera().getyOffset() + y));
-
-            if(item != null) {
-                g.drawImage(Assets.TREASURE,Tile.TILE_WIDTH/2 -15 + (int)(game.getGameCamera().getxOffset() + x),Tile.TILE_HEIGHT/2 - 15 + (int)(game.getGameCamera().getyOffset() + y), 30, 30, null);
-            }
+            g.drawImage(entry.getValue().getImage(), (int)(game.getGameCamera().getxOffset() + x), (int)(game.getGameCamera().getyOffset() + y), width, height, null);
         });
         
-        
+        if(game.selectedObject!= null && game.selectedObject.isCard() && 
+            game.getCurrentPlayer().isRegularPlayer()) {
+            RegularPlayer rp = (RegularPlayer)game.getCurrentPlayer();
+            if(rp.getDeployTiles().contains(this) && game.selectedObject != null && rp.getValor() >= game.selectedObject.getCard().getCost()) {
+                g.setColor(rp.getAlliance().getRenderColor());
+                g.drawRect((int)(game.getGameCamera().getxOffset() + x + 2), (int)(game.getGameCamera().getyOffset() + y + 2),width - 4, height - 4);
+            }
+        }
+
+        if(game.selectedObject != null && game.selectedObject.isPiece() && game.selectedObject.getPiece().getAlliance().equals(game.getCurrentPlayer().getAlliance())) {
+            float pieceMoves = game.selectedObject.getPiece().getAvailableMoves();
+            if(getDistance() <= pieceMoves) {
+                g.setColor(Color.yellow);
+                g.drawOval((int)(game.getGameCamera().getxOffset() + x), (int)(game.getGameCamera().getyOffset() + y), width - 1, height - 1);
+            } 
+        }
+
+        //if(isTileOccupied())piece.render(g, (int)(game.getGameCamera().getxOffset() + x), (int)(game.getGameCamera().getyOffset() + y));
+
+        if(item != null) {
+            g.drawImage(Assets.TREASURE,Tile.TILE_WIDTH/2 -15 + (int)(game.getGameCamera().getxOffset() + x),Tile.TILE_HEIGHT/2 - 15 + (int)(game.getGameCamera().getyOffset() + y), 30, 30, null);
+        }
     }
 
     /*
@@ -204,9 +200,9 @@ public class Tile extends RenderableObject {
                 } else {
                     if(game.selectedObject != null) {
                         if(game.selectedObject.isCard()) {
-                            PlayableAction.USE_SUMMON_CARD.execute(this);
+                            PlayableAction.UseCard(game, this).execute();
                         } else if(game.selectedObject.isPiece()) {
-                            PlayableAction.MOVE_PIECE.execute(this);
+                            PlayableAction.MovePiece(game, this).execute();
                         }
                     } 
                 }

@@ -5,6 +5,7 @@
  */
 package silmarillionreloaded.player;
 
+import com.google.common.collect.ImmutableSet;
 import java.util.HashSet;
 import java.util.Set;
 import silmarillionreloaded.tiles.Tile;
@@ -29,6 +30,10 @@ public class DeployTiles {
     }
     public boolean contains(Tile tile) {
         return tiles.contains(tile);
+    }
+    
+    public Set<Tile> getSet() {
+        return ImmutableSet.copyOf(tiles);
     }
     
 }

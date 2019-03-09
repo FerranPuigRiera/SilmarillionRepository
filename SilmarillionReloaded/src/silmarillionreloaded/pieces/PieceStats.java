@@ -40,19 +40,18 @@ public class PieceStats {
     private final List<PieceModifier> modifiers;
     
     public PieceStats(PieceStats pieceStats) {
-        health = pieceStats.health;
-        damage = pieceStats.damage;
-        armor = pieceStats.armor;
-        elementalDamage = pieceStats.elementalDamage;
-        elementalArmor = pieceStats.elementalArmor;
-        critChance = pieceStats.critChance;
-        blockChance = pieceStats.blockChance;
-        lifeSteal = pieceStats.lifeSteal;
-        armorPenetration = pieceStats.armorPenetration;
-        moves = pieceStats.moves;
-        List<PieceModifier> list = pieceStats.getModifiers();
+        health = new Health(pieceStats.health.getValue(), pieceStats.health.getValue()); 
+        damage = new Damage(pieceStats.damage.getValue());
+        armor = new Armor(pieceStats.armor.getValue());
+        elementalDamage = new ElementalDamage(pieceStats.elementalDamage.getValue());
+        elementalArmor = new ElementalArmor(pieceStats.elementalArmor.getValue());
+        critChance = new CriticalChance(pieceStats.critChance.getValue());
+        blockChance = new BlockChance(pieceStats.blockChance.getValue());
+        lifeSteal = new LifeSteal(pieceStats.lifeSteal.getValue());
+        armorPenetration = new ArmorPenetration(pieceStats.armorPenetration.getValue());
+        moves = new Moves(pieceStats.moves.getValue());
         modifiers = new ArrayList<>();
-        list.forEach(mod -> modifiers.add(mod));
+        pieceStats.getModifiers().forEach(mod -> modifiers.add(mod));
     }
     
     public PieceStats(Health health, Damage damage, Armor armor, ElementalDamage elementalDamage,
@@ -84,7 +83,7 @@ public class PieceStats {
         hash = 89 * hash + Objects.hashCode(this.lifeSteal);
         hash = 89 * hash + Objects.hashCode(this.armorPenetration);
         hash = 89 * hash + Objects.hashCode(this.moves);
-        hash = 89 * hash + Objects.hashCode(this.modifiers);
+        hash = 89 * hash + Objects.hashCode(this.getModifiers());
         return hash;
     }
 
@@ -194,66 +193,65 @@ public class PieceStats {
 
     public float getRealMaxHealth() {
         float amt = health.getMaxValue();
-        amt = modifiers.stream().map((mod) -> mod.modifyMaxHealth()).reduce(amt, (accumulator, _item) -> accumulator + _item);
+        amt = getModifiers().stream().map((mod) -> mod.modifyMaxHealth()).reduce(amt, (accumulator, _item) -> accumulator + _item);
         return amt;
     }
     
     public float getRealHealh() {
         float amt = health.getValue();
-        amt = modifiers.stream().map((mod) -> mod.modifyHealth()).reduce(amt, (accumulator, _item) -> accumulator + _item);
+        amt = getModifiers().stream().map((mod) -> mod.modifyHealth()).reduce(amt, (accumulator, _item) -> accumulator + _item);
         return amt;
     }
 
     public float getRealDamage() {
         float amt = damage.getValue();
-        amt = modifiers.stream().map((mod) -> mod.modifyDamage()).reduce(amt, (accumulator, _item) -> accumulator + _item);
+        amt = getModifiers().stream().map((mod) -> mod.modifyDamage()).reduce(amt, (accumulator, _item) -> accumulator + _item);
         return amt;
     }
 
     public float getRealArmor() {
         float amt = armor.getValue();
-        amt = modifiers.stream().map((mod) -> mod.modifyArmor()).reduce(amt, (accumulator, _item) -> accumulator + _item);
+        amt = getModifiers().stream().map((mod) -> mod.modifyArmor()).reduce(amt, (accumulator, _item) -> accumulator + _item);
         return amt;
     }
 
     public float getRealElementalDamage() {
         float amt = elementalDamage.getValue();
-        amt = modifiers.stream().map((mod) -> mod.modifyElementalDamage()).reduce(amt, (accumulator, _item) -> accumulator + _item);
+        amt = getModifiers().stream().map((mod) -> mod.modifyElementalDamage()).reduce(amt, (accumulator, _item) -> accumulator + _item);
         return amt;
     }
     
     public float getRealElementalArmor() {
         float amt = elementalArmor.getValue();
-        System.out.println(modifiers.size());
-        amt = modifiers.stream().map((mod) -> mod.modifyElementalArmor()).reduce(amt, (accumulator, _item) -> accumulator + _item);
+        amt = getModifiers().stream().map((mod) -> mod.modifyElementalArmor()).reduce(amt, (accumulator, _item) -> accumulator + _item);
         
         return amt;
     }
 
     public float getRealMoves() {
         float amt = moves.getValue();
-        amt = modifiers.stream().map((mod) -> mod.modifyMoves()).reduce(amt, (accumulator, _item) -> accumulator + _item);
+        amt = getModifiers().stream().map((mod) -> mod.modifyMoves()).reduce(amt, (accumulator, _item) -> accumulator + _item);
         return amt;
     }
     
     public float getRealCritChance() {
         float amt = critChance.getValue();
-        amt = modifiers.stream().map((mod) -> mod.modifyCriticalChance()).reduce(amt, (accumulator, _item) -> accumulator + _item);
+        amt = getModifiers().stream().map((mod) -> mod.modifyCriticalChance()).reduce(amt, (accumulator, _item) -> accumulator + _item);
         return amt;
     }
     public float getRealBlockChance() {
         float amt = blockChance.getValue();
-        amt = modifiers.stream().map((mod) -> mod.modifyBlockChance()).reduce(amt, (accumulator, _item) -> accumulator + _item);
+        amt = getModifiers().stream().map((mod) -> mod.modifyBlockChance()).reduce(amt, (accumulator, _item) -> accumulator + _item);
         return amt;
     }
     public float getRealLifeSteal() {
         float amt = lifeSteal.getValue();
-        amt = modifiers.stream().map((mod) -> mod.modifyLifeSteal()).reduce(amt, (accumulator, _item) -> accumulator + _item);
+        amt = getModifiers().stream().map((mod) -> mod.modifyLifeSteal()).reduce(amt, (accumulator, _item) -> accumulator + _item);
         return amt;
     }
     public float getRealArmorPenetration() {
         float amt = armorPenetration.getValue();
-        amt = modifiers.stream().map((mod) -> mod.modifyArmorPenetration()).reduce(amt, (accumulator, _item) -> accumulator + _item);
+        amt = getModifiers().stream().map((mod) -> mod.modifyArmorPenetration()).reduce(amt, (accumulator, _item) -> accumulator + _item);
         return amt;
     }
     

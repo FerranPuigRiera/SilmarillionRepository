@@ -5,6 +5,7 @@
  */
 package silmarillionreloaded.player;
 
+import com.google.common.collect.ImmutableList;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
@@ -12,6 +13,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import silmarillionreloaded.actions.PlayableAction;
 import silmarillionreloaded.renderableObjects.Panel.CardPanel;
 import silmarillionreloaded.renderableObjects.RenderableObject;
 import silmarillionreloaded.renderableObjects.TemporalPanel;
@@ -20,6 +22,7 @@ import silmarillionreloaded.pieces.Piece;
 import silmarillionreloaded.game.Game;
 import silmarillionreloaded.game.ObjectSelected;
 import silmarillionreloaded.gfx.Assets;
+import silmarillionreloaded.player.Player.RegularPlayer;
 
 /**
  *
@@ -184,5 +187,18 @@ public class Card extends RenderableObject implements ObjectSelected{
         
     }
     
+    
+    public List<PlayableAction> getAllowedDeployActions() {
+        List<PlayableAction> allowedActions = new ArrayList<>();
+        RegularPlayer rp = (RegularPlayer) game.getCurrentPlayer();
+        rp.getDeployTiles().getSet().forEach(tile -> {
+            PlayableAction deploy = PlayableAction.UseCard(game, tile);
+            if(deploy.isExecutable()) {
+                allowedActions.add(deploy);
+            }
+        });
+        System.out.println("Allowed moves : "+allowedActions.size());
+        return ImmutableList.copyOf(allowedActions);
+    }
     
 }

@@ -35,6 +35,7 @@ public final class World extends ObjectManager<Tile>{
 
     private final int rows;
     
+    
     public World(final Game game) {
         super(0,0,NUMBER_COLUMNS*Tile.TILE_WIDTH,NUMBER_ROWS*Tile.TILE_HEIGHT, NUMBER_COLUMNS, Tile.TILE_WIDTH, Tile.TILE_HEIGHT, NUMBER_COLUMNS*NUMBER_ROWS);     
         this.game = game;
@@ -43,19 +44,15 @@ public final class World extends ObjectManager<Tile>{
         setDefaultRenderPoints();
         generator.getGeneratedWorld().forEach(tile -> addObject(tile));
         getCloneList().forEach(tile -> tile.setItem(Item.getNewRandomItemOrNot()));
+
     }
+    public Map<Piece,Tile> getPiecesOnWorld() {
+        Map<Piece,Tile> piecesOnWorld = new HashMap<>();
+        getCloneList().stream().filter(tile -> tile.isTileOccupied()).forEach(tile -> piecesOnWorld.put(tile.getPiece(), tile));
+        return piecesOnWorld;
     
-    public Tile findTilesPieceOnWorld(final Piece piece) {
-        for(Tile tile : getCloneList()) {
-            if(tile.isTileOccupied() && tile.getPiece().equals(piece)) {
-                return tile;
-            }
-        }
-        System.err.println("Piece not found!");
-        System.exit(1);
-        throw new RuntimeException("Piece not found!");
-        
     }
+
     
     public int getColumns() {
         return columns;
@@ -128,13 +125,12 @@ public final class World extends ObjectManager<Tile>{
         getCloneList().stream().filter(tile -> tile.isTileOccupied()).forEach(tile -> tile.getPiece().render(g, renderPoints.get(tile).x, renderPoints.get(tile).y));
         getCloneList().stream().filter(tile -> !game.getCurrentPlayer().getVision().contains(tile)).forEach(tile -> {
             g.setColor(Color.black);
-            g.fillRect((int)game.getGameCamera().getxOffset() + renderPoints.get(tile).x,(int)game.getGameCamera().getyOffset() + renderPoints.get(tile).y,Tile.TILE_WIDTH, Tile.TILE_HEIGHT);
+            //g.fillRect((int)game.getGameCamera().getxOffset() + renderPoints.get(tile).x,(int)game.getGameCamera().getyOffset() + renderPoints.get(tile).y,Tile.TILE_WIDTH, Tile.TILE_HEIGHT);
         });
     }
     
     @Override
     public void tick() {
-        
     }
 
     @Override

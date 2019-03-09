@@ -96,8 +96,13 @@ public class MouseManager implements MouseListener, MouseMotionListener {
             game.getCurrentPlayer().onMouseMoveElements(me);
             game.getWorld().onMouseMoveList(me);
             game.getPanelManager().onMouseMoveList(me);
-            game.getEndTurnButton().onMouseMove(me, 1500, 800);
-            game.getCollectButton().onMouseMove(me, 1500, 700);
+            if(game.getEndTurnButton() != null) {
+                game.getEndTurnButton().onMouseMove(me, 1500, 800);
+            }
+            
+            if(game.getCollectButton() != null) {
+                game.getCollectButton().onMouseMove(me, 1500, 700);
+            }
         }
     }
     

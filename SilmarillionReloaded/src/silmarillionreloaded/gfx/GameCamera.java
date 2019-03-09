@@ -27,14 +27,15 @@ public class GameCamera {
     }
 
     public void centerOnPiece(Piece e) {
+        if(e == null) {
+            throw new RuntimeException("piece is null!");
+        }
         
-        
-        Tile tile = game.getWorld().findTilesPieceOnWorld(e);
+        Tile tile = game.getWorld().getPiecesOnWorld().get(e);
         
         if(tile == null) {
-            System.err.println("Piece not found!");
-            TemporalPanel.addErrorMessage("ERROR: Piece not found");
-            return;
+            throw new RuntimeException("tile is null!");
+
         }
         
         xOffset = -tile.getCoordinate_x()*Tile.TILE_WIDTH + Application.FRAME_WIDTH / 2 - e.getWidth() / 2;

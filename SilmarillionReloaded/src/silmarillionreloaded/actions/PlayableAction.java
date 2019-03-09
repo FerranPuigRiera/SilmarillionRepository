@@ -7,6 +7,9 @@ package silmarillionreloaded.actions;
 
 import java.awt.Point;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import silmarillionreloaded.game.Alliance;
 import silmarillionreloaded.renderableObjects.TemporalPanel;
 import silmarillionreloaded.game.Game;
 import silmarillionreloaded.gfx.Assets;
@@ -29,45 +32,36 @@ public abstract class PlayableAction {
     public PlayableAction(final Game game) {
         this.game = game;
     }
+    public abstract void execute();
+    public abstract boolean isExecutable();
     
     public static abstract class ActionOnTile extends PlayableAction {
         
-        public ActionOnTile(Game game) {
+        private final Tile tile;
+        public ActionOnTile(Game game, Tile tile) {
             super(game);
+            this.tile = tile;
         }
         
-        public abstract void execute(Tile tile);
-        public abstract boolean isExecutable(Tile tile);
+        
         
     }
     public static abstract class ActionOnPiece extends PlayableAction {
-        
-        public ActionOnPiece(Game game) {
+        private final Piece piece;
+        public ActionOnPiece(Game game, final Piece piece) {
             super(game);
+            this.piece = piece;
         }
-        
-        public abstract void execute(Piece piece);
-        public abstract boolean isExecutable(Piece piece);
         
     }
     public static abstract class Action extends PlayableAction {
-        
         public Action(Game game) {
             super(game);
         }
-        
-        public abstract void execute();
-        public abstract boolean isExecutable();
-        
     }
     
-    public static Action COLLECT_ITEM, DRAW_CARD, END_TURN;
-    public static ActionOnTile MOVE_PIECE, USE_SUMMON_CARD;
-    public static ActionOnPiece USE_ITEM, ATTACK, ATTACK_ELEMENTAL, HEAL, ON_GUARD;
-    
-    public static void init(final Game game) {
-        
-        COLLECT_ITEM = new Action(game) {
+    public static Action CollectItem(final Game game) {
+        return new Action(game) {
             @Override
             public void execute() {
                 if(!isExecutable()) {
@@ -75,7 +69,7 @@ public abstract class PlayableAction {
                     return;
                 }
                 RegularPlayer rp = (RegularPlayer)game.getCurrentPlayer();
-                Tile tile = game.getWorld().findTilesPieceOnWorld(game.selectedObject.getPiece());
+                Tile tile = game.getWorld().getPiecesOnWorld().get(game.selectedObject.getPiece());
                 Item item = tile.getItem();
                 game.selectedObject.getPiece().setAvailableMoves(game.selectedObject.getPiece().getAvailableMoves() - 1);
 
@@ -93,14 +87,15 @@ public abstract class PlayableAction {
                 if(game.getCurrentPlayer().isRegularPlayer() && game.selectedObject != null && game.selectedObject.isPiece() && game.selectedObject.getPiece().getAvailableMoves() >= 1)  {
                     RegularPlayer rp = (RegularPlayer)game.getCurrentPlayer();
                     Piece piece = game.selectedObject.getPiece();
-                    return piece.getAlliance().equals(rp.getAlliance()) && game.getWorld().findTilesPieceOnWorld(piece).tileHasItem();
+                    return piece.getAlliance().equals(rp.getAlliance()) && game.getWorld().getPiecesOnWorld().get(piece).tileHasItem();
                 }
                 return false;
             }
         };
-        
-       
-        DRAW_CARD = new Action(game) {
+    }
+    
+    public static Action DrawCard(final Game game) {
+        return new Action(game) {
             @Override
             public void execute() {
                 if(!isExecutable()) {
@@ -119,8 +114,13 @@ public abstract class PlayableAction {
                 }
                 return false;
             }
+            
         };
-        END_TURN = new Action(game) {
+        
+    }
+    
+    public static Action EndTurn(final Game game) {
+        return new Action(game) {
             @Override
             public void execute() {
                 if(!isExecutable()) {
@@ -129,10 +129,18 @@ public abstract class PlayableAction {
                 game.setCurrentPlayer(game.getNextPlayer());
                 if(game.getCurrentPlayer().isRegularPlayer()) {
                     RegularPlayer rp = (RegularPlayer)game.getCurrentPlayer();
-                    DRAW_CARD.execute();
+                    DrawCard(game).execute();
                     rp.addValor(200);
                     game.getGameCamera().centerOnPiece(rp.getKing());
                     game.getWorld().getCloneList().stream().filter(tile -> tile.isTileOccupied() && tile.getPiece().getAlliance().equals(rp.getAlliance())).forEach(tile -> tile.getPiece().setAvailableMoves(tile.getPiece().getMoves()));
+                    if(!rp.getAlliance().equals(Alliance.ALLIANCE_1)) {
+                        AIManager.PlayAIManager(game, rp);
+                        try {
+                            Thread.sleep(10);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(PlayableAction.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
                 }
             }
 
@@ -141,17 +149,18 @@ public abstract class PlayableAction {
                 return true;
             }
         };
-        
-        MOVE_PIECE = new ActionOnTile(game) {
+    }
+    
+    public static ActionOnTile MovePiece(final Game game, final Tile tile) {
+        return new ActionOnTile(game,tile) {
             @Override
-            public void execute(Tile tile) {
-                
-                if(!isExecutable(tile)) {
+            public void execute() {
+                if(!isExecutable()) {
                     TemporalPanel.addErrorMessage("Can't move piece");
                     return;
                 }
                 Piece movingPiece = game.selectedObject.getPiece();
-                Tile sourceTile = game.getWorld().findTilesPieceOnWorld(movingPiece);
+                Tile sourceTile = game.getWorld().getPiecesOnWorld().get(movingPiece);
                 int distanceFromSouceTile = (int)tile.getDistance();
                 sourceTile.setPiece(null);
                 tile.setPiece(movingPiece);
@@ -174,21 +183,24 @@ public abstract class PlayableAction {
             }
 
             @Override
-            public boolean isExecutable(Tile tile) {
+            public boolean isExecutable() {
                 if(game.selectedObject != null && game.selectedObject.isPiece()) {
                     Piece piece = game.selectedObject.getPiece();
-                    if(game.getCurrentPlayer().getVision().contains(tile) && piece.getAlliance().equals(game.getCurrentPlayer().getAlliance()) && !tile.isTileOccupied() && piece.getAvailableMoves() >= tile.getDistance()) {
+                    if(game.getCurrentPlayer().getVision().contains(tile) && piece.getAlliance().equals(game.getCurrentPlayer().getAlliance()) && 
+                            !tile.isTileOccupied() && piece.getAvailableMoves() >= tile.getDistance() && !tile.equals(game.getWorld().getPiecesOnWorld().get(game.selectedObject.getPiece()))) {
                         return true;
                     }
                 }
                 return false;
             }
         };
-        
-        USE_SUMMON_CARD = new ActionOnTile(game) {
+    }
+    
+    public static ActionOnTile UseCard(final Game game, final Tile tile) {
+        return new ActionOnTile(game,tile) {
             @Override
-            public void execute(Tile tile) {
-                if(!isExecutable(tile)) {
+            public void execute() {
+                if(!isExecutable()) {
                     TemporalPanel.addErrorMessage("Can't summon piece");
                     return;
                 }
@@ -203,11 +215,11 @@ public abstract class PlayableAction {
                 tile.setPiece(piece);
                 game.selectedObject = null;
                 game.getWorld().getTilesAround(tile).forEach(tileAround -> rp.getVision().addTile(tileAround));
+                game.getGameCamera().centerOnPiece(piece);
             }
 
             @Override
-            public boolean isExecutable(Tile tile) {
-          
+            public boolean isExecutable() {
                 if(game.getCurrentPlayer().isRegularPlayer() && game.selectedObject != null && game.selectedObject.isCard()) {
                     RegularPlayer rp = (RegularPlayer)game.getCurrentPlayer();
                     Card sc = game.selectedObject.getCard();
@@ -216,22 +228,24 @@ public abstract class PlayableAction {
                 return false;
             }
         };
-        
-        USE_ITEM = new ActionOnPiece(game) {
+    }
+    
+    public static ActionOnPiece UseItem(final Game game, final Piece piece) {
+        return new ActionOnPiece(game, piece) {
             @Override
-            public void execute(Piece piece) {
-                if(!isExecutable(piece)) {
+            public void execute() {
+                if(!isExecutable()) {
                     TemporalPanel.addErrorMessage("Can't use item");
                     return;
                 }
                 RegularPlayer rp = (RegularPlayer)game.getCurrentPlayer();
                 Item item = game.selectedObject.getItem();
                 piece.getStats().addMod(item);
-                rp.getInventory().removeObject(item);   
+                rp.getInventory().removeObject(item); 
             }
 
             @Override
-            public boolean isExecutable(Piece piece) {
+            public boolean isExecutable() {
                 if(game.getCurrentPlayer().isRegularPlayer() && game.selectedObject != null && game.selectedObject.isItem()) {
                     RegularPlayer rp = (RegularPlayer)game.getCurrentPlayer();
                     return game.selectedObject != null && game.selectedObject.isItem() && rp.getAlliance().equals(piece.getAlliance());
@@ -239,17 +253,19 @@ public abstract class PlayableAction {
                 return false;
             }
         };
-        
-        ATTACK = new ActionOnPiece(game) {
+    }
+    
+    public static ActionOnPiece Attack(final Game game, final Piece targetPiece) {
+        return new ActionOnPiece(game, targetPiece) {
             @Override
-            public void execute(Piece piece) {
-                if(!isExecutable(piece)) {
+            public void execute() {
+                if(!isExecutable()) {
                     TemporalPanel.addErrorMessage("Can't attack");
                     return;
                 }
                 
-                int p_x = game.getWorld().findTilesPieceOnWorld(piece).getCoordinate_x()*Tile.TILE_WIDTH - Tile.TILE_WIDTH/2;
-                int p_y = game.getWorld().findTilesPieceOnWorld(piece).getCoordinate_y()*Tile.TILE_HEIGHT - Tile.TILE_HEIGHT/2;
+                int p_x = game.getWorld().getPiecesOnWorld().get(targetPiece).getCoordinate_x()*Tile.TILE_WIDTH - Tile.TILE_WIDTH/2;
+                int p_y = game.getWorld().getPiecesOnWorld().get(targetPiece).getCoordinate_y()*Tile.TILE_HEIGHT - Tile.TILE_HEIGHT/2;
                 
                 SpriteAnimation anim = new SpriteAnimation(Assets.SLASH);
                 anim.setSize(Tile.TILE_WIDTH*2, Tile.TILE_HEIGHT*2);
@@ -257,7 +273,7 @@ public abstract class PlayableAction {
                 anim.start();
                 
                 Piece attaker = game.selectedObject.getPiece();
-                float realArmor = piece.getStats().getRealArmor() - attaker.getStats().getRealArmorPenetration();
+                float realArmor = targetPiece.getStats().getRealArmor() - attaker.getStats().getRealArmorPenetration();
                 if(realArmor < 0) realArmor = 0;
                 float amt = attaker.getDamage();
                 if(realArmor < 90) {
@@ -267,15 +283,15 @@ public abstract class PlayableAction {
                 }
                 
                 amt += attaker.getElementalDamage();
-                if(piece.getElementalArmor() < 90) {
-                    amt -= amt*piece.getElementalArmor()/100;
+                if(targetPiece.getElementalArmor() < 90) {
+                    amt -= amt*targetPiece.getElementalArmor()/100;
                 } else {
                     amt-= amt*90/100;
                 }
                 
-                if(piece.getElement().isWeakTo().equals(attaker.getElement())) {
+                if(targetPiece.getElement().isWeakTo().equals(attaker.getElement())) {
                     amt *= 2;
-                } else if(piece.getElement().isResistantTo().equals(attaker.getElement())) {
+                } else if(targetPiece.getElement().isResistantTo().equals(attaker.getElement())) {
                     amt = (amt*7)/10;
                 }
                 
@@ -283,25 +299,25 @@ public abstract class PlayableAction {
                 
                 if(rand.nextInt(100) <= attaker.getStats().getRealCritChance()) {
                     amt *= 2;
-                } else if(rand.nextInt(100) <= piece.getStats().getRealBlockChance()) {
+                } else if(rand.nextInt(100) <= targetPiece.getStats().getRealBlockChance()) {
                     amt = 0;
                 }
                 
                 float lifeSteal = amt*attaker.getStats().getRealLifeSteal()/100;
-                if(piece.getStats().getHealth().getValue() + lifeSteal > piece.getStats().getHealth().getMaxValue()) {
-                    piece.getStats().getHealth().setValue(piece.getStats().getHealth().getMaxValue());
+                if(targetPiece.getStats().getHealth().getValue() + lifeSteal > targetPiece.getStats().getHealth().getMaxValue()) {
+                    targetPiece.getStats().getHealth().setValue(targetPiece.getStats().getHealth().getMaxValue());
                 } else {
                     attaker.getStats().getHealth().sumValue(lifeSteal);
                 }
-                piece.getStats().getHealth().substractValue(amt); 
+                targetPiece.getStats().getHealth().substractValue(amt); 
                 attaker.setAvailableMoves(0);
                 if(game.getCurrentPlayer().isRegularPlayer()) {
                     RegularPlayer rp = (RegularPlayer)game.getCurrentPlayer();
                     rp.addValor(25);
                 }
                 TemporalPanel.addMessage("Attack damages : "+amt);
-                if(piece.getStats().health.getValue() <= 0) {
-                    game.getWorld().findTilesPieceOnWorld(piece).setPiece(null);
+                if(targetPiece.getStats().health.getValue() <= 0) {
+                    game.getWorld().getPiecesOnWorld().get(targetPiece).setPiece(null);
                     if(game.getCurrentPlayer().isRegularPlayer()) {
                         RegularPlayer rp = (RegularPlayer)game.getCurrentPlayer();
                         rp.addValor(150);
@@ -310,11 +326,11 @@ public abstract class PlayableAction {
             }
 
             @Override
-            public boolean isExecutable(Piece piece) {
+            public boolean isExecutable() {
                 if(game.selectedObject != null && game.selectedObject.isPiece()) {
                     Piece attaker = game.selectedObject.getPiece();
                     if(attaker.getAlliance().equals(game.getCurrentPlayer().getAlliance()) && 
-                            attaker.getAvailableMoves() > 0 && game.getWorld().getTilesAround(game.getWorld().findTilesPieceOnWorld(attaker)).contains(game.getWorld().findTilesPieceOnWorld(piece))) {
+                            attaker.getAvailableMoves() > 0 && game.getWorld().getTilesAround(game.getWorld().getPiecesOnWorld().get(attaker)).contains(game.getWorld().getPiecesOnWorld().get(targetPiece))) {
                         return true;
                     }
                 }
@@ -322,4 +338,5 @@ public abstract class PlayableAction {
             }
         };
     }
+    
 }

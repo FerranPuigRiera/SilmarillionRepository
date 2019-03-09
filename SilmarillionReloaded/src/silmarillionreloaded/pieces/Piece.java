@@ -5,6 +5,7 @@
  */
 package silmarillionreloaded.pieces;
 
+import com.google.common.collect.ImmutableList;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -13,6 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
+import java.util.Set;
 import silmarillionreloaded.renderableObjects.Panel.PiecePanel;
 import silmarillionreloaded.renderableObjects.RenderableObject;
 import silmarillionreloaded.renderableObjects.TemporalPanel;
@@ -574,6 +576,7 @@ public class Piece extends RenderableObject implements ObjectSelected {
     private final String name;
     protected final PieceStats stats;
     private final Element element;
+    private Tile tile = null;
     
     private final BufferedImage image;
     private Alliance alliance;
@@ -615,16 +618,31 @@ public class Piece extends RenderableObject implements ObjectSelected {
         this.availableMoves = availableMoves;
     }
 
+    public boolean isAlive() {
+        return stats.getRealHealh() <= 0;
+    }   
+    public Alliance getAlliance() {
+        return alliance;
+    }
+    
+    @Override
+    public void tick() {
+        tile = game.getWorld().getPiecesOnWorld().get(this);
+        hpBar.tick();
+         
+    }
+
     @Override
     public int hashCode() {
-        int hash = 3;
+        int hash = 7;
         hash = 29 * hash + Objects.hashCode(this.game);
         hash = 29 * hash + Objects.hashCode(this.name);
         hash = 29 * hash + Objects.hashCode(this.stats);
         hash = 29 * hash + Objects.hashCode(this.element);
+        hash = 29 * hash + Objects.hashCode(this.tile);
         hash = 29 * hash + Objects.hashCode(this.image);
         hash = 29 * hash + Objects.hashCode(this.alliance);
-        hash = 29 * hash + Objects.hashCode(availableMoves);
+        hash = 29 * hash + Float.floatToIntBits(this.availableMoves);
         hash = 29 * hash + Objects.hashCode(this.hpBar);
         return hash;
     }
@@ -641,39 +659,17 @@ public class Piece extends RenderableObject implements ObjectSelected {
             return false;
         }
         final Piece other = (Piece) obj;
-        if (this.availableMoves != other.availableMoves) {
-            return false;
-        }
         if (!Objects.equals(this.name, other.name)) {
             return false;
         }
-        if (!Objects.equals(this.stats, other.stats)) {
-            return false;
-        }
-        if (this.element != other.element) {
-            return false;
-        }
-        if (this.alliance != other.alliance) {
+        if (!Objects.equals(this.tile, other.tile)) {
             return false;
         }
         return true;
     }
-    
-    
-    
-    public boolean isAlive() {
-        return stats.getRealHealh() <= 0;
-    }   
-    public Alliance getAlliance() {
-        return alliance;
-    }
-    
-    @Override
-    public void tick() {
-        hpBar.tick();
-         
-    }
 
+    
+    
     public void setAlliance(Alliance alliance) {
         this.alliance = alliance;
     }
@@ -755,18 +751,18 @@ public class Piece extends RenderableObject implements ObjectSelected {
         if(e.getButton() == MouseEvent.BUTTON1) {
 
             game.selectedObject = this;
-            int x = game.getWorld().findTilesPieceOnWorld(this).getCoordinate_x()*Tile.TILE_WIDTH;
-            int y = game.getWorld().findTilesPieceOnWorld(this).getCoordinate_y()*Tile.TILE_HEIGHT;
+            int x = game.getWorld().getPiecesOnWorld().get(this).getCoordinate_x()*Tile.TILE_WIDTH;
+            int y = game.getWorld().getPiecesOnWorld().get(this).getCoordinate_y()*Tile.TILE_HEIGHT;
             game.getPanelManager().addObject(new TemporalPanel(new PiecePanel(this,e.getX(),e.getY(),200, 300),700));
             game.getWorld().getCloneList().forEach(tile -> {tile.setDistance(Integer.MAX_VALUE);
                                                                                  tile.setShortestPath(new LinkedList<>());});
-            game.getWorld().calculateShortestPathFromSource(game.getWorld().findTilesPieceOnWorld(this));
+            game.getWorld().calculateShortestPathFromSource(game.getWorld().getPiecesOnWorld().get(this));
 
         } else if(e.getButton() == MouseEvent.BUTTON3) {
             if(game.selectedObject.isItem()) {
-                PlayableAction.USE_ITEM.execute(this);
+                PlayableAction.Attack(game, this).execute();
             } else if(game.selectedObject.isPiece()) {
-                PlayableAction.ATTACK.execute(this);
+                PlayableAction.Attack(game, this).execute();
             } else if(game.selectedObject.isCard()) {
                 //TODO
             }
@@ -811,6 +807,44 @@ public class Piece extends RenderableObject implements ObjectSelected {
         return stats;
     }
    
+    public List<PlayableAction> getPlayableMoves() {
+        List<PlayableAction> allowedActions = new ArrayList<>();
+        game.getWorld().getCloneList().forEach(tile -> {
+            PlayableAction moveAction = PlayableAction.MovePiece(game, tile);
+            if(moveAction.isExecutable()) {
+                allowedActions.add(moveAction);
+            }
+        });
+
+        return ImmutableList.copyOf(allowedActions);
+    }
+    
+    public List<PlayableAction> getAttackActions() {
+        //game.getWorld().updatePiecesOnWorld();
+        List<PlayableAction> allowedActions = new ArrayList<>();
+        Tile sourceTile = game.getWorld().getPiecesOnWorld().get(game.selectedObject.getPiece());
+        game.getWorld().getTilesAround(sourceTile).stream().filter(tile -> tile.isTileOccupied() && tile.getPiece().getAlliance() != game.getCurrentPlayer().getAlliance()).forEach(tile -> {
+            Piece deffender = tile.getPiece();
+            PlayableAction attack = PlayableAction.Attack(game, deffender);
+            if(attack.isExecutable()) {
+                allowedActions.add(attack);
+            }
+        });
+        
+        return ImmutableList.copyOf(allowedActions);
+    }
+    
+    public List<PlayableAction> getCollectAction() {
+        List<PlayableAction> allowedActions = new ArrayList<>();
+
+        PlayableAction collect = PlayableAction.CollectItem(game);
+        if(collect.isExecutable()) {
+            allowedActions.add(collect);
+        }
+
+        return ImmutableList.copyOf(allowedActions);
+    }
+    
     public static final class King extends Piece {
         
         public King(final Piece piece) {

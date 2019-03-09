@@ -5,6 +5,7 @@
  */
 package silmarillionreloaded.player;
 
+import com.google.common.collect.ImmutableList;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import silmarillionreloaded.actions.PlayableAction;
 import silmarillionreloaded.renderableObjects.Panel.ItemPanel;
 import silmarillionreloaded.renderableObjects.RenderableObject;
 import silmarillionreloaded.renderableObjects.TemporalPanel;
@@ -498,6 +500,19 @@ public class Item extends RenderableObject implements ObjectSelected, PieceModif
     public BufferedImage getIcon() {
         return image;
     }
+    
+    public List<PlayableAction> getAllowedItemActions() {
+        List<PlayableAction> allowedActions = new ArrayList<>();
+        game.getWorld().getCloneList().stream().filter(tile -> tile.isTileOccupied()).forEach(tile -> {
+            PlayableAction itemAction = PlayableAction.UseItem(game, tile.getPiece());
+            if(itemAction.isExecutable()) {
+                allowedActions.add(itemAction);
+            }
+        });
+
+        return ImmutableList.copyOf(allowedActions);
+    }
+    
     
     public static final class Food extends Item {
         public static final int MAX_MOVES = 3;

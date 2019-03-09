@@ -5,9 +5,13 @@
  */
 package silmarillionreloaded.player;
 
+import com.google.common.collect.ImmutableMap;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import silmarillionreloaded.renderableObjects.RenderableObject;
@@ -87,7 +91,7 @@ public abstract class Player extends RenderableObject {
 
         
         public void initDeployCoordinates() {
-            Tile kingsTile = game.getWorld().findTilesPieceOnWorld(king);
+            Tile kingsTile = game.getWorld().getPiecesOnWorld().get(king);
             deployTiles.addTile(kingsTile);
             Set<Tile> tilesAround = game.getWorld().getTilesAround(kingsTile);
             tilesAround.forEach((tile) -> {
@@ -104,6 +108,18 @@ public abstract class Player extends RenderableObject {
         }
         public King getKing() {
             return king;
+        }
+        
+        public Map<Piece, Tile> calculateFriendlyPiecesOnWorld() {
+            Map<Piece, Tile> piecesOnWorld = new HashMap<>();
+            game.getWorld().getPiecesOnWorld().entrySet().forEach(entry -> {
+                Piece piece = entry.getKey();
+                Tile tile = entry.getValue();
+                if(piece.getAlliance().equals(alliance)) {
+                    piecesOnWorld.put(piece, tile);
+                }
+            });
+            return ImmutableMap.copyOf(piecesOnWorld);
         }
         
         public DeployTiles getDeployTiles() {
